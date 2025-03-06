@@ -1,0 +1,141 @@
+/* Estilos generales */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Arial', sans-serif;
+}
+
+/* Contenedor principal con imagen de fondo */
+.login-container {
+    height: 100vh;
+    width: 100%;
+    background: url('/src/assets/background-chapa.jpeg') no-repeat center center;
+    background-size: cover;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+/* Añadir capa de desenfoque a la imagen de fondo */
+.login-container::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('/src/assets/background-chapa.jpeg') no-repeat center center;
+    background-size: cover;
+    filter: blur(4px);  /* Ajusta el valor del desenfoque */
+    z-index: 1;  /* Asegura que el desenfoque esté detrás del formulario */
+}
+
+/* Capa de difuminado que oscurece ligeramente */
+.login-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.3); /* Oscurecer ligeramente */
+    z-index: 1; /* Asegura que la capa esté encima del fondo desenfocado */
+}
+
+/* Formulario */
+.login-box {
+    position: relative;
+    z-index: 2;
+    width: 350px;
+    padding: 30px;
+    background: rgba(255, 255, 255, 1); /* Fondo completamente blanco */
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+    text-align: center;
+}
+
+/* Estilos del título */
+h2 {
+    margin-bottom: 20px;
+    color: #000; /* Texto negro */
+}
+
+/* Estilos del formulario */
+form {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+}
+
+label {
+    font-size: 14px;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #000; /* Texto negro */
+}
+
+input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+    color: #000; /* Texto negro dentro del input */
+}
+
+/* Contenedor del input de contraseña con icono */
+.password-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.password-container input {
+    width: 100%;
+    padding-right: 40px; /* Espacio para el icono */
+}
+
+.toggle-password {
+    position: absolute;
+    right: 10px;
+    top: 45%;  /* Asegura que el icono se alinee verticalmente */
+    transform: translateY(-50%);  /* Centra el icono dentro del input */
+    cursor: pointer;
+    font-size: 18px;
+    color: #333;
+    transition: color 0.3s ease-in-out;
+}
+
+.toggle-password:hover {
+    color: #007bff;
+}
+
+/* Botón de iniciar sesión */
+.sign-in-button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 5px;
+    width: 100%;
+}
+
+.sign-in-button:hover {
+    background-color: #0056b3;
+}
+
+/* Texto de información */
+.signup-text {
+    font-size: 14px;
+    margin-top: 15px;
+    color: #000; /* Texto negro */
+}
+
+.signup-text a {
+    color: #007bff;
+    text-decoration: none;
+}
