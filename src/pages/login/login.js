@@ -53,7 +53,7 @@ const Login = () => {
                         type="text"
                         placeholder="Ingrese su usuario"
                         value={username}
-                        onChange={(e) => setUsername(e.target.value)}
+                        onChange={(e) => setUsername(e.target.value.toUpperCase())}
                         required
                     />
                     <label>Contraseña</label>
@@ -62,7 +62,7 @@ const Login = () => {
                             type={showPassword ? "text" : "password"}
                             placeholder="Ingrese su contraseña"
                             value={password}
-                            onChange={(e) => setPassword(e.target.value)}
+                            onChange={(e) => setPassword(e.target.value.toUpperCase())}
                             required
                         />
                         <span
@@ -92,23 +92,7 @@ const Login = () => {
                             </div>
                             <div className="modal-body">
                                 <p>
-                                Este servicio fue desarrollado en el marco del programa Paz 
-                                y Región de la Universidad de Ibagué en colaboración con el 
-                                Hospital San Juan Bautista de Chaparral, Tolima, con el 
-                                objetivo de optimizar los procesos de facturación y gestión 
-                                de servicios tecnológicos a través de soluciones digitales. 
-                                
-                                Su implementación permite la integración eficiente de 
-                                documentos faltantes en los procesos administrativos del 
-                                hospital, reduciendo el uso de documentos físicos y mejorando 
-                                la validación electrónica de formatos. La herramienta 
-                                desarrollada digitaliza las firmas del paciente o su 
-                                acompañante y las asigna automáticamente a la información 
-                                generada durante la admisión hospitalaria en el sistema 
-                                Hosvital, permitiendo así la descarga del comprobante de 
-                                atención con la firma digital validada. De esta manera, se 
-                                garantiza la seguridad, trazabilidad y eficiencia en la 
-                                gestión documental del hospital.
+                                Pendiente modificar este modal, cambiar en caso de necesitarse.
                                 </p>
                             </div>
                             <div className="modal-footer">

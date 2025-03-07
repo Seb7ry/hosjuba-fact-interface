@@ -1,8 +1,8 @@
 import React from "react";
 import Navbar from "../../components/navbar/navbar"; // Importa el Navbar
-import "./dashboard.css"; // Importa los estilos
+import "./admission.css"; // Importa los estilos
 
-const Dashboard = () => {
+const Admission = () => {
     return (
         <div className="dashboard-container">
             <Navbar /> {/* Menú lateral */}
@@ -14,4 +14,4 @@ const Dashboard = () => {
     );
 };
 
-export default Dashboard;
+export default Admission;

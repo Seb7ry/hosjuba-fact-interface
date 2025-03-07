@@ -2,6 +2,7 @@ import React from 'react';
 import { BrowserRouter as Router , Switch } from 'react-router-dom';
 import Login from './pages/login/login'; // Ruta al componente de Login
 import Dashboard from './pages/dashboard/dashboard';
+import Admission from './pages/admission/admission'
 import PrivateRoute from './components/routes/privateRoute';
 import PublicRoute from './components/routes/publicRoute';
 //import Dashboard from './pages/Dashboard'; // Asegúrate de tener este componente
@@ -12,6 +13,7 @@ function App() {
       <Switch>
         <PublicRoute exact path="/" component={Login} />
         <PrivateRoute exact path="/dashboard" component={Dashboard} />
+        <PrivateRoute exact path="/admission" component={Admission} />
       </Switch>
     </Router>
   );
