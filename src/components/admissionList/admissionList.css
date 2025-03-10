@@ -1,0 +1,77 @@
+/* Contenedor de la lista de admisiones */
+.admission-list-container {
+    width: 100%;
+    max-width: 1100px;
+    margin: 20px auto;
+    padding: 15px;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Título de la lista */
+.admission-list-title {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+/* Contenedor de las admisiones */
+.admission-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+}
+
+/* Tarjetas de admisión */
+.admission-card {
+    width: 300px;
+    padding: 15px;
+    background: #f9f9f9;
+    border-radius: 6px;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+    text-align: left;
+}
+
+.admission-card p {
+    margin: 5px 0;
+    font-size: 14px;
+}
+
+/* Botón para ingresar a la admisión */
+.admission-btn {
+    width: 100%;
+    background-color: #5161ce;
+    color: white;
+    border: none;
+    padding: 8px;
+    font-size: 14px;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background 0.3s ease-in-out;
+}
+
+.admission-btn:hover {
+    background-color: #3e4dbb;
+}
+
+/* Mensaje cuando no hay datos */
+.no-data {
+    text-align: center;
+    font-size: 14px;
+    color: #777;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .admission-list {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .admission-card {
+        width: 100%;
+    }
+}

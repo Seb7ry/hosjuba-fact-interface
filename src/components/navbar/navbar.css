@@ -1,9 +1,5 @@
-* {
-    font-family: 'Arial', sans-serif;
-}
-
 .sidebar {
-    width: 250px;
+    width: 15%;
     height: 100vh;
     background: white;
     color: #7d84ab;

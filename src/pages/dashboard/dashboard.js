@@ -3,6 +3,7 @@ import Navbar from "../../components/navbar/navbar";
 import "./dashboard.css"; 
 
 const Dashboard = () => {
+
     useEffect(() => {
         console.log("✅ Dashboard montado");
         console.log("Access Token:", sessionStorage.getItem("access_token"));
@@ -17,10 +18,21 @@ const Dashboard = () => {
 
     return (
         <div className="dashboard-container">
-            <Navbar /> 
+            <Navbar /> {/* Menú lateral */}
             <div className="dashboard-content">
-                <h1>Bienvenido al Dashboard</h1>
-                <p>Aquí va el contenido del dashboard.</p>
+                {/* Jumbotron mejorado */}  
+                <div className="jumbotron">
+                    <h1 className="display-4">Bienvenido</h1>
+                    <hr className="my-4" />
+                    <p> 
+                        Gestiona de manera eficiente las admisiones, 
+                        firmas digitales y comprobantes médicos en un solo lugar.
+                    </p>
+                    <p>
+                        Accede a las funciones clave a través del menú lateral.
+                    </p>
+                </div>
+
             </div>
         </div>
     );

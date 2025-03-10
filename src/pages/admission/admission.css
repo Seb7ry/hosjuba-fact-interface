@@ -1,76 +1,171 @@
+/* Asegurar que la sección de admisión ocupe todo el espacio disponible */
 .admission-container {
     display: flex;
     background-color: #FAFAFA;
+    height: 100vh; /* Asegura que ocupe toda la altura de la pantalla */
 }
 
+/* Ajustar el contenedor de contenido */
 .admission-content {
     flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start; /* Empieza desde arriba */
     padding: 20px;
+    min-height: 100vh; /* Se expande con el contenido */
+    margin-bottom: 15px;
+    width: 95%; /* Reduce la distancia con los lados */
+    max-width: 1100px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
-/* Estilos para el Jumbotron mejorado */
-.jumbotron {
-    background-color: #f8f9fa;
-    padding: 3rem 2rem;
+/* Sección de descripción con imagen */
+.admission-description {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: white;
+    padding: 20px;
     border-radius: 10px;
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-    text-align: center;
-    margin-bottom: 20px;
-}
-
-.jumbotron h1 {
-    font-size: 3rem;
-    font-weight: bold;
-}
-
-.jumbotron .lead {
-    font-size: 1.25rem;
-    margin-bottom: 20px;
-}
-
-/* Estilos del Menú superior */
-.navbar-mainbg {
-    background-color: #5161ce;
-    padding: 15px 0; /* Aumenta la altura del menú */
-    border-radius: 8px;
-    margin-top: 20px;
-}
-
-.navbar-nav {
-    display: flex;
-    justify-content: center;
     width: 100%;
-    padding-left: 0; /* Elimina los puntos negros */
-    list-style: none; /* Quita los puntos de la lista */
+    max-width: 1100px;
+    margin-bottom: 15px; /* Reduce espacio entre descripción y advertencia */
 }
 
-.nav-item {
-    padding: 10px 20px;
-    cursor: pointer;
-    position: relative;
+/* Asegurar que el texto esté bien alineado */
+.admission-text {
+    flex: 1;
+    padding-right: 20px;
+    text-align: left;
+    font-size: 19px;
 }
 
-.nav-item a {
-    color: rgba(255, 255, 255, 0.8);
-    text-decoration: none;
-    font-size: 16px;
-    transition: all 0.3s ease-in-out;
+/* Ajuste del tamaño de la imagen para ocupar más espacio */
+.admission-image img {
+    max-width: 220px; /* Aumenta el tamaño para ocupar más espacio */
+    height: auto;
+}
+
+/* Nota de advertencia alineada correctamente */
+.warning-message {
+    background-color: #fff3cd;
+    color: #856404;
+    padding: 12px;
+    text-align: center;
+    font-size: 14px;
     font-weight: bold;
+    border-radius: 5px;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 1100px;
+    margin: 0 auto 15px auto;
 }
 
-/* Efecto hover */
-.nav-item:hover a {
-    color: white;
-}
-
-/* Efecto de selección */
-.nav-item.active-tab {
+/* Contenedor de búsqueda más compacto */
+.search-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    padding: 15px;
     background: white;
-    border-radius: 8px 8px 0 0;
-    padding: 10px 20px;
+    border-radius: 8px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    max-width: 1100px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
-.nav-item.active-tab a {
-    color: #5161ce;
+/* Ajustes para que los inputs y selects se vean más compactos */
+.search-container input,
+.search-container select,
+.search-btn {
+    height: 40px;
+    width: 190px; /* Reduce ancho para que todo encaje mejor */
+    padding: 8px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    outline: none;
+    text-align: center;
+}
+
+/* Botón de búsqueda con mejor tamaño */
+.search-btn {
+    width: 110px; /* Ajuste fino */
+}
+
+/* Estilos de la descripción de los campos */
+.field-descriptions {
+    list-style-type: none;
+    padding: 0;
+    font-size: 14px;
+    color: #555;
+}
+
+.field-descriptions li {
+    margin-bottom: 5px;
+}
+
+.field-descriptions code {
+    background-color: #f4f4f4;
+    padding: 3px 5px;
+    border-radius: 4px;
+}
+
+/* Estilos para los títulos encima de los inputs */
+.search-field {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.search-field label {
     font-weight: bold;
+    font-size: 14px;
+    margin-bottom: 5px;
+}
+
+/* Responsive para que la imagen no estropee el diseño */
+@media (max-width: 1024px) {
+    .admission-description {
+        flex-direction: column;
+        text-align: center;
+        align-items: center;
+    }
+
+    .admission-text {
+        padding-right: 0;
+    }
+
+    .admission-image img {
+        max-width: 140px; /* Un poco más pequeño en tablets */
+    }
+}
+
+@media (max-width: 768px) {
+    .admission-description {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .admission-image img {
+        max-width: 120px; /* Tamaño más pequeño en móviles */
+    }
+
+    .search-container {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .search-container input,
+    .search-container select,
+    .search-btn {
+        width: 100%;
+    }
 }
