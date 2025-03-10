@@ -1,32 +1,55 @@
+* {
+    font-family: 'Arial', sans-serif;
+}
+
 .sidebar {
     width: 250px;
     height: 100vh;
-    background: #FFFFFF;
+    background: white;
     color: #7d84ab;
     display: flex;
     flex-direction: column;
+    justify-content: space-between;
     padding: 1rem;
     box-shadow: 6px 0px 6px -4px rgba(0, 0, 0, 0.1);
 }
 
 .sidebar-header {
     display: flex;
+    justify-content: center;
     align-items: center;
     padding: 20px;
-    color: white;
     font-size: 16px;
+    flex-direction: column;
 }
 
 .sidebar-header .pro-sidebar-logo {
     display: flex;
+    justify-content: center;
     align-items: center;
+    width: 100%;
+}
+
+.sidebar-logo {
+    width: 120px;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+}
+
+/* Nueva línea divisoria */
+.sidebar-divider {
+    width: 100%;
+    height: 2px;
+    background: #e0e0e0;
+    margin: 15px 0;
 }
 
 .sidebar-header .pro-sidebar-logo > div {
     width: 35px;
     height: 35px;
     background-color: #ff8100;
-    color: white;
+    color: black;
     font-size: 24px;
     font-weight: bold;
     display: flex;
@@ -57,23 +80,29 @@
     display: flex;
     align-items: center;
     padding: 10px 15px;
-    color: #7d84ab;
+    color: black;
     text-decoration: none;
     transition: background 0.3s, color 0.3s;
     border-radius: 10px;
 }
 
+/* Cambio de color al pasar el cursor sobre las opciones del menú */
 .menu-item a:hover {
-    background: #162d4a;
-    color: white;
+    background: #038f67;
+    color: white; /* Cambia el texto a blanco */
     border-radius: 10px;
+}
+
+/* Cambia también el color del icono al pasar el cursor */
+.menu-item a:hover .menu-icon {
+    color: white; /* Hace que el icono también sea blanco */
 }
 
 .menu-icon {
     width: 30px;
     text-align: center;
     margin-right: 10px;
-    color: white;
+    color: #038f67;
 }
 
 .menu-suffix {
@@ -100,3 +129,44 @@
     padding: 8px 15px;
 }
 
+/* ---------------- */
+/* Estilos para Logout */
+/* ---------------- */
+
+.logout-container {
+    margin-top: auto;
+    padding: 20px 0; /* Agrega espacio arriba */
+    display: flex;
+    justify-content: center; /* Centra el botón */
+}
+
+.logout-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 80%; /* Ajusta el tamaño */
+    padding: 10px;
+    border: 2px solid #ff4d4d; /* Borde rojo */
+    background: transparent; /* Sin fondo hasta hover */
+    color: #ff4d4d;
+    text-decoration: none;
+    transition: background 0.3s, color 0.3s;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.logout-button:hover {
+    background: #ff4d4d;
+    color: white;
+}
+
+.logout-button .menu-icon {
+    margin-right: 8px;
+    color: #ff4d4d;
+}
+
+.logout-button:hover .menu-icon {
+    color: white;
+}

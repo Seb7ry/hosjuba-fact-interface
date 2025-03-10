@@ -1,17 +1,17 @@
 import React, { useState } from "react";
 import Navbar from "../../components/navbar/navbar"; // Menú lateral
-import "./admission.css"; // Importa los estilos
+import "./document.css"; // Importa los estilos
 
-const Admission = () => {
+const Document = () => {
     const [activeTab, setActiveTab] = useState("Todas");
 
     return (
-        <div className="admission-container">
+        <div className="document-container">
             <Navbar /> {/* Menú lateral */}
-            <div className="admission-content">
+            <div className="document-content">
                 {/* Jumbotron mejorado */}  
                 <div className="jumbotron">
-                    <h1 className="display-4">Bienvenido a Admission</h1>
+                    <h1 className="display-4">Bienvenido a Documentos</h1>
                     <p className="lead">
                         Esta es una sección especial donde puedes gestionar las admisiones. Aquí puedes ver información importante y acceder a las funciones clave.
                     </p>
@@ -42,4 +42,4 @@ const Admission = () => {
     );
 };
 
-export default Admission;
+export default Document;

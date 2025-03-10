@@ -1,9 +1,9 @@
-.admission-container {
+.document-container {
     display: flex;
     background-color: #FAFAFA;
 }
 
-.admission-content {
+.document-content {
     flex: 1;
     padding: 20px;
 }

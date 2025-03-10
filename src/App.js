@@ -1,19 +1,24 @@
 import React from 'react';
-import { BrowserRouter as Router , Switch } from 'react-router-dom';
-import Login from './pages/login/login'; // Ruta al componente de Login
+import { BrowserRouter as Router, Switch } from 'react-router-dom';
+import Login from './pages/login/login';  
 import Dashboard from './pages/dashboard/dashboard';
-import Admission from './pages/admission/admission'
+import Admission from './pages/admission/admission';
+import Document from './pages/document/document'
 import PrivateRoute from './components/routes/privateRoute';
 import PublicRoute from './components/routes/publicRoute';
-//import Dashboard from './pages/Dashboard'; // Asegúrate de tener este componente
+import SessionMonitor from './components/sessionMonitor/sessionMonitor';
 
 function App() {
+  const isAuthenticated = !!sessionStorage.getItem("access_token"); // 👈 Revisamos sessionStorage directamente
+
   return (
     <Router>
+      {isAuthenticated && <SessionMonitor />} {/* Se monta inmediatamente al iniciar sesión */}
       <Switch>
         <PublicRoute exact path="/" component={Login} />
         <PrivateRoute exact path="/dashboard" component={Dashboard} />
         <PrivateRoute exact path="/admission" component={Admission} />
+        <PrivateRoute exact path="/document" component={Document} />
       </Switch>
     </Router>
   );
