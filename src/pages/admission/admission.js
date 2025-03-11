@@ -1,25 +1,102 @@
-import React, { useState } from "react";
-import Navbar from "../../components/navbar/navbar"; // Menú lateral
-import "./admission.css"; // Importa los estilos
+import React, { useState, useEffect } from "react";
+import Navbar from "../../components/navbar/navbar";
+import "./admission.css";
 import admisionImg from "../../assets/ux/admision.png";
+import AdmissionList from "../../components/admissionList/admissionList";
+import { getAllAdmissions, getFilteredAdmissions } from "../../services/admissionService";
 
 const Admission = () => {
-    const [activeTab, setActiveTab] = useState("Todas");
-    const [documentNumber, setDocumentNumber] = useState(""); // Controla el número de documento
+    const [documentNumber, setDocumentNumber] = useState(""); 
     const [admissionNumber, setAdmissionNumber] = useState("");
     const [startDate, setStartDate] = useState("");
     const [endDate, setEndDate] = useState("");
+    const [isEndDateDisabled, setIsEndDateDisabled] = useState(true);
     const [user, setUser] = useState("");
     const [admissionType, setAdmissionType] = useState("");
+    const [admissions, setAdmissions] = useState([]);
+    const [loading, setLoading] = useState(false);
 
-    // Habilitar o deshabilitar los otros campos según si el número de documento está lleno
-    const isSearchDisabled = documentNumber.trim() === "";
+    // Obtener todas las admisiones al cargar la página
+    useEffect(() => {
+        fetchAdmissions();
+    }, []);
+
+    const handleClearFilters = () => {
+        setDocumentNumber("");
+        setAdmissionNumber("");
+        setStartDate("");
+        setEndDate("");
+        setUser("");
+        setAdmissionType("");
+        fetchAdmissions(); // Recargar todas las admisiones automáticamente
+    };
+    
+    const handleStartDateChange = (e) => {
+        const selectedStartDate = e.target.value;
+        setStartDate(selectedStartDate);
+    
+        if (!selectedStartDate) {
+            setEndDate(""); // Borra la fecha final si se borra la de inicio
+            setIsEndDateDisabled(true);
+        } else {
+            setIsEndDateDisabled(false);
+        }
+    };    
+
+    const handleEndDateChange = (e) => {
+        const selectedEndDate = e.target.value;
+    
+        if (selectedEndDate < startDate) {
+            alert("⚠️ La fecha de final no puede ser menor a la fecha de inicio.");
+            return;
+        }
+    
+        setEndDate(selectedEndDate);
+    };    
+
+    const fetchAdmissions = async () => {
+        setLoading(true);
+        const data = await getAllAdmissions();
+        setAdmissions(data);
+        setLoading(false);
+    };
+
+    // Buscar admisiones filtradas
+    const handleSearch = async () => {
+        setLoading(true);
+        const filters = {
+            documentPatient: documentNumber || undefined,
+            consecutiveAdmission: admissionNumber || undefined,
+            startDateAdmission: startDate || undefined,
+            endDateAdmission: endDate || undefined,
+            userAdmission: user || undefined,
+            typeAdmission: admissionType || undefined
+        };
+        console.log(filters)
+        const data = await getFilteredAdmissions(filters);
+        setAdmissions(data);
+        setLoading(false);
+    };
+
+    useEffect(() => {
+        if (!documentNumber && !admissionNumber && !startDate && !endDate && !user && !admissionType) {
+            fetchAdmissions();
+        }
+    }, [documentNumber, admissionNumber, startDate, endDate, user, admissionType]);
+    
+
+    // Deshabilitar filtros si no hay número de documento
+    const [isSearchDisabled, setIsSearchDisabled] = useState(true);
+    
+    useEffect(() => {
+        setIsSearchDisabled(documentNumber.trim() === "");
+    }, [documentNumber]);
 
     return (
         <div className="admission-container">
-            <Navbar /> {/* Menú lateral */}
+            <Navbar />
             <div className="admission-content">
-                {/* Sección de descripción con imagen y detalles de los campos */}
+                 {/* Sección de descripción con imagen y detalles de los campos */}
                 <div className="admission-description">
                     <div className="admission-text">
                         <h1>Admisiones</h1>
@@ -27,9 +104,9 @@ const Admission = () => {
                         <br />
                         <p>
                             En este apartado puedes buscar la admisión correspondiente al paciente al cual
-                            le asignarás la firma, la busqueda puede ser mediante su número de documento y 
+                            le asignarás la firma, la búsqueda puede ser mediante su número de documento y 
                             añadido a esto filtros para hacer la búsqueda más detallada. Te explico estos 
-                            filtros a continuació.
+                            filtros a continuación.
                         </p>
                         <br />
                         <ul className="field-descriptions">
@@ -41,18 +118,16 @@ const Admission = () => {
                             <li><strong>Tipo de Admisión:</strong> Clasificación de la admisión según el tipo de servicio. Ejemplo: <code>Consulta Externa</code></li>
                         </ul>
                     </div>
-                    <div className="admission-image">
-                        {/* Imagen adjunta */}
-                        <img src={admisionImg} alt="Descripción de la sección" />
-                    </div>
+                <div className="admission-image">
+                    <img src={admisionImg} alt="Descripción de la sección" />
+                </div>
                 </div>
 
-                {/* Nota de advertencia */}
                 <div className="warning-message">
-                    ⚠️ Es obligatorio ingresar el <strong>número de documento</strong> del paciente antes de aplicar cualquier otro filtro de búsqueda.
+                    ⚠️ Es obligatorio ingresar el <strong>número de documento</strong> antes de aplicar filtros.
                 </div>
 
-                {/* Formulario de Búsqueda con títulos encima de cada input */}
+                {/* Formulario de búsqueda */}
                 <div className="search-container">
                     <div className="search-field">
                         <label>Número de Documento</label>
@@ -81,7 +156,7 @@ const Admission = () => {
                         <input 
                             type="date" 
                             value={startDate} 
-                            onChange={(e) => setStartDate(e.target.value)}
+                            onChange={handleStartDateChange}
                             disabled={isSearchDisabled}
                         />
                     </div>
@@ -91,8 +166,8 @@ const Admission = () => {
                         <input 
                             type="date" 
                             value={endDate} 
-                            onChange={(e) => setEndDate(e.target.value)}
-                            disabled={isSearchDisabled}
+                            onChange={handleEndDateChange}
+                            disabled={isSearchDisabled || isEndDateDisabled}
                         />
                     </div>
 
@@ -123,9 +198,21 @@ const Admission = () => {
 
                     <div className="search-field">
                         <label>&nbsp;</label>
-                        <button className="search-btn" disabled={isSearchDisabled}>Buscar</button>
+                        <button className="search-btn" onClick={handleSearch} disabled={isSearchDisabled}>
+                            Buscar
+                        </button>
+                    </div>
+
+                    <div className="search-field">
+                        <label>&nbsp;</label>
+                        <button className="clear-btn" onClick={handleClearFilters}>
+                            Limpiar
+                        </button>
                     </div>
                 </div>
+
+                {/* Lista de admisiones con paginación */}
+                <AdmissionList admissions={admissions} loading={loading} />
             </div>
         </div>
     );

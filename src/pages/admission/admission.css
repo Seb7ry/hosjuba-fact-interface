@@ -95,10 +95,66 @@
     text-align: center;
 }
 
+.button-container {
+    display: flex;
+    gap: 10px; /* Espacio entre los botones */
+    align-items: center;
+}
+
+.search-btn, .clear-btn {
+    display: inline-block;
+    width: auto; /* Para que se ajusten automáticamente */
+}
+
+.clear-btn {
+    background-color: #ffb703;
+    color: #333;
+    border: 1px solid #fb8500;
+    font-size: 14px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s ease-in-out;
+    height: 42px;
+    width: 120px;
+}
+
+.clear-btn:hover {
+    background-color: #fb8500;
+}
+
+
 /* Botón de búsqueda con mejor tamaño */
 .search-btn {
     width: 110px; /* Ajuste fino */
 }
+
+/* Cuando el botón está deshabilitado */
+.search-btn:disabled {
+    background-color: #ccc !important;
+    color: #666 !important;
+    cursor: not-allowed !important;
+    opacity: 0.6;
+}
+
+/* Cuando el botón está habilitado */
+.search-btn {
+    background-color: #5161ce !important;
+    color: white !important;
+    border: none;
+    font-size: 14px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s ease-in-out;
+    height: 42px;
+    width: 120px;
+}
+
+/* Cambia el cursor y el color cuando se puede usar */
+.search-btn:not(:disabled):hover {
+    background-color: #3e4dbb !important;
+    cursor: pointer !important;
+}
+
 
 /* Estilos de la descripción de los campos */
 .field-descriptions {
