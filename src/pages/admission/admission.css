@@ -16,7 +16,7 @@
     min-height: 100vh; /* Se expande con el contenido */
     margin-bottom: 15px;
     width: 95%; /* Reduce la distancia con los lados */
-    max-width: 1100px;
+    max-width: 2000px;
     margin-left: auto;
     margin-right: auto;
 }
@@ -31,7 +31,7 @@
     border-radius: 10px;
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
     width: 100%;
-    max-width: 1100px;
+    max-width: 2000px;
     margin-bottom: 15px; /* Reduce espacio entre descripción y advertencia */
 }
 
@@ -66,6 +66,7 @@
 
 /* Contenedor de búsqueda más compacto */
 .search-container {
+    grid-template-columns: repeat(6, 1fr);
     display: flex;
     flex-wrap: wrap;
     gap: 10px;
@@ -76,7 +77,7 @@
     justify-content: center;
     align-items: center;
     width: 100%;
-    max-width: 1100px;
+    max-width: 2000px;
     margin-left: auto;
     margin-right: auto;
 }
@@ -184,6 +185,7 @@
 .search-field label {
     font-weight: bold;
     font-size: 14px;
+    margin-top: 0px;
     margin-bottom: 5px;
 }
 

@@ -64,19 +64,37 @@ const Admission = () => {
     // Buscar admisiones filtradas
     const handleSearch = async () => {
         setLoading(true);
+    
+        let typeAdmissionValue = admissionType;
+        
+        if (admissionType === "hospitalizacion") {
+            // NO enviamos el filtro al backend, traemos todas las admisiones y filtramos en el frontend
+            typeAdmissionValue = undefined;
+        }
+    
         const filters = {
             documentPatient: documentNumber || undefined,
             consecutiveAdmission: admissionNumber || undefined,
             startDateAdmission: startDate || undefined,
             endDateAdmission: endDate || undefined,
             userAdmission: user || undefined,
-            typeAdmission: admissionType || undefined
+            typeAdmission: typeAdmissionValue
         };
-        console.log(filters)
-        const data = await getFilteredAdmissions(filters);
+    
+        console.log("Filtros enviados: ", filters);
+        let data = await getFilteredAdmissions(filters);
+    
+        // Si es Hospitalización, filtramos en el frontend
+        if (admissionType === "hospitalizacion") {
+            data = data.filter(admission => 
+                admission.typeAdmission !== 1 &&
+                admission.typeAdmission !== 99
+            );
+        }
+    
         setAdmissions(data);
         setLoading(false);
-    };
+    };    
 
     useEffect(() => {
         if (!documentNumber && !admissionNumber && !startDate && !endDate && !user && !admissionType) {
@@ -182,17 +200,28 @@ const Admission = () => {
                         />
                     </div>
 
-                    <div className="search-field">
+                    <div className="search-field  selectno">
                         <label>Tipo de Admisión</label>
                         <select 
                             value={admissionType} 
-                            onChange={(e) => setAdmissionType(e.target.value)}
+                            onChange={(e) => {
+                                const selectedValue = e.target.value;
+                                if (selectedValue === "1") {
+                                    setAdmissionType(1);
+                                } else if (selectedValue === "99") {
+                                    setAdmissionType(99);
+                                } else if (selectedValue === "hospitalizacion") {
+                                    setAdmissionType("hospitalizacion");
+                                } else {
+                                    setAdmissionType("");
+                                }
+                            }}
                             disabled={isSearchDisabled}
                         >
                             <option value="">Seleccione el tipo</option>
-                            <option value="Urgencias">Urgencias</option>
-                            <option value="Consulta Externa">Consulta Externa</option>
-                            <option value="Hospitalización">Hospitalización</option>
+                            <option value="1">Urgencias</option>
+                            <option value="99">Consulta Externa</option>
+                            <option value="hospitalizacion">Hospitalización</option>
                         </select>
                     </div>
 
