@@ -7,6 +7,7 @@ import Document from './pages/document/document'
 import PrivateRoute from './components/routes/privateRoute';
 import PublicRoute from './components/routes/publicRoute';
 import SessionMonitor from './components/sessionMonitor/sessionMonitor';
+import Record from './pages/record/record';
 
 function App() {
   const isAuthenticated = !!sessionStorage.getItem("access_token"); // 👈 Revisamos sessionStorage directamente
@@ -19,6 +20,8 @@ function App() {
         <PrivateRoute exact path="/dashboard" component={Dashboard} />
         <PrivateRoute exact path="/admission" component={Admission} />
         <PrivateRoute exact path="/document" component={Document} />
+        <PrivateRoute exact path="/document" component={Document} />
+        <PrivateRoute exact path="/record" component={Record} />
       </Switch>
     </Router>
   );

@@ -5,11 +5,6 @@ import "./dashboard.css";
 const Dashboard = () => {
 
     useEffect(() => {
-        console.log("✅ Dashboard montado");
-        console.log("Access Token:", sessionStorage.getItem("access_token"));
-        console.log("Refresh Token:", sessionStorage.getItem("refresh_token"));
-        console.log("Username:", sessionStorage.getItem("username"));
-
         if (!sessionStorage.getItem("access_token")) {
             console.warn("⚠️ No hay access token, redirigiendo al login...");
             window.location.href = "/"; // Redirige al login si no hay sesión

@@ -1,9 +1,8 @@
-import React, { useState } from "react";
+import React from "react";
 import Navbar from "../../components/navbar/navbar"; // Menú lateral
 import "./document.css"; // Importa los estilos
 
 const Document = () => {
-    const [activeTab, setActiveTab] = useState("Todas");
 
     return (
         <div className="document-container">
@@ -18,25 +17,6 @@ const Document = () => {
                     <hr className="my-4" />
                     <p>Usa las opciones del menú para navegar entre las secciones de admisiones.</p>
                 </div>
-
-                {/* Menú superior corregido */}
-                <nav className="navbar navbar-expand-lg navbar-mainbg">
-                    <div className="container">
-                        <div className="collapse navbar-collapse" id="navbarNav">
-                            <ul className="navbar-nav">
-                                {["Todas", "Consulta Externa", "Urgencias", "Hospitalización"].map((tab) => (
-                                    <li 
-                                        key={tab} 
-                                        className={`nav-item ${activeTab === tab ? "active-tab" : ""}`} 
-                                        onClick={() => setActiveTab(tab)}
-                                    >
-                                        <a className="nav-link">{tab}</a>
-                                    </li>
-                                ))}
-                            </ul>
-                        </div>
-                    </div>
-                </nav>
             </div>
         </div>
     );

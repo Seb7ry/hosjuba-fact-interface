@@ -59,7 +59,8 @@ export const logout = async () => {
 const clearSession = () => {
     sessionStorage.removeItem('access_token');
     sessionStorage.removeItem('refresh_token');
-    sessionStorage.removeItem('username'); // También eliminamos el username
+    sessionStorage.removeItem('username');
+    sessionStorage.removeItem('grupo'); // También eliminamos el username
     window.location.href = '/'; // Redirige al Login
 };
 
@@ -98,11 +99,12 @@ apiClient.interceptors.response.use(
 export const authService = async (username, password) => {
     try {
         const response = await axios.post(`${API_URL}/login`, { username, password });
+        const { access_token, refresh_token, grupo } = response.data;
 
-        const { access_token, refresh_token } = response.data;
         sessionStorage.setItem('access_token', access_token);
         sessionStorage.setItem('refresh_token', refresh_token);
-        sessionStorage.setItem('username', username); // Guardamos el username
+        sessionStorage.setItem('username', username);
+        sessionStorage.setItem('grupo', grupo )
 
         return response.data;
     } catch (error) {

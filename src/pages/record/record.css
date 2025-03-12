@@ -1,0 +1,169 @@
+/* Contenedor principal */
+.records-container {
+    display: flex;
+    background-color: #FAFAFA;
+    height: 100vh;
+}
+
+/* Contenido */
+.records-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 20px;
+    min-height: 100vh;
+    width: 95%;
+    max-width: 2000px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Sección de descripción */
+.records-description {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 2000px;
+    margin-bottom: 15px;
+}
+
+/* Ajuste del texto */
+.records-text {
+    flex: 1;
+    padding-right: 20px;
+    text-align: left;
+    font-size: 19px;
+}
+
+/* Imagen de registros */
+.records-image img {
+    max-width: 220px;
+    height: auto;
+}
+
+/* Estilos de la lista */
+.field-descriptions {
+    list-style-type: none;
+    padding: 0;
+    font-size: 14px;
+    color: #555;
+}
+
+.field-descriptions li {
+    margin-bottom: 5px;
+}
+
+/* Contenedor de logs */
+.logs-container {
+    width: 100%;
+    max-width: 1100px;
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+/* Título */
+.logs-title {
+    font-size: 22px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 15px;
+}
+
+/* Tabla */
+.log-table-container {
+    overflow-x: auto;
+}
+
+.log-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.log-table th, .log-table td {
+    padding: 12px;
+    text-align: left;
+}
+
+.log-table th {
+    background-color: #f8f9fa;
+    color: #333;
+    font-weight: bold;
+    border-bottom: 2px solid #dee2e6;
+}
+
+.log-table td {
+    border-bottom: 1px solid #dee2e6;
+}
+
+/* Colores para los niveles de log */
+.log-info .log-level {
+    color: #0d6efd;
+    font-weight: bold;
+}
+
+.log-warn .log-level {
+    color: #ffc107;
+    font-weight: bold;
+}
+
+.log-error .log-level {
+    color: #dc3545;
+    font-weight: bold;
+}
+
+/* Mensajes */
+.loading, .no-logs, .error {
+    font-size: 16px;
+    margin-top: 15px;
+    font-weight: bold;
+}
+
+.loading {
+    color: #007bff;
+}
+
+.no-logs {
+    color: #6c757d;
+}
+
+.error {
+    color: #dc3545;
+}
+
+/* Estilos responsivos */
+@media (max-width: 1024px) {
+    .records-description {
+        flex-direction: column;
+        text-align: center;
+        align-items: center;
+    }
+    .records-text {
+        padding-right: 0;
+    }
+    .records-image img {
+        max-width: 140px;
+    }
+}
+
+@media (max-width: 768px) {
+    .records-description {
+        flex-direction: column;
+        text-align: center;
+    }
+    .records-image img {
+        max-width: 120px;
+    }
+}

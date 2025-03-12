@@ -15,11 +15,9 @@ import "./sessionMonitor.css";
  * @returns {JSX.Element} Componente que gestiona la expiración de la sesión.
  */
 const SessionMonitor = () => {
-    const [showWarning, setShowWarning] = useState(false); // Estado para mostrar la advertencia
-    const [timeLeft, setTimeLeft] = useState(null); // Tiempo restante para la expiración del token
+    const [showWarning, setShowWarning] = useState(false);
 
     useEffect(() => {
-        console.log("✅ SessionMonitor montado");
 
         const token = sessionStorage.getItem("access_token");
 
@@ -30,16 +28,10 @@ const SessionMonitor = () => {
 
         try {
             const decoded = jwtDecode(token);
-            const expiresAt = decoded.exp * 1000; // Convertir segundos a milisegundos
+            const expiresAt = decoded.exp * 1000;
             const currentTime = Date.now();
             const timeRemaining = expiresAt - currentTime;
-
-            console.log("⏳ Tiempo actual:", new Date(currentTime).toLocaleString());
-            console.log("🔔 Expiración del access token:", new Date(expiresAt).toLocaleString());
-            console.log("🕐 Tiempo restante antes de expirar:", (timeRemaining / 1000).toFixed(0), "segundos");
-
-            setTimeLeft(timeRemaining);
-
+            
             // Mostrar advertencia si faltan menos de 5 minutos para la expiración
             if (timeRemaining <= 5 * 60 * 1000) {
                 setShowWarning(true);
@@ -49,7 +41,6 @@ const SessionMonitor = () => {
              * Cierra la sesión automáticamente cuando el token expira.
              */
             const timeoutLogout = setTimeout(() => {
-                console.warn("⛔ El access token ha expirado, cerrando sesión.");
                 logout();
             }, timeRemaining);
 
@@ -57,7 +48,6 @@ const SessionMonitor = () => {
              * Muestra una advertencia cuando faltan menos de 5 minutos para la expiración.
              */
             const timeoutWarning = setTimeout(() => {
-                console.warn("⚠️ Quedan menos de 5 minutos para que la sesión expire. Realiza alguna petición para evitar el cierre de sesión.");
                 setShowWarning(true);
             }, timeRemaining - 5 * 60 * 1000);
 
@@ -66,7 +56,7 @@ const SessionMonitor = () => {
                 clearTimeout(timeoutWarning);
             };
         } catch (error) {
-            console.error("❌ Error al decodificar el accessToken:", error);
+
             logout();
         }
     }, []);
