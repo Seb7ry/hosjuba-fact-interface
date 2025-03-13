@@ -15,6 +15,7 @@
     border-radius: 8px;
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
     text-align: center;
+    align-items: center;
 }
 
 /* =======================
@@ -32,6 +33,7 @@
     border-bottom: 1px solid #ddd;
     text-align: center;
     font-size: 15px;
+    vertical-align: middle; /* Asegura que el contenido de la celda esté centrado */
 }
 
 /* Encabezado de la tabla */
@@ -40,11 +42,17 @@
     color: white;
 }
 
+/* Asegura que la columna de firma esté bien alineada */
+.admission-table th:last-child,
+.admission-table td:last-child {
+    width: 80px; /* Ajusta según sea necesario */
+}
+
 /* ==========================
     Estilos para el Botón "Ver"
 ============================= */
 .view-btn {
-    background-color: #5161ce;
+    background-color: #43aa8b;
     color: white;
     border: none;
     padding: 8px 12px;
@@ -113,6 +121,36 @@
     width: 40px;
     height: 40px;
     animation: spin 1s linear infinite;
+}
+
+/* ==========================
+    Estilos para el Botón de Firma
+============================= */
+.signature-btn {
+    background-color: #5161ce;
+    color: white;
+    border: none;
+    padding: 6px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    width: 36px;
+    height: 36px;
+    transition: background-color 0.3s ease;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto; /* Centra el botón dentro de la celda */
+}
+
+/* Icono dentro del botón */
+.signature-btn svg {
+    font-size: 16px;
+}
+
+/* Efecto hover */
+.signature-btn:hover {
+    background-color: #3e4dbb;
 }
 
 /* Animación de carga */

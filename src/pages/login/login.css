@@ -102,7 +102,7 @@
     .toggle-password {
         position: absolute;
         right: 10px;
-        top: 45%;  /* Asegura que el icono se alinee verticalmente */
+        top: 42%;  /* Asegura que el icono se alinee verticalmente */
         transform: translateY(-50%);  /* Centra el icono dentro del input */
         cursor: pointer;
         font-size: 18px;

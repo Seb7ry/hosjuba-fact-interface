@@ -3,26 +3,46 @@ import Navbar from "../../components/navbar/navbar";
 import RecordList from "../../components/recordList/recordList";
 import "./record.css";
 import recordsImg from "../../assets/ux/register.png";
-import { getLogs } from "../../services/recordService"; // Importamos el servicio de logs
+import { getLogs } from "../../services/recordService"; 
 
 const Record = () => {
     const [logs, setLogs] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [selectedLevel, setSelectedLevel] = useState(""); // Estado para el select
 
     useEffect(() => {
-        const fetchLogs = async () => {
-            try {
-                const data = await getLogs();
-                setLogs(data);
-            } catch (err) {
-                setError("No se pudieron cargar los registros.");
-            } finally {
-                setLoading(false);
-            }
-        };
         fetchLogs();
     }, []);
+
+    // Función para obtener logs con filtro de niveles
+    const fetchLogs = async (level = "") => {
+        setLoading(true);
+        try {
+            const data = await getLogs(level ? [level] : []);
+            setLogs(data);
+        } catch (err) {
+            setError("No se pudieron cargar los registros.");
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    // Manejar cambio en el select
+    const handleLevelChange = (event) => {
+        setSelectedLevel(event.target.value);
+    };
+
+    // Ejecutar búsqueda
+    const handleSearch = () => {
+        fetchLogs(selectedLevel);
+    };
+
+    // Limpiar filtros
+    const handleClearFilters = () => {
+        setSelectedLevel("");
+        fetchLogs();
+    };
 
     return (
         <div className="records-container">
@@ -43,10 +63,27 @@ const Record = () => {
                         </p>
                         <br />
                         <ul className="field-descriptions">
+                            <li><strong>Nivel:</strong> Indica el nivel de afectación del registro en el sistema.</li>
+                            <li><strong>Mensaje:</strong> Breve explicación del evento registrado.</li>
+                            <li><strong>Contexto:</strong> Documento del código (back) donde se manifestó el registro.</li>
                             <li><strong>Fecha de Registro:</strong> Indica cuándo se almacenó la información.</li>
-                            <li><strong>Usuario:</strong> Persona que realizó la acción registrada.</li>
-                            <li><strong>Descripción:</strong> Breve explicación del evento registrado.</li>
                         </ul>
+                    </div>
+                </div>
+
+                {/* Filtros de búsqueda */}
+                <div className="search-container">
+                    <label><strong>Filtrar por Nivel:</strong></label>
+                    <select value={selectedLevel} onChange={handleLevelChange}>
+                        <option value="">Todos</option>
+                        <option value="info">Info</option>
+                        <option value="warn">Warn</option>
+                        <option value="error">Error</option>
+                    </select>
+
+                    <div className="button-group">
+                        <button className="search-btn" onClick={handleSearch}>Buscar</button>
+                        <button className="clear-btn" onClick={handleClearFilters}>Actualizar</button>
                     </div>
                 </div>
 

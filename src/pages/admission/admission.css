@@ -31,7 +31,6 @@
     border-radius: 10px;
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
     width: 100%;
-    max-width: 2000px;
     margin-bottom: 15px; /* Reduce espacio entre descripción y advertencia */
 }
 
@@ -53,6 +52,20 @@
 .warning-message {
     background-color: #fff3cd;
     color: #856404;
+    padding: 12px;
+    text-align: center;
+    font-size: 14px;
+    font-weight: bold;
+    border-radius: 5px;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 1100px;
+    margin: 0 auto 15px auto;
+}
+
+.info-message {
+    background-color: #d9ed92;
+    color: #4f772d;
     padding: 12px;
     text-align: center;
     font-size: 14px;

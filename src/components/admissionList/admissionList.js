@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faSignature } from "@fortawesome/free-solid-svg-icons";
 import "./admissionList.css";
 
 /**
@@ -18,6 +20,8 @@ const AdmissionList = ({ admissions, loading }) => {
     const startIndex = (currentPage - 1) * itemsPerPage;
     const endIndex = startIndex + itemsPerPage;
     const currentAdmissions = admissions.slice(startIndex, endIndex);
+
+    console.log(admissions);
 
     /**
      * Mapea el tipo de admisión a su nombre correspondiente.
@@ -57,7 +61,7 @@ const AdmissionList = ({ admissions, loading }) => {
                                 <th>Fecha</th>
                                 <th>Servicio</th>
                                 <th>Usuario</th>
-                                <th>Acción</th>
+                                <th>Firma</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -70,7 +74,9 @@ const AdmissionList = ({ admissions, loading }) => {
                                     <td>{MapAdmissionType(admission.typeAdmission)}</td>
                                     <td>{admission.userAdmission}</td>
                                     <td>
-                                        <button className="view-btn">Ver</button>
+                                        <button className="signature-btn">
+                                            <FontAwesomeIcon icon={faSignature} />
+                                        </button>
                                     </td>
                                 </tr>
                             ))}

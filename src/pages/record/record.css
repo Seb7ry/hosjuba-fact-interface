@@ -15,7 +15,7 @@
     padding: 20px;
     min-height: 100vh;
     width: 95%;
-    max-width: 2000px;
+    max-width: 2000px; /* Ajuste para mejor distribución */
     margin-left: auto;
     margin-right: auto;
 }
@@ -30,7 +30,6 @@
     border-radius: 10px;
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
     width: 100%;
-    max-width: 2000px;
     margin-bottom: 15px;
 }
 
@@ -42,73 +41,111 @@
     font-size: 19px;
 }
 
-/* Imagen de registros */
+/* Imagen */
 .records-image img {
     max-width: 220px;
     height: auto;
 }
 
-/* Estilos de la lista */
-.field-descriptions {
-    list-style-type: none;
-    padding: 0;
-    font-size: 14px;
-    color: #555;
-}
-
-.field-descriptions li {
-    margin-bottom: 5px;
-}
-
-/* Contenedor de logs */
-.logs-container {
-    width: 100%;
-    max-width: 1100px;
+/* Sección de búsqueda con diseño más compacto */
+.search-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    padding: 15px;
     background: white;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    text-align: center;
-}
-
-/* Título */
-.logs-title {
-    font-size: 22px;
-    font-weight: bold;
-    color: #333;
+    border-radius: 10px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    justify-content: center;
+    align-items: center;
+    width: 100%;
     margin-bottom: 15px;
 }
 
-/* Tabla */
+/* Estilo para el select */
+.search-container select {
+    height: 40px;
+    width: 220px;
+    padding: 8px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    outline: none;
+    text-align: center;
+}
+
+/* Contenedor para los botones debajo */
+.button-group {
+    display: flex;
+    gap: 10px;
+    margin-top: 5px;
+}
+
+/* Botones */
+.search-btn, .clear-btn {
+    padding: 8px 14px;
+    font-size: 14px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s ease-in-out;
+    width: 110px;
+}
+
+.search-btn {
+    background-color: #5161ce;
+    color: white;
+    border: none;
+}
+
+.search-btn:hover {
+    background-color: #3e4dbb;
+}
+
+.clear-btn {
+    background-color: #ffb703;
+    color: #333;
+    border: 1px solid #fb8500;
+}
+
+.clear-btn:hover {
+    background-color: #fb8500;
+}
+
+/* Tabla de logs */
 .log-table-container {
     overflow-x: auto;
+    width: 100%;
+    background: white;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .log-table {
     width: 100%;
     border-collapse: collapse;
-    margin-top: 15px;
-    border-radius: 8px;
+    border-radius: 10px;
     overflow: hidden;
 }
 
-.log-table th, .log-table td {
-    padding: 12px;
-    text-align: left;
-}
-
+/* Encabezado de la tabla */
 .log-table th {
-    background-color: #f8f9fa;
-    color: #333;
+    background-color: #5161ce;
+    color: white;
     font-weight: bold;
-    border-bottom: 2px solid #dee2e6;
+    padding: 10px;
+    text-align: center;
 }
 
+/* Filas de la tabla */
 .log-table td {
-    border-bottom: 1px solid #dee2e6;
+    padding: 8px;
+    text-align: center;
+    border-bottom: 1px solid #ddd;
+    font-size: 14px;
 }
 
-/* Colores para los niveles de log */
+/* Niveles de logs con colores */
 .log-info .log-level {
     color: #0d6efd;
     font-weight: bold;
@@ -124,25 +161,6 @@
     font-weight: bold;
 }
 
-/* Mensajes */
-.loading, .no-logs, .error {
-    font-size: 16px;
-    margin-top: 15px;
-    font-weight: bold;
-}
-
-.loading {
-    color: #007bff;
-}
-
-.no-logs {
-    color: #6c757d;
-}
-
-.error {
-    color: #dc3545;
-}
-
 /* Estilos responsivos */
 @media (max-width: 1024px) {
     .records-description {
@@ -150,11 +168,24 @@
         text-align: center;
         align-items: center;
     }
+    
     .records-text {
         padding-right: 0;
+        text-align: center;
     }
+
     .records-image img {
-        max-width: 140px;
+        max-width: 110px;
+    }
+
+    .search-container {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .log-table th, .log-table td {
+        font-size: 13px;
+        padding: 6px;
     }
 }
 
@@ -163,7 +194,18 @@
         flex-direction: column;
         text-align: center;
     }
+    
     .records-image img {
-        max-width: 120px;
+        max-width: 90px;
+    }
+
+    .search-container {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .log-table th, .log-table td {
+        font-size: 12px;
+        padding: 6px;
     }
 }
