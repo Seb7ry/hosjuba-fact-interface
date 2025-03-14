@@ -241,7 +241,7 @@ const Admission = () => {
                 </div>
 
                 <div className="info-message">
-                ✍️ Para asignar una firma a una admisión <strong>oprimir el botón "Asignar" al final de la fila</strong> 
+                ✍️ Para asignar una firma a una admisión <strong>oprimir el botón "Asignar" al final de la fila </strong> 
                 correspondiente. Si la admisión ya contiene una firma asignada el botón desaparecerá y en su lugar habrá 
                 un icono de check.✍️
                 </div>

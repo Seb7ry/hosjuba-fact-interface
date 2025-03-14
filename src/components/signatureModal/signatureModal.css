@@ -1,0 +1,125 @@
+/* Fondo del modal */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.3);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+/* Contenedor del modal */
+.modal-container {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    text-align: left;
+    width: 450px;
+    max-width: 90%;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* Título */
+.modal-title {
+    font-size: 20px;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 15px;
+}
+
+/* Contenedor de la información del paciente */
+.patient-container {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 10px;
+}
+
+/* Imagen en el modal */
+.patient-image {
+    width: 70px;
+    height: 70px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.patient-image img {
+    width: 100%;
+    height: auto;
+    max-width: 60px;
+}
+
+/* Información del paciente */
+.patient-info p {
+    font-size: 14px;
+    margin: 5px 0;
+    color: #444;
+}
+
+/* Área de firma */
+.signature-area {
+    border: 2px solid #ddd;
+    background: #fafafa;
+    padding: 10px;
+    margin-top: 15px;
+    height: 150px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Previsualización de la firma */
+.signature-preview {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+/* Mensaje cuando no hay dispositivo de firma */
+.no-device-detected {
+    text-align: center;
+    color: #d9534f;
+    font-size: 14px;
+}
+
+/* Icono de advertencia */
+.warning-icon {
+    font-size: 22px;
+    margin-bottom: 5px;
+}
+
+/* Botones */
+.modal-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 15px;
+}
+
+.btn {
+    border: none;
+    padding: 8px 12px;
+    cursor: pointer;
+    font-size: 14px;
+    border-radius: 4px;
+    font-weight: bold;
+}
+
+.confirm-btn {
+    background: #28a745;
+    color: white;
+}
+
+.reset-btn {
+    background: #ffc107;
+    color: white;
+}
+
+.exit-btn {
+    background: #dc3545;
+    color: white;
+}
