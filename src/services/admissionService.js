@@ -49,3 +49,17 @@ export const getSignedAdmissions = async (visibleAdmissions) => {
         return [];
     }
 };
+
+export const getSignedAdmissionsAll = async (visibleAdmissions) => {
+    try {
+        const response = await axios.post(
+            `${API_URL}/signed`, 
+            { admissions: visibleAdmissions }, // Solo los registros visibles en la página
+            getAuthHeaders()
+        );
+        return response.data; // Devuelve la lista de admisiones firmadas
+    } catch (error) {
+        console.error("❌ Error al obtener admisiones firmadas:", error);
+        return [];
+    }
+};
