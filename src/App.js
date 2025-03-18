@@ -20,7 +20,7 @@ function App() {
         <PrivateRoute exact path="/dashboard" component={Dashboard} />
         <PrivateRoute exact path="/admission" component={Admission} />
         <PrivateRoute exact path="/document" component={Document} />
-        <PrivateRoute exact path="/document" component={Document} />
+        <PrivateRoute exact path="/history" component={Document} />
         <PrivateRoute exact path="/record" component={Record} />
       </Switch>
     </Router>

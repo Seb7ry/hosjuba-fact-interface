@@ -81,7 +81,6 @@ const Admission = () => {
             typeAdmission: typeAdmissionValue
         };
     
-        console.log("Filtros enviados: ", filters);
         let data = await getFilteredAdmissions(filters);
     
         // Si es Hospitalización, filtramos en el frontend
@@ -101,7 +100,6 @@ const Admission = () => {
             fetchAdmissions();
         }
     }, [documentNumber, admissionNumber, startDate, endDate, user, admissionType]);
-    
 
     // Deshabilitar filtros si no hay número de documento
     const [isSearchDisabled, setIsSearchDisabled] = useState(true);

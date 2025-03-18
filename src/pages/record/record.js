@@ -8,6 +8,7 @@ import { getLogs } from "../../services/recordService";
 const Record = () => {
     const [logs, setLogs] = useState([]);
     const [loading, setLoading] = useState(true);
+    // eslint-disable-next-line no-unused-vars
     const [error, setError] = useState(null);
     const [selectedLevel, setSelectedLevel] = useState(""); // Estado para el select
 
