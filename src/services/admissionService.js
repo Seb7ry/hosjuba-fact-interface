@@ -50,16 +50,25 @@ export const getSignedAdmissions = async (visibleAdmissions) => {
     }
 };
 
-export const getSignedAdmissionsAll = async (visibleAdmissions) => {
+export const getSignedAdmissionsAll = async () => {
     try {
-        const response = await axios.post(
-            `${API_URL}/signed`, 
-            { admissions: visibleAdmissions }, // Solo los registros visibles en la página
-            getAuthHeaders()
-        );
-        return response.data; // Devuelve la lista de admisiones firmadas
+        const response = await axios.get(`${API_URL}/signedAll`, getAuthHeaders()); // Llamada GET sin enviar "admissions"
+        return response.data; // Devuelve todas las admisiones firmadas
     } catch (error) {
         console.error("❌ Error al obtener admisiones firmadas:", error);
+        return [];
+    }
+};
+
+export const getSignedAdmissionsFiltrer = async (filters) => {
+    try {
+        const response = await axios.get(`${API_URL}/signedFiltrer`, {
+            params: filters, // Los filtros que se pasan desde el frontend
+            ...getAuthHeaders()
+        });
+        return response.data; // Devuelve las admisiones filtradas que cumplen con los parámetros
+    } catch (error) {
+        console.error("❌ Error al obtener admisiones filtradas:", error);
         return [];
     }
 };

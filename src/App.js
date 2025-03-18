@@ -12,6 +12,7 @@ import Record from './pages/record/record';
 function App() {
   const isAuthenticated = !!sessionStorage.getItem("access_token"); // 👈 Revisamos sessionStorage directamente
 
+  
   return (
     <Router>
       {isAuthenticated && <SessionMonitor />} {/* Se monta inmediatamente al iniciar sesión */}
