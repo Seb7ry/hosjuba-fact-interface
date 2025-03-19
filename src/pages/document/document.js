@@ -87,9 +87,6 @@ const Document = () => {
             <div className="document-content">
                 {/* Sección de descripción con imagen */}
                 <div className="document-description">
-                    <div className="document-image">
-                        <img src={documentImg} alt="Descripción de documentos" />
-                    </div>
                     <div className="document-text">
                         <h1>Comprobantes</h1>
                         <hr className="my-4" />
@@ -108,6 +105,10 @@ const Document = () => {
                             <li><strong>Tipo de Admisión:</strong> Clasificación de la admisión según el tipo de servicio. Ejemplo: <code>Consulta Externa</code></li>
                         </ul>
                     </div>
+                    <div className="document-image">
+                        <img src={documentImg} alt="Descripción de documentos" />
+                    </div>
+                    
                 </div>
 
                 {/* Formulario de búsqueda */}

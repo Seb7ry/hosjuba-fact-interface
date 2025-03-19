@@ -51,9 +51,7 @@ const Record = () => {
             <div className="records-content">
                 {/* Sección de descripción con imagen */}
                 <div className="records-description">
-                    <div className="records-image">
-                        <img src={recordsImg} alt="Descripción de registros" />
-                    </div>
+                    
                     <div className="records-text">
                         <h1>Registros</h1>
                         <hr className="my-4" />
@@ -69,6 +67,9 @@ const Record = () => {
                             <li><strong>Contexto:</strong> Documento del código (back) donde se manifestó el registro.</li>
                             <li><strong>Fecha de Registro:</strong> Indica cuándo se almacenó la información.</li>
                         </ul>
+                    </div>
+                    <div className="records-image">
+                        <img src={recordsImg} alt="Descripción de registros" />
                     </div>
                 </div>
 

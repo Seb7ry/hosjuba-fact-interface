@@ -8,34 +8,53 @@ import "./signatureModal.css";
 const SignatureModal = ({ isOpen, onClose, admission }) => {
     const [isSigned, setIsSigned] = useState(false);
     const [signatureData, setSignatureData] = useState(null);
-    const [isDeviceAvailable, setIsDeviceAvailable] = useState(false);
+    const [isDeviceAvailable, setIsDeviceAvailable] = useState(false); // Inicialmente asumimos que no hay dispositivo
+    const [devices, setDevices] = useState([]); // Para almacenar los dispositivos detectados
     const signatureRef = useRef(null);
 
-    // 🛠 Aseguramos que SignatureCanvas está montado antes de hacer la verificación
     useEffect(() => {
         if (isOpen) {
-            setTimeout(() => {
-                console.log("🔄 Verificando SignatureCanvas...");
-                if (signatureRef.current && signatureRef.current.getCanvas()) {
-                    console.log("✅ SignatureCanvas detectado correctamente.");
-                    setIsDeviceAvailable(true);
-                } else {
-                    console.log("❌ No se detectó SignatureCanvas.");
-                    setIsDeviceAvailable(false);
+            // Conexión al servidor WebSocket
+            const ws = new WebSocket('ws://localhost:8080');  // Conectar al servidor WebSocket (en el puerto 8080)
+    
+            // Cuando el WebSocket se conecta y recibe datos
+            ws.onmessage = (event) => {
+                const data = JSON.parse(event.data);
+                console.log("Mensaje recibido del WebSocket:", data);
+    
+                if (data.type === 'signature-data') {
+                    // Mostrar los datos recibidos en el cliente
+                    console.log("Datos de la firma:", data.data);
+    
+                    // Si los datos de la firma son válidos, puedes actualizar el estado de la firma
+                    setSignatureData(data.data); // Aquí guardamos la firma en formato base64 o hex
                 }
-            }, 300); // Reducimos el tiempo para hacer la verificación más rápida
+    
+                if (data.devices && data.devices.length > 0) {
+                    setIsDeviceAvailable(true);  // Dispositivo de firma detectado
+                    setDevices(data.devices);   // Actualiza los dispositivos disponibles
+                } else {
+                    setIsDeviceAvailable(false);  // No se detectó ningún dispositivo
+                }
+            };
+    
+            // Cerrar WebSocket cuando se cierre el modal
+            return () => {
+                ws.close();
+            };
         }
-    }, [isOpen]); // Solo se ejecuta cuando el modal se abre
+    }, [isOpen]);
+    
 
-    // 🔹 Detecta si la firma está lista
+    // Verifica si la firma está lista
     const handleEnd = () => {
         if (signatureRef.current && !signatureRef.current.isEmpty()) {
             setIsSigned(true);
-            setSignatureData(signatureRef.current.toDataURL());
+            setSignatureData(signatureRef.current.toDataURL()); // Guardar la firma en formato Base64
         }
     };
 
-    // 🔄 Limpia la firma y reinicia el estado
+    // Limpiar la firma y reiniciar el estado
     const handleClear = () => {
         if (signatureRef.current) {
             signatureRef.current.clear();
@@ -44,11 +63,11 @@ const SignatureModal = ({ isOpen, onClose, admission }) => {
         }
     };
 
-    // ✅ Confirma la firma y la envía (simulado en consola)
+    // Confirmar la firma y la envía
     const handleConfirm = () => {
-        if (signatureRef.current && !signatureRef.current.isEmpty()) {
-            console.log("✅ Firma confirmada:", signatureData);
-            onClose();
+        if (signatureData) {
+            console.log("Firma confirmada:", signatureData);
+            onClose(); // Cerrar el modal
         }
     };
 
@@ -58,13 +77,13 @@ const SignatureModal = ({ isOpen, onClose, admission }) => {
         return "Hospitalización";
     };
 
-    // ❌ Cierra el modal con el botón "Salir"
+    // Cierra el modal con el botón "Salir"
     const handleClose = () => {
         handleClear();
         onClose();
     };
 
-    // 🛑 Bloquear el scroll cuando el modal está abierto
+    // Bloquear el scroll cuando el modal está abierto
     useEffect(() => {
         document.body.style.overflow = isOpen ? "hidden" : "auto";
     }, [isOpen]);
@@ -76,7 +95,7 @@ const SignatureModal = ({ isOpen, onClose, admission }) => {
             <div className="modal-container">
                 <h2 className="modal-title">Firma Digital</h2>
 
-                {/* 🔹 Información del paciente con imagen */}
+                {/* Información del paciente con imagen */}
                 <div className="patient-container">
                     <div className="patient-image">
                         <img src={signatureImg} alt="Firma digital" className="signature-icon" />
@@ -89,7 +108,7 @@ const SignatureModal = ({ isOpen, onClose, admission }) => {
                     </div>
                 </div>
 
-                {/* 🔹 Área de firma */}
+                {/* Área de firma */}
                 <div className="signature-area">
                     {isDeviceAvailable ? (
                         isSigned ? (
@@ -101,6 +120,7 @@ const SignatureModal = ({ isOpen, onClose, admission }) => {
                                 onEnd={handleEnd}
                                 canvasProps={{
                                     className: "signature-canvas",
+                                    disabled: !isDeviceAvailable, // Deshabilitar el canvas si no hay dispositivo disponible
                                 }}
                             />
                         )
@@ -108,11 +128,22 @@ const SignatureModal = ({ isOpen, onClose, admission }) => {
                         <div className="no-device-detected">
                             <FontAwesomeIcon icon={faExclamationTriangle} className="warning-icon" />
                             <p>No se detectó ningún dispositivo de firma.</p>
+                            {/* Mostrar los dispositivos detectados */}
+                            {devices.length > 0 && (
+                                <div>
+                                    <h4>Dispositivos detectados:</h4>
+                                    {devices.map((device, index) => (
+                                        <div key={index}>
+                                            <p>{device.product} - {device.manufacturer}</p>
+                                        </div>
+                                    ))}
+                                </div>
+                            )}
                         </div>
                     )}
                 </div>
 
-                {/* 🔹 Botones */}
+                {/* Botones */}
                 <div className="modal-buttons">
                     <button className="btn confirm-btn" onClick={handleConfirm} disabled={!isSigned}>
                         <FontAwesomeIcon icon={faCheck} /> Confirmar
