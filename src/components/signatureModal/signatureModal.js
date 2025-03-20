@@ -11,40 +11,45 @@ const SignatureModal = ({ isOpen, onClose, admission }) => {
     const [isDeviceAvailable, setIsDeviceAvailable] = useState(false); // Inicialmente asumimos que no hay dispositivo
     const [devices, setDevices] = useState([]); // Para almacenar los dispositivos detectados
     const signatureRef = useRef(null);
+    const wsRef = useRef(null);  // Usamos ref para mantener la conexión WebSocket
 
     useEffect(() => {
         if (isOpen) {
-            // Conexión al servidor WebSocket
-            const ws = new WebSocket('ws://localhost:8080');  // Conectar al servidor WebSocket (en el puerto 8080)
-    
+            // Conectar al servidor WebSocket (en el puerto 8080)
+            wsRef.current = new WebSocket('ws://localhost:8080');  
+            
             // Cuando el WebSocket se conecta y recibe datos
-            ws.onmessage = (event) => {
+            wsRef.current.onmessage = (event) => {
                 const data = JSON.parse(event.data);
-                console.log("Mensaje recibido del WebSocket:", data);
-    
+                //console.log("Mensaje recibido del WebSocket:", data);
+
                 if (data.type === 'signature-data') {
                     // Mostrar los datos recibidos en el cliente
-                    console.log("Datos de la firma:", data.data);
-    
+                    //console.log("Datos de la firma:", data.data);
                     // Si los datos de la firma son válidos, puedes actualizar el estado de la firma
                     setSignatureData(data.data); // Aquí guardamos la firma en formato base64 o hex
                 }
-    
+
                 if (data.devices && data.devices.length > 0) {
+                    // Si hay dispositivos detectados, los mostramos en consola y actualizamos el estado
+                    console.log("Dispositivos de firma detectados:", data.devices);
                     setIsDeviceAvailable(true);  // Dispositivo de firma detectado
                     setDevices(data.devices);   // Actualiza los dispositivos disponibles
                 } else {
                     setIsDeviceAvailable(false);  // No se detectó ningún dispositivo
+                    console.log("No se detectaron dispositivos de firma.");
                 }
             };
-    
+
             // Cerrar WebSocket cuando se cierre el modal
             return () => {
-                ws.close();
+                if (wsRef.current) {
+                    wsRef.current.close();
+                    console.log("WebSocket cerrado.");
+                }
             };
         }
     }, [isOpen]);
-    
 
     // Verifica si la firma está lista
     const handleEnd = () => {

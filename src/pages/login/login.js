@@ -3,7 +3,7 @@ import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import './login.css';
 import { authService } from '../../services/authService';
 import LoadingOverlay from '../../components/loadingOverlay/loadingOverlay';
-import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
+import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
     const [username, setUsername] = useState('');
@@ -14,7 +14,7 @@ const Login = () => {
     const [showError, setShowError] = useState(false);
     const [showModal, setShowModal] = useState(false); // Estado para manejar el modal
 
-    const history = useHistory();
+    const navigate = useNavigate();  // Cambié history a navigate
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -24,7 +24,7 @@ const Login = () => {
         try {
             await authService(username, password);
             setLoading(false);
-            history.push('/dashboard');
+            navigate('/dashboard'); // Cambié history.push a navigate
         } catch (error) {
             setLoading(false);
             setError(error.message); 
@@ -75,7 +75,6 @@ const Login = () => {
                     <button type="submit" className="sign-in-button">Ingresar</button>
                     <p className="signup-text">
                         ¿Deseas más información de este servicio?
-                        {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
                         <a href="#" onClick={(e) => { e.preventDefault(); setShowModal(true); }}>
                             Aquí
                         </a>

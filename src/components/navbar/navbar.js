@@ -60,7 +60,7 @@ const Navbar = () => {
                             </Link>
                         </li>
 
-                        {userGroup === "ADMINISTRADOR" && (
+                        {(userGroup === "ADMINISTRADOR" || userGroup === "COORFACTURACION" || userGroup === "LIDERFACTURACION") && (
                             <li className="menu-item">
                                 <Link to="/history" onClick={() => setIsCollapsed(false)}>
                                     <FontAwesomeIcon icon={faCalendar} className="menu-icon" />
@@ -69,7 +69,7 @@ const Navbar = () => {
                             </li>
                         )}
 
-                        {userGroup === "ADMINISTRADOR" && (
+                        {(userGroup === "ADMINISTRADOR" || userGroup === "COORFACTURACION" || userGroup === "LIDERFACTURACION") && (
                             <li className="menu-item">
                                 <Link to="/record" onClick={() => setIsCollapsed(false)}>
                                     <FontAwesomeIcon icon={faCogs} className="menu-icon" />

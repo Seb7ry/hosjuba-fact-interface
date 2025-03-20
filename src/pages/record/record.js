@@ -21,6 +21,7 @@ const Record = () => {
         setLoading(true);
         try {
             const data = await getLogs(level ? [level] : []);
+            console.log(data)
             setLogs(data);
         } catch (err) {
             setError("No se pudieron cargar los registros.");

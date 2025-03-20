@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faFileAlt } from "@fortawesome/free-solid-svg-icons"; // Icono de documento
+import { faFileAlt } from "@fortawesome/free-solid-svg-icons";
 import SignatureModal from "../signatureModal/signatureModal";
 import "./documentList.css";
 
@@ -22,7 +22,7 @@ const DocumentList = ({ admissions, loading }) => {
     };
 
     useEffect(() => {
-        setCurrentPage(1); // Reset page to 1 when admissions change
+        setCurrentPage(1);
     }, [admissions]);
 
     const openModal = (admission) => {
