@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./recordList.css";
 
 /**
@@ -8,11 +8,18 @@ import "./recordList.css";
  * @param {Object} props - Propiedades del componente.
  * @param {Array} props.logs - Lista de registros a mostrar.
  * @param {boolean} props.loading - Indica si los datos están cargando.
+ * @param {Function} props.onFilterApplied - Función para resetear la paginación.
  * @returns {JSX.Element} Componente de lista de registros.
  */
-const RecordList = ({ logs = [], loading }) => {
+const RecordList = ({ logs = [], loading, onFilterApplied }) => {
     const itemsPerPage = 10;
     const [currentPage, setCurrentPage] = useState(1);
+
+    // Resetear la paginación cuando cambien los logs (por ejemplo, al aplicar filtros)
+    useEffect(() => {
+        setCurrentPage(1);
+        if (onFilterApplied) onFilterApplied(); // Llamar a la función para resetear paginación
+    }, [logs, onFilterApplied]);
 
     const totalPages = Math.ceil(logs.length / itemsPerPage);
     const startIndex = (currentPage - 1) * itemsPerPage;
@@ -27,8 +34,8 @@ const RecordList = ({ logs = [], loading }) => {
      */
     const mapLogLevel = (level) => {
         const levels = {
-            warn: "Advertencia",
-            error: "Error"
+            warn: "⚠️Advertencia",
+            error: "⛔Error"
         };
         return levels[level];
     };

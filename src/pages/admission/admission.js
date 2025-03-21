@@ -198,7 +198,7 @@ const Admission = () => {
                         />
                     </div>
 
-                    <div className="search-field  selectno">
+                    <div className="search-field ">
                         <label>Tipo de Admisión</label>
                         <select 
                             value={admissionType} 

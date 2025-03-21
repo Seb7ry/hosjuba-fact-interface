@@ -1,12 +1,12 @@
 /* Contenedor principal */
-.records-container {
+.history-container {
     display: flex;
     background-color: #FAFAFA;
     height: 100vh;
 }
 
 /* Contenido */
-.records-content {
+.history-content {
     flex: 1;
     display: flex;
     flex-direction: column;
@@ -21,7 +21,7 @@
 }
 
 /* Sección de descripción */
-.records-description {
+.history-description {
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -34,7 +34,7 @@
 }
 
 /* Ajuste del texto */
-.records-text {
+.history-text {
     flex: 1;
     padding-right: 20px;
     text-align: left;
@@ -42,7 +42,7 @@
 }
 
 /* Imagen */
-.records-image img {
+.history-image img {
     max-width: 220px;
     height: auto;
 }
@@ -61,7 +61,6 @@
     width: 100%;
     margin-bottom: 15px;
 }
-
 
 /* Estilo para el select */
 .search-container select {
@@ -156,8 +155,8 @@
     background-color: #fb8500;
 }
 
-/* Tabla de logs */
-.log-table-container {
+/* Tabla de historial */
+.history-table-container {
     overflow-x: auto;
     width: 100%;
     background: white;
@@ -166,7 +165,7 @@
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-.log-table {
+.history-table {
     width: 100%;
     border-collapse: collapse;
     border-radius: 10px;
@@ -174,7 +173,7 @@
 }
 
 /* Encabezado de la tabla */
-.log-table th {
+.history-table th {
     background-color: #5161ce;
     color: white;
     font-weight: bold;
@@ -183,43 +182,43 @@
 }
 
 /* Filas de la tabla */
-.log-table td {
+.history-table td {
     padding: 8px;
     text-align: center;
     border-bottom: 1px solid #ddd;
     font-size: 14px;
 }
 
-/* Niveles de logs con colores */
-.log-info .log-level {
+/* Niveles de historial con colores */
+.history-info .history-level {
     color: #0d6efd;
     font-weight: bold;
 }
 
-.log-warn .log-level {
+.history-warn .history-level {
     color: #ffc107;
     font-weight: bold;
 }
 
-.log-error .log-level {
+.history-error .history-level {
     color: #dc3545;
     font-weight: bold;
 }
 
 /* Estilos responsivos */
 @media (max-width: 1024px) {
-    .records-description {
+    .history-description {
         flex-direction: column;
         text-align: center;
         align-items: center;
     }
     
-    .records-text {
+    .history-text {
         padding-right: 0;
         text-align: center;
     }
 
-    .records-image img {
+    .history-image img {
         max-width: 110px;
     }
 
@@ -228,19 +227,19 @@
         align-items: center;
     }
 
-    .log-table th, .log-table td {
+    .history-table th, .history-table td {
         font-size: 13px;
         padding: 6px;
     }
 }
 
 @media (max-width: 768px) {
-    .records-description {
+    .history-description {
         flex-direction: column;
         text-align: center;
     }
     
-    .records-image img {
+    .history-image img {
         max-width: 90px;
     }
 
@@ -249,7 +248,7 @@
         align-items: center;
     }
 
-    .log-table th, .log-table td {
+    .history-table th, .history-table td {
         font-size: 12px;
         padding: 6px;
     }

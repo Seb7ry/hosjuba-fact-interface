@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from "react";
 import Navbar from "../../components/navbar/navbar";
-import RecordList from "../../components/recordList/recordList";
-import "./record.css";
-import recordsImg from "../../assets/ux/register.png";
-import { getLogsTec } from "../../services/recordService"; // Cambia la importación a getLogsTec
+import "./history.css";
+import historyImg from "../../assets/ux/history.png"; // Cambia la imagen si es necesario
+import { getLogsTec } from "../../services/recordService"; // Cambia la importación a getHistory
 
-const Record = () => {
-    const [logs, setLogs] = useState([]);
+const History = () => {
+    const [history, setHistory] = useState([]);
     const [loading, setLoading] = useState(true);
     // eslint-disable-next-line
     const [error, setError] = useState(null);
@@ -16,18 +15,18 @@ const Record = () => {
     const [isEndDateDisabled, setIsEndDateDisabled] = useState(true);
 
     useEffect(() => {
-        fetchLogs();
+        fetchHistory();
     }, []);
 
-    const fetchLogs = async (level = "", startDate = "", endDate = "") => {
+    const fetchHistory = async (level = "", startDate = "", endDate = "") => {
         setLoading(true);
         try {
-            // Usar getLogsTec en lugar de getRecord
+            // Usar getHistory en lugar de getLogsTec
             const data = await getLogsTec(level ? [level] : [], startDate, endDate);
-            setLogs(data);
+            setHistory(data);
         } catch (err) {
-            setError("No se pudieron cargar los registros.");
-            console.error("Error al obtener los registros:", err);
+            setError("No se pudieron cargar los registros de historial.");
+            console.error("Error al obtener el historial:", err);
         } finally {
             setLoading(false);
         }
@@ -61,7 +60,7 @@ const Record = () => {
     };
 
     const handleSearch = () => {
-        fetchLogs(selectedLevel, startDate, endDate);
+        fetchHistory(selectedLevel, startDate, endDate);
         console.log('Filtros aplicados: ', selectedLevel, startDate, endDate);
     };
 
@@ -70,33 +69,33 @@ const Record = () => {
         setSelectedLevel("");
         setStartDate("");
         setEndDate("");
-        fetchLogs(); // Recargar todos los logs sin filtros
+        fetchHistory(); // Recargar todo el historial sin filtros
     };
 
     return (
-        <div className="records-container">
+        <div className="history-container">
             <Navbar />
-            <div className="records-content">
+            <div className="history-content">
                 {/* Sección de descripción con imagen */}
-                <div className="records-description">
-                    <div className="records-text">
-                        <h1>Registros</h1>
+                <div className="history-description">
+                    <div className="history-text">
+                        <h1>Historial</h1>
                         <hr className="my-4" />
                         <br />
                         <p>
-                            En este apartado puedes visualizar y gestionar los registros relevantes del sistema.
+                            En este apartado puedes visualizar y gestionar el historial de eventos relevantes del sistema.
                             Aquí se almacena información clave que puedes revisar cuando sea necesario.
                         </p>
                         <br />
                         <ul className="field-descriptions">
-                            <li><strong>Nivel:</strong> Indica el nivel de afectación del registro en el sistema.</li>
+                            <li><strong>Nivel:</strong> Indica el nivel de afectación del evento en el sistema.</li>
                             <li><strong>Mensaje:</strong> Breve explicación del evento registrado.</li>
-                            <li><strong>Contexto:</strong> Documento del código (back) donde se manifestó el registro.</li>
+                            <li><strong>Contexto:</strong> Documento del código (back) donde se manifestó el evento.</li>
                             <li><strong>Fecha de Registro:</strong> Indica cuándo se almacenó la información.</li>
                         </ul>
                     </div>
-                    <div className="records-image">
-                        <img src={recordsImg} alt="Descripción de registros" />
+                    <div className="history-image">
+                        <img src={historyImg} alt="Descripción de historial" />
                     </div>
                 </div>
 
@@ -136,11 +135,9 @@ const Record = () => {
                     </div>
                 </div>
 
-                {/* Tabla de registros */}
-                <RecordList logs={logs} loading={loading} />
             </div>
         </div>
     );
 };
 
-export default Record;
+export default History;
