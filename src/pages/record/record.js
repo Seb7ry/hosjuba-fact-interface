@@ -3,7 +3,7 @@ import Navbar from "../../components/navbar/navbar";
 import RecordList from "../../components/recordList/recordList";
 import "./record.css";
 import recordsImg from "../../assets/ux/register.png";
-import { getLogs } from "../../services/recordService"; 
+import { getRecord } from "../../services/recordService"; 
 
 const Record = () => {
     const [logs, setLogs] = useState([]);
@@ -20,8 +20,7 @@ const Record = () => {
     const fetchLogs = async (level = "") => {
         setLoading(true);
         try {
-            const data = await getLogs(level ? [level] : []);
-            console.log(data)
+            const data = await getRecord(level ? [level] : []);
             setLogs(data);
         } catch (err) {
             setError("No se pudieron cargar los registros.");
@@ -79,7 +78,6 @@ const Record = () => {
                     <label><strong>Filtrar por Nivel:</strong></label>
                     <select value={selectedLevel} onChange={handleLevelChange}>
                         <option value="">Todos</option>
-                        <option value="info">Info</option>
                         <option value="warn">Warn</option>
                         <option value="error">Error</option>
                     </select>

@@ -35,30 +35,47 @@
     font-weight: bold;
 }
 
-/* Alternar colores en filas */
-.record-table tbody tr:nth-child(even) {
-    background-color: white;
+/* Anchos fijos para las columnas */
+.record-table th:nth-child(1), /* Nivel */
+.record-table td:nth-child(1) {
+    width: 150px; /* Ancho fijo para la columna de Nivel */
 }
 
-/* ==========================
-    Estilos para los Niveles de Log
-============================= */
-.log-level {
-    font-weight: bold;
+
+.record-table th:nth-child(2), /* Mensaje */
+.record-table td:nth-child(2) {
+    width: 400px; /* Ancho fijo para la columna de Mensaje */
 }
 
-/* Colores de cada nivel de log */
-.log-info .log-level {
-    color: #0d6efd;  /* Azul para INFO */
+.record-table th:nth-child(3), /* Contexto */
+.record-table td:nth-child(3) {
+    width: 150px; /* Ancho fijo para la columna de Contexto */
 }
 
-.log-warn .log-level {
-    color: #ffc107;  /* Amarillo para WARN */
+.record-table th:nth-child(4), /* Fecha */
+.record-table td:nth-child(4) {
+    width: 10px; /* Ancho fijo para la columna de Fecha */
 }
 
-.log-error .log-level {
-    color: #dc3545;  /* Rojo para ERROR */
+/* Colores de fondo para las filas basados en el nivel */
+.error-row {
+    background-color: #ffe3e0;  /* Rojo claro */
 }
+
+.warn-row {
+    background-color: #fff3cd;  /* Amarillo claro */
+}
+
+.record-table th,
+.record-table td {
+    padding: 12px;
+    border-bottom: 1px solid #ddd;
+    text-align: center;
+    font-size: 15px;
+}
+
+/* Otros estilos para las tablas y paginación siguen igual */
+
 
 /* ==========================
     Estilos para Paginación

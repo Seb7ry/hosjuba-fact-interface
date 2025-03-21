@@ -27,11 +27,16 @@ const RecordList = ({ logs = [], loading }) => {
      */
     const mapLogLevel = (level) => {
         const levels = {
-            info: "ℹ️ INFO",
-            warn: "⚠️ ADVERTENCIA",
-            error: "❌ ERROR"
+            warn: "Advertencia",
+            error: "Error"
         };
-        return levels[level] || level.toUpperCase();
+        return levels[level];
+    };
+
+    const getRowBackgroundColor = (level) => {
+        if (level === 'error') return 'error-row';
+        if (level === 'warn') return 'warn-row';
+        return '';
     };
 
     if (loading) {
@@ -56,7 +61,6 @@ const RecordList = ({ logs = [], loading }) => {
                         <thead>
                             <tr>
                                 <th>Nivel</th>
-                                <th>Usuario</th>
                                 <th>Mensaje</th>
                                 <th>Contexto</th>
                                 <th>Fecha</th>
@@ -64,9 +68,8 @@ const RecordList = ({ logs = [], loading }) => {
                         </thead>
                         <tbody>
                             {currentLogs.map((log, index) => (
-                                <tr key={index} className={`log-${log.level}`}>
+                                <tr key={index} className={getRowBackgroundColor(log.level)}>
                                     <td className="log-level">{mapLogLevel(log.level)}</td>
-                                    <td>{log.user}</td>
                                     <td>{log.message}</td>
                                     <td>{log.context || "N/A"}</td>
                                     <td>{new Date(log.timestamp).toLocaleString()}</td>

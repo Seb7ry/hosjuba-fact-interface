@@ -42,12 +42,40 @@
     color: white;
 }
 
-/* Asegura que la columna de firma esté bien alineada */
-.admission-table th:last-child,
-.admission-table td:last-child {
-    width: 80px; /* Ajusta según sea necesario */
+.admission-table th:nth-child(1), /* No. Admisión */
+.admission-table td:nth-child(1) {
+    width: 120px; /* Ajuste del ancho de la columna */
 }
 
+.admission-table th:nth-child(2), /* Documento */
+.admission-table td:nth-child(2) {
+    width: 160px; /* Ajuste del ancho de la columna */
+}
+
+.admission-table th:nth-child(3), /* Nombre Paciente */
+.admission-table td:nth-child(3) {
+    width: 250px; /* Ajuste del ancho de la columna */
+}
+
+.admission-table th:nth-child(4), /* Fecha */
+.admission-table td:nth-child(4) {
+    width: 120px; /* Ajuste del ancho de la columna */
+}
+
+.admission-table th:nth-child(5), /* Servicio */
+.admission-table td:nth-child(5) {
+    width: 150px; /* Ajuste del ancho de la columna */
+}
+
+.admission-table th:nth-child(6), /* Usuario */
+.admission-table td:nth-child(6) {
+    width: 140px; /* Ajuste del ancho de la columna */
+}
+
+.admission-table th:nth-child(7), /* Firma */
+.admission-table td:nth-child(7) {
+    width: 100px; /* Ajuste del ancho de la columna */
+}
 /* ==========================
     Estilos para el Botón "Ver"
 ============================= */
