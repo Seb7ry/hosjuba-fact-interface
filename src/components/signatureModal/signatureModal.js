@@ -2,98 +2,19 @@ import React, { useState, useRef, useEffect } from "react";
 import SignatureCanvas from "react-signature-canvas";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import signatureImg from "../../assets/ux/signature.png";
-import { faCheck, faRedo, faTimes, faExclamationTriangle } from "@fortawesome/free-solid-svg-icons";
+import { faCheck, faRedo, faTimes } from "@fortawesome/free-solid-svg-icons";
 import "./signatureModal.css";
 
 const SignatureModal = ({ isOpen, onClose, admission }) => {
     const [isSigned, setIsSigned] = useState(false);
     const [signatureData, setSignatureData] = useState(null);
-    const [isDeviceAvailable, setIsDeviceAvailable] = useState(false);
-    const [devices, setDevices] = useState([]);
     const signatureRef = useRef(null);
-    const [hidDevice, setHidDevice] = useState(null);
-    const [lastPoint, setLastPoint] = useState(null);
-
-    // 1. Detección y configuración del dispositivo HID
-    useEffect(() => {
-        if (!isOpen) return;
-
-        const requestHIDDevice = async () => {
-            try {
-                const filters = [
-                    { usagePage: 0x0D, usage: 0x01 },
-                    { usagePage: 0xFF00, usage: 0x01 }
-                ];
-
-                const [device] = await navigator.hid.requestDevice({ filters });
-                
-                if (device) {
-                    await device.open();
-                    console.log("Dispositivo HID conectado:", device);
-                    setHidDevice(device);
-                    setIsDeviceAvailable(true);
-                    setDevices([device]);
-
-                    device.addEventListener('inputreport', handleHIDData);
-                }
-            } catch (error) {
-                console.error("Error con HID:", error);
-                setIsDeviceAvailable(false);
-            }
-        };
-
-        const handleHIDData = (event) => {
-            const data = new Uint8Array(event.data.buffer);
-            console.log("Datos del pad:", data);
-            
-            // Procesamiento básico de datos (ajustar según tu dispositivo)
-            const x = (data[1] << 8) | data[0]; // Ejemplo para coordenada X
-            const y = (data[3] << 8) | data[2]; // Ejemplo para coordenada Y
-            const pressure = data[4]; // Ejemplo para presión
-            
-            if (signatureRef.current) {
-                const ctx = signatureRef.current.getCanvas()
-                    .getContext('2d');
-                
-                if (lastPoint) {
-                    // Dibujar línea desde el último punto al actual
-                    ctx.beginPath();
-                    ctx.moveTo(lastPoint.x, lastPoint.y);
-                    ctx.lineTo(x, y);
-                    ctx.strokeStyle = '#000000';
-                    ctx.lineWidth = Math.max(1, pressure / 10); // Ajustar según presión
-                    ctx.lineCap = 'round';
-                    ctx.lineJoin = 'round';
-                    ctx.stroke();
-                }
-                
-                setLastPoint({ x, y });
-                setIsSigned(true);
-            }
-        };
-
-        if ('hid' in navigator) {
-            requestHIDDevice();
-        } else {
-            console.warn("WebHID no soportado");
-            setIsDeviceAvailable(false);
-        }
-
-        return () => {
-            if (hidDevice) {
-                hidDevice.removeEventListener('inputreport', handleHIDData);
-                hidDevice.close();
-                setHidDevice(null);
-            }
-            setLastPoint(null);
-        };
-    }, [isOpen, lastPoint]);
 
     const handleEnd = () => {
         if (signatureRef.current && !signatureRef.current.isEmpty()) {
             const dataURL = signatureRef.current.toDataURL();
             setSignatureData(dataURL);
-            console.log("Firma generada:", dataURL.substring(0, 50) + "...");
+            setIsSigned(true);
         }
     };
 
@@ -102,14 +23,12 @@ const SignatureModal = ({ isOpen, onClose, admission }) => {
             signatureRef.current.clear();
             setIsSigned(false);
             setSignatureData(null);
-            setLastPoint(null);
         }
     };
 
     const handleConfirm = () => {
         if (signatureData) {
-            console.log("Firma confirmada:", signatureData.substring(0, 50) + "...");
-            onClose();
+            onClose(signatureData);
         }
     };
 
@@ -121,6 +40,9 @@ const SignatureModal = ({ isOpen, onClose, admission }) => {
 
     useEffect(() => {
         document.body.style.overflow = isOpen ? "hidden" : "auto";
+        return () => {
+            document.body.style.overflow = "auto";
+        };
     }, [isOpen]);
 
     if (!isOpen) return null;
@@ -143,29 +65,16 @@ const SignatureModal = ({ isOpen, onClose, admission }) => {
                 </div>
 
                 <div className="signature-area">
-                    {isDeviceAvailable ? (
-                        <SignatureCanvas
-                            ref={signatureRef}
-                            penColor="black"
-                            canvasProps={{
-                                className: "signature-canvas",
-                                width: 500,
-                                height: 200
-                            }}
-                            onEnd={handleEnd}
-                        />
-                    ) : (
-                        <div className="no-device-detected">
-                            <FontAwesomeIcon icon={faExclamationTriangle} className="warning-icon" />
-                            <p>Conecte un pad de firma compatible</p>
-                            {devices.length > 0 && (
-                                <div>
-                                    <h4>Dispositivo detectado:</h4>
-                                    <p>{devices[0].productName}</p>
-                                </div>
-                            )}
-                        </div>
-                    )}
+                    <SignatureCanvas
+                        ref={signatureRef}
+                        penColor="black"
+                        canvasProps={{
+                            className: "signature-canvas",
+                            width: 500,
+                            height: 200
+                        }}
+                        onEnd={handleEnd}
+                    />
                 </div>
 
                 <div className="modal-buttons">
@@ -175,7 +84,7 @@ const SignatureModal = ({ isOpen, onClose, admission }) => {
                     <button className="btn reset-btn" onClick={handleClear}>
                         <FontAwesomeIcon icon={faRedo} /> Repetir
                     </button>
-                    <button className="btn exit-btn" onClick={onClose}>
+                    <button className="btn exit-btn" onClick={() => onClose(null)}>
                         <FontAwesomeIcon icon={faTimes} /> Salir
                     </button>
                 </div>

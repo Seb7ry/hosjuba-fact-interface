@@ -67,30 +67,17 @@
     background: #fafafa;
     padding: 10px;
     margin-top: 15px;
-    height: 150px;
+    height: 200px;
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
-/* Previsualización de la firma */
-.signature-preview {
+/* Canvas de firma */
+.signature-canvas {
     width: 100%;
     height: 100%;
-    object-fit: contain;
-}
-
-/* Mensaje cuando no hay dispositivo de firma */
-.no-device-detected {
-    text-align: center;
-    color: #d9534f;
-    font-size: 14px;
-}
-
-/* Icono de advertencia */
-.warning-icon {
-    font-size: 22px;
-    margin-bottom: 5px;
+    background: white;
 }
 
 /* Botones */
@@ -114,6 +101,11 @@
     color: white;
 }
 
+.confirm-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
 .reset-btn {
     background: #ffc107;
     color: white;
@@ -122,4 +114,26 @@
 .exit-btn {
     background: #dc3545;
     color: white;
+}
+
+/* Responsive para móviles */
+@media (max-width: 480px) {
+    .modal-container {
+        width: 95%;
+        padding: 15px;
+    }
+    
+    .patient-container {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .modal-buttons {
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    .btn {
+        width: 100%;
+    }
 }
