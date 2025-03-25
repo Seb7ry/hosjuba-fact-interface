@@ -14,7 +14,7 @@ const Login = () => {
     const [showError, setShowError] = useState(false);
     const [showModal, setShowModal] = useState(false); // Estado para manejar el modal
 
-    const navigate = useNavigate();  // Cambié history a navigate
+    const navigate = useNavigate();  
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -24,7 +24,7 @@ const Login = () => {
         try {
             await authService(username, password);
             setLoading(false);
-            navigate('/dashboard'); // Cambié history.push a navigate
+            navigate('/dashboard'); 
         } catch (error) {
             setLoading(false);
             setError(error.message); 
@@ -75,6 +75,7 @@ const Login = () => {
                     <button type="submit" className="sign-in-button">Ingresar</button>
                     <p className="signup-text">
                         ¿Deseas más información de este servicio?
+                        
                         <a href="#" onClick={(e) => { e.preventDefault(); setShowModal(true); }}>
                             Aquí
                         </a>

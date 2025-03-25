@@ -3,7 +3,7 @@ import Navbar from "../../components/navbar/navbar";
 import RecordList from "../../components/recordList/recordList";
 import "./record.css";
 import recordsImg from "../../assets/ux/register.png";
-import { getLogsTec } from "../../services/recordService"; // Cambia la importación a getLogsTec
+import { getLogsByLevels, getLogsTec } from "../../services/recordService";
 
 const Record = () => {
     const [logs, setLogs] = useState([]);
@@ -15,25 +15,38 @@ const Record = () => {
     const [endDate, setEndDate] = useState("");
     const [isEndDateDisabled, setIsEndDateDisabled] = useState(true);
 
+    // Carga inicial con logs de warn y error
     useEffect(() => {
-        fetchLogs();
+        fetchInitialLogs();
     }, []);
 
-    const fetchLogs = async (level = "", startDate = "", endDate = "") => {
+    const fetchInitialLogs = async () => {
         setLoading(true);
         try {
-            // Usar getLogsTec en lugar de getRecord
-            const data = await getLogsTec(level ? [level] : [], startDate, endDate);
+            const data = await getLogsByLevels(['warn', 'error']);
             setLogs(data);
         } catch (err) {
-            setError("No se pudieron cargar los registros.");
-            console.error("Error al obtener los registros:", err);
+            setError("No se pudieron cargar los registros iniciales.");
+            console.error("Error al obtener registros iniciales:", err);
         } finally {
             setLoading(false);
         }
     };
 
-    // Manejar cambio en el select
+    const fetchFilteredLogs = async (level = "", startDate = "", endDate = "") => {
+        setLoading(true);
+        try {
+            const levels = level ? [level] : ['warn', 'error'];
+            const data = await getLogsTec(levels, startDate, endDate);
+            setLogs(data);
+        } catch (err) {
+            setError("No se pudieron cargar los registros filtrados.");
+            console.error("Error al obtener registros filtrados:", err);
+        } finally {
+            setLoading(false);
+        }
+    };
+
     const handleLevelChange = (event) => {
         setSelectedLevel(event.target.value);
     };
@@ -61,16 +74,21 @@ const Record = () => {
     };
 
     const handleSearch = () => {
-        fetchLogs(selectedLevel, startDate, endDate);
-        console.log('Filtros aplicados: ', selectedLevel, startDate, endDate);
+        // Solo usar getLogsTec cuando se aplican filtros
+        if (selectedLevel || startDate || endDate) {
+            fetchFilteredLogs(selectedLevel, startDate, endDate);
+            console.log('Filtros aplicados: ', selectedLevel, startDate, endDate);
+        } else {
+            // Si no hay filtros, volver a cargar los iniciales
+            fetchInitialLogs();
+        }
     };
 
-    // Limpiar filtros
     const handleClearFilters = () => {
         setSelectedLevel("");
         setStartDate("");
         setEndDate("");
-        fetchLogs(); // Recargar todos los logs sin filtros
+        fetchInitialLogs(); // Volver a cargar logs iniciales con getLogsByLevels
     };
 
     return (
@@ -124,7 +142,7 @@ const Record = () => {
                     <div className="search-field">
                         <label><strong>Filtrar por Nivel</strong></label>
                         <select value={selectedLevel} onChange={handleLevelChange}>
-                            <option value="">Todos</option>
+                            <option value="">Todos (warn/error)</option>
                             <option value="warn">Warn</option>
                             <option value="error">Error</option>
                         </select>

@@ -1,78 +1,115 @@
 import React, { useState, useRef, useEffect } from "react";
 import SignatureCanvas from "react-signature-canvas";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import signatureImg from "../../assets/ux/signature.png"; // Imagen de firma
+import signatureImg from "../../assets/ux/signature.png";
 import { faCheck, faRedo, faTimes, faExclamationTriangle } from "@fortawesome/free-solid-svg-icons";
 import "./signatureModal.css";
 
 const SignatureModal = ({ isOpen, onClose, admission }) => {
     const [isSigned, setIsSigned] = useState(false);
     const [signatureData, setSignatureData] = useState(null);
-    const [isDeviceAvailable, setIsDeviceAvailable] = useState(false); // Inicialmente asumimos que no hay dispositivo
-    const [devices, setDevices] = useState([]); // Para almacenar los dispositivos detectados
+    const [isDeviceAvailable, setIsDeviceAvailable] = useState(false);
+    const [devices, setDevices] = useState([]);
     const signatureRef = useRef(null);
-    const wsRef = useRef(null);  // Usamos ref para mantener la conexión WebSocket
+    const [hidDevice, setHidDevice] = useState(null);
+    const [lastPoint, setLastPoint] = useState(null);
 
+    // 1. Detección y configuración del dispositivo HID
     useEffect(() => {
-        if (isOpen) {
-            // Conectar al servidor WebSocket (en el puerto 8080)
-            wsRef.current = new WebSocket('ws://localhost:8080');  
+        if (!isOpen) return;
+
+        const requestHIDDevice = async () => {
+            try {
+                const filters = [
+                    { usagePage: 0x0D, usage: 0x01 },
+                    { usagePage: 0xFF00, usage: 0x01 }
+                ];
+
+                const [device] = await navigator.hid.requestDevice({ filters });
+                
+                if (device) {
+                    await device.open();
+                    console.log("Dispositivo HID conectado:", device);
+                    setHidDevice(device);
+                    setIsDeviceAvailable(true);
+                    setDevices([device]);
+
+                    device.addEventListener('inputreport', handleHIDData);
+                }
+            } catch (error) {
+                console.error("Error con HID:", error);
+                setIsDeviceAvailable(false);
+            }
+        };
+
+        const handleHIDData = (event) => {
+            const data = new Uint8Array(event.data.buffer);
+            console.log("Datos del pad:", data);
             
-            // Cuando el WebSocket se conecta y recibe datos
-            wsRef.current.onmessage = (event) => {
-                const data = JSON.parse(event.data);
-                //console.log("Mensaje recibido del WebSocket:", data);
-
-                if (data.type === 'signature-data') {
-                    // Mostrar los datos recibidos en el cliente
-                    //console.log("Datos de la firma:", data.data);
-                    // Si los datos de la firma son válidos, puedes actualizar el estado de la firma
-                    setSignatureData(data.data); // Aquí guardamos la firma en formato base64 o hex
+            // Procesamiento básico de datos (ajustar según tu dispositivo)
+            const x = (data[1] << 8) | data[0]; // Ejemplo para coordenada X
+            const y = (data[3] << 8) | data[2]; // Ejemplo para coordenada Y
+            const pressure = data[4]; // Ejemplo para presión
+            
+            if (signatureRef.current) {
+                const ctx = signatureRef.current.getCanvas()
+                    .getContext('2d');
+                
+                if (lastPoint) {
+                    // Dibujar línea desde el último punto al actual
+                    ctx.beginPath();
+                    ctx.moveTo(lastPoint.x, lastPoint.y);
+                    ctx.lineTo(x, y);
+                    ctx.strokeStyle = '#000000';
+                    ctx.lineWidth = Math.max(1, pressure / 10); // Ajustar según presión
+                    ctx.lineCap = 'round';
+                    ctx.lineJoin = 'round';
+                    ctx.stroke();
                 }
+                
+                setLastPoint({ x, y });
+                setIsSigned(true);
+            }
+        };
 
-                if (data.devices && data.devices.length > 0) {
-                    // Si hay dispositivos detectados, los mostramos en consola y actualizamos el estado
-                    console.log("Dispositivos de firma detectados:", data.devices);
-                    setIsDeviceAvailable(true);  // Dispositivo de firma detectado
-                    setDevices(data.devices);   // Actualiza los dispositivos disponibles
-                } else {
-                    setIsDeviceAvailable(false);  // No se detectó ningún dispositivo
-                    console.log("No se detectaron dispositivos de firma.");
-                }
-            };
-
-            // Cerrar WebSocket cuando se cierre el modal
-            return () => {
-                if (wsRef.current) {
-                    wsRef.current.close();
-                    console.log("WebSocket cerrado.");
-                }
-            };
+        if ('hid' in navigator) {
+            requestHIDDevice();
+        } else {
+            console.warn("WebHID no soportado");
+            setIsDeviceAvailable(false);
         }
-    }, [isOpen]);
 
-    // Verifica si la firma está lista
+        return () => {
+            if (hidDevice) {
+                hidDevice.removeEventListener('inputreport', handleHIDData);
+                hidDevice.close();
+                setHidDevice(null);
+            }
+            setLastPoint(null);
+        };
+    }, [isOpen, lastPoint]);
+
     const handleEnd = () => {
         if (signatureRef.current && !signatureRef.current.isEmpty()) {
-            setIsSigned(true);
-            setSignatureData(signatureRef.current.toDataURL()); // Guardar la firma en formato Base64
+            const dataURL = signatureRef.current.toDataURL();
+            setSignatureData(dataURL);
+            console.log("Firma generada:", dataURL.substring(0, 50) + "...");
         }
     };
 
-    // Limpiar la firma y reiniciar el estado
     const handleClear = () => {
         if (signatureRef.current) {
             signatureRef.current.clear();
             setIsSigned(false);
             setSignatureData(null);
+            setLastPoint(null);
         }
     };
 
-    // Confirmar la firma y la envía
     const handleConfirm = () => {
         if (signatureData) {
-            console.log("Firma confirmada:", signatureData);
-            onClose(); // Cerrar el modal
+            console.log("Firma confirmada:", signatureData.substring(0, 50) + "...");
+            onClose();
         }
     };
 
@@ -82,13 +119,6 @@ const SignatureModal = ({ isOpen, onClose, admission }) => {
         return "Hospitalización";
     };
 
-    // Cierra el modal con el botón "Salir"
-    const handleClose = () => {
-        handleClear();
-        onClose();
-    };
-
-    // Bloquear el scroll cuando el modal está abierto
     useEffect(() => {
         document.body.style.overflow = isOpen ? "hidden" : "auto";
     }, [isOpen]);
@@ -100,7 +130,6 @@ const SignatureModal = ({ isOpen, onClose, admission }) => {
             <div className="modal-container">
                 <h2 className="modal-title">Firma Digital</h2>
 
-                {/* Información del paciente con imagen */}
                 <div className="patient-container">
                     <div className="patient-image">
                         <img src={signatureImg} alt="Firma digital" className="signature-icon" />
@@ -113,50 +142,40 @@ const SignatureModal = ({ isOpen, onClose, admission }) => {
                     </div>
                 </div>
 
-                {/* Área de firma */}
                 <div className="signature-area">
                     {isDeviceAvailable ? (
-                        isSigned ? (
-                            <img src={signatureData} alt="Firma" className="signature-preview" />
-                        ) : (
-                            <SignatureCanvas
-                                ref={signatureRef}
-                                penColor="black"
-                                onEnd={handleEnd}
-                                canvasProps={{
-                                    className: "signature-canvas",
-                                    disabled: !isDeviceAvailable, // Deshabilitar el canvas si no hay dispositivo disponible
-                                }}
-                            />
-                        )
+                        <SignatureCanvas
+                            ref={signatureRef}
+                            penColor="black"
+                            canvasProps={{
+                                className: "signature-canvas",
+                                width: 500,
+                                height: 200
+                            }}
+                            onEnd={handleEnd}
+                        />
                     ) : (
                         <div className="no-device-detected">
                             <FontAwesomeIcon icon={faExclamationTriangle} className="warning-icon" />
-                            <p>No se detectó ningún dispositivo de firma.</p>
-                            {/* Mostrar los dispositivos detectados */}
+                            <p>Conecte un pad de firma compatible</p>
                             {devices.length > 0 && (
                                 <div>
-                                    <h4>Dispositivos detectados:</h4>
-                                    {devices.map((device, index) => (
-                                        <div key={index}>
-                                            <p>{device.product} - {device.manufacturer}</p>
-                                        </div>
-                                    ))}
+                                    <h4>Dispositivo detectado:</h4>
+                                    <p>{devices[0].productName}</p>
                                 </div>
                             )}
                         </div>
                     )}
                 </div>
 
-                {/* Botones */}
                 <div className="modal-buttons">
                     <button className="btn confirm-btn" onClick={handleConfirm} disabled={!isSigned}>
                         <FontAwesomeIcon icon={faCheck} /> Confirmar
                     </button>
-                    <button className="btn reset-btn" onClick={handleClear} disabled={!isSigned}>
+                    <button className="btn reset-btn" onClick={handleClear}>
                         <FontAwesomeIcon icon={faRedo} /> Repetir
                     </button>
-                    <button className="btn exit-btn" onClick={handleClose}>
+                    <button className="btn exit-btn" onClick={onClose}>
                         <FontAwesomeIcon icon={faTimes} /> Salir
                     </button>
                 </div>

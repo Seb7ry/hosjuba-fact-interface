@@ -1,40 +1,49 @@
 import React, { useEffect, useState } from "react";
 import Navbar from "../../components/navbar/navbar";
 import "./history.css";
-import historyImg from "../../assets/ux/history.png"; // Cambia la imagen si es necesario
-import { getLogsTec } from "../../services/recordService"; // Cambia la importación a getHistory
+import historyImg from "../../assets/ux/history.png";
+import { getLogsByLevels, getLogsHistory } from "../../services/recordService";
+import HistoryList from "../../components/historyList/historyList";
 
 const History = () => {
     const [history, setHistory] = useState([]);
     const [loading, setLoading] = useState(true);
     // eslint-disable-next-line
     const [error, setError] = useState(null);
-    const [selectedLevel, setSelectedLevel] = useState("");
     const [startDate, setStartDate] = useState("");
     const [endDate, setEndDate] = useState("");
+    const [username, setUsername] = useState("");
     const [isEndDateDisabled, setIsEndDateDisabled] = useState(true);
 
+    // Carga inicial con logs de nivel info
     useEffect(() => {
-        fetchHistory();
+        fetchInitialHistory();
     }, []);
 
-    const fetchHistory = async (level = "", startDate = "", endDate = "") => {
+    const fetchInitialHistory = async () => {
         setLoading(true);
-        try {
-            // Usar getHistory en lugar de getLogsTec
-            const data = await getLogsTec(level ? [level] : [], startDate, endDate);
+        try { 
+            const data = await getLogsByLevels(['info']);
             setHistory(data);
         } catch (err) {
-            setError("No se pudieron cargar los registros de historial.");
-            console.error("Error al obtener el historial:", err);
+            setError("No se pudieron cargar los registros iniciales de historial.");
+            console.error("Error al obtener historial inicial:", err);
         } finally {
             setLoading(false);
         }
     };
 
-    // Manejar cambio en el select
-    const handleLevelChange = (event) => {
-        setSelectedLevel(event.target.value);
+    const fetchFilteredHistory = async (startDate = "", endDate = "", username = "") => {
+        setLoading(true);
+        try {
+            const data = await getLogsHistory(startDate, endDate, username);
+            setHistory(data);
+        } catch (err) {
+            setError("No se pudieron cargar los registros filtrados.");
+            console.error("Error al obtener historial filtrado:", err);
+        } finally {
+            setLoading(false);
+        }
     };
 
     const handleStartDateChange = (event) => {
@@ -59,17 +68,26 @@ const History = () => {
         setEndDate(selectedEndDate);
     };
 
-    const handleSearch = () => {
-        fetchHistory(selectedLevel, startDate, endDate);
-        console.log('Filtros aplicados: ', selectedLevel, startDate, endDate);
+    const handleUsernameChange = (event) => {
+        setUsername(event.target.value.toUpperCase());
     };
 
-    // Limpiar filtros
+    const handleSearch = () => {
+        // Usar getLogsHistory solo cuando hay filtros aplicados
+        if (startDate || endDate || username) {
+            fetchFilteredHistory(startDate, endDate, username);
+            console.log('Filtros aplicados: ', startDate, endDate, username);
+        } else {
+            // Si no hay filtros, cargar los logs iniciales de info
+            fetchInitialHistory();
+        }
+    };
+
     const handleClearFilters = () => {
-        setSelectedLevel("");
         setStartDate("");
         setEndDate("");
-        fetchHistory(); // Recargar todo el historial sin filtros
+        setUsername("");
+        fetchInitialHistory(); // Volver a cargar logs iniciales de info
     };
 
     return (
@@ -83,14 +101,14 @@ const History = () => {
                         <hr className="my-4" />
                         <br />
                         <p>
-                            En este apartado puedes visualizar y gestionar el historial de eventos relevantes del sistema.
+                            En este apartado puedes visualizar y gestionar el historial de eventos informativos del sistema.
                             Aquí se almacena información clave que puedes revisar cuando sea necesario.
                         </p>
                         <br />
                         <ul className="field-descriptions">
-                            <li><strong>Nivel:</strong> Indica el nivel de afectación del evento en el sistema.</li>
+                            <li><strong>Usuario:</strong> Usuario asociado al evento.</li>
                             <li><strong>Mensaje:</strong> Breve explicación del evento registrado.</li>
-                            <li><strong>Contexto:</strong> Documento del código (back) donde se manifestó el evento.</li>
+                            <li><strong>Contexto:</strong> Documento del código donde se manifestó el evento.</li>
                             <li><strong>Fecha de Registro:</strong> Indica cuándo se almacenó la información.</li>
                         </ul>
                     </div>
@@ -121,12 +139,13 @@ const History = () => {
                     </div>
 
                     <div className="search-field">
-                        <label><strong>Filtrar por Nivel</strong></label>
-                        <select value={selectedLevel} onChange={handleLevelChange}>
-                            <option value="">Todos</option>
-                            <option value="warn">Warn</option>
-                            <option value="error">Error</option>
-                        </select>
+                        <label><strong>Usuario</strong></label>
+                        <input 
+                            type="text" 
+                            placeholder="Buscar por usuario"
+                            value={username}
+                            onChange={handleUsernameChange}
+                        />
                     </div>
 
                     <div className="button-group">
@@ -135,6 +154,8 @@ const History = () => {
                     </div>
                 </div>
 
+                {/* Tabla de historial */}
+                <HistoryList history={history} loading={loading} />
             </div>
         </div>
     );
