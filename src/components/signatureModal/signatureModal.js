@@ -28,9 +28,25 @@ const SignatureModal = ({ isOpen, onClose, admission }) => {
 
     const handleConfirm = () => {
         if (signatureData) {
-            onClose(signatureData);
+            // Convertir Base64 a Blob
+            const byteCharacters = atob(signatureData.split(",")[1]);
+            const byteArrays = [];
+            
+            for (let i = 0; i < byteCharacters.length; i++) {
+                byteArrays.push(byteCharacters.charCodeAt(i));
+            }
+    
+            const byteArray = new Uint8Array(byteArrays);
+            const blob = new Blob([byteArray], { type: "image/png" });
+    
+            const blobUrl = URL.createObjectURL(blob);
+            console.log("URL temporal del Blob:", blobUrl);
+            window.open(blobUrl); // Esto abrirá la imagen en una nueva pestaña
+
+            console.log("Firma en formato Blob:", blob);
+            alert("Firma convertida a Blob correctamente. Revisa la consola para verificar.");
         }
-    };
+    };    
 
     const MapAdmissionType = (type) => {
         if (type === 1) return "Urgencias";
