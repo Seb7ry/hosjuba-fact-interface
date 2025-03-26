@@ -116,6 +116,32 @@
     color: white;
 }
 
+.signer-select {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 10px;
+}
+
+.signer-select label {
+    font-size: 14px;
+    color: #333;
+    margin-bottom: 5px;
+}
+
+.signer-select select {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+    background: white;
+    cursor: pointer;
+}
+
+.signer-select select:focus {
+    outline: none;
+    border-color: #28a745;
+}
+
 /* Responsive para móviles */
 @media (max-width: 480px) {
     .modal-container {

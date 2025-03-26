@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react"; // Importa useCallback
+import React, { useState, useEffect, useCallback, useRef } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSignature, faCheckCircle } from "@fortawesome/free-solid-svg-icons";
 import { getSignedAdmissions } from "../../services/admissionService";
@@ -6,9 +6,10 @@ import SignatureModal from "../../components/signatureModal/signatureModal";
 import "./admissionList.css";
 
 const AdmissionList = ({ admissions, loading }) => {
+    const lastFetchedAdmissions = useRef([]);
     const itemsPerPage = 10;
     const [currentPage, setCurrentPage] = useState(1);
-    const [signedAdmissions, setSignedAdmissions] = useState([]); 
+    const [signedAdmissions, setSignedAdmissions] = useState([]);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedAdmission, setSelectedAdmission] = useState(null);
     const [isFetching, setIsFetching] = useState(false);
@@ -25,28 +26,33 @@ const AdmissionList = ({ admissions, loading }) => {
     };
 
     const fetchSignedAdmissions = useCallback(async () => {
-        if (isFetching || currentAdmissions.length === 0) {
-            return; 
+        if (isFetching || currentAdmissions.length === 0) return;
+
+        if (JSON.stringify(lastFetchedAdmissions.current) === JSON.stringify(currentAdmissions)) {
+            console.log("⏳ Mismos datos, evitando nueva petición.");
+            return;
         }
 
-        setIsFetching(true);  
+        setIsFetching(true);
         try {
+            console.log("📡 Solicitando admisiones firmadas con:", currentAdmissions);
             const response = await getSignedAdmissions(currentAdmissions);
-            setSignedAdmissions(response);
+            console.log("📌 Admisiones firmadas recibidas:", response);
+
+            setSignedAdmissions(response || []);
+            lastFetchedAdmissions.current = currentAdmissions;
         } catch (error) {
             console.error("❌ Error al obtener admisiones firmadas:", error);
         } finally {
-            setIsFetching(false);  
-            
+            setIsFetching(false);
         }
-    }, [currentAdmissions, isFetching]); 
+    }, [currentAdmissions, isFetching]);
 
     useEffect(() => {
         if (currentAdmissions.length > 0) {
-            fetchSignedAdmissions(); 
+            fetchSignedAdmissions();
         }
-    /* eslint-disable-next-line react-hooks/exhaustive-deps */
-    }, [currentPage]);
+    }, [currentAdmissions]); 
 
     useEffect(() => {
         setCurrentPage(1);
@@ -57,6 +63,19 @@ const AdmissionList = ({ admissions, loading }) => {
         setIsModalOpen(true);
     };
 
+    // 🔥 Función para actualizar la firma cuando se cierra el modal
+    const handleModalClose = async () => {
+        setIsModalOpen(false);
+        setSelectedAdmission(null);
+    
+        // 🔥 Limpiar las firmas antes de volver a cargarlas
+        setSignedAdmissions([]);
+    
+        // 🚀 Forzar actualización llamando nuevamente a la API
+        await fetchSignedAdmissions();
+    };
+    
+
     if (loading) {
         return (
             <div className="loading-container">
@@ -65,7 +84,7 @@ const AdmissionList = ({ admissions, loading }) => {
         );
     }
 
-    return (        
+    return (
         <div className="admission-list-container">
             <h2>Resultados de Admisión</h2>
             {admissions.length === 0 ? (
@@ -86,9 +105,10 @@ const AdmissionList = ({ admissions, loading }) => {
                         </thead>
                         <tbody>
                             {currentAdmissions.map((admission, index) => {
-                                const isSigned = signedAdmissions.some(signed => 
-                                    String(signed.documentPatient) === String(admission.documentPatient) &&
-                                    String(signed.consecutiveAdmission) === String(admission.consecutiveAdmission)
+                                const isSigned = signedAdmissions.some(
+                                    (signed) =>
+                                        String(signed.documentPatient) === String(admission.documentPatient) &&
+                                        String(signed.consecutiveAdmission) === String(admission.consecutiveAdmission)
                                 );
 
                                 return (
@@ -103,11 +123,7 @@ const AdmissionList = ({ admissions, loading }) => {
                                             {isSigned ? (
                                                 <FontAwesomeIcon icon={faCheckCircle} className="signed-icon" />
                                             ) : (
-                                                <button 
-                                                    className="signature-btn" 
-                                                    onClick={() => openModal(admission)}
-                                                    
-                                                >
+                                                <button className="signature-btn" onClick={() => openModal(admission)}>
                                                     <FontAwesomeIcon icon={faSignature} />
                                                 </button>
                                             )}
@@ -119,17 +135,17 @@ const AdmissionList = ({ admissions, loading }) => {
                     </table>
 
                     <div className="pagination">
-                        <button 
-                            className="pagination-btn" 
-                            onClick={() => setCurrentPage(currentPage - 1)} 
+                        <button
+                            className="pagination-btn"
+                            onClick={() => setCurrentPage(currentPage - 1)}
                             disabled={currentPage === 1}
                         >
                             ⬅️ Anterior
                         </button>
                         <span>Página {currentPage} de {totalPages}</span>
-                        <button 
-                            className="pagination-btn" 
-                            onClick={() => setCurrentPage(currentPage + 1)} 
+                        <button
+                            className="pagination-btn"
+                            onClick={() => setCurrentPage(currentPage + 1)}
                             disabled={currentPage === totalPages}
                         >
                             Siguiente ➡️
@@ -139,11 +155,7 @@ const AdmissionList = ({ admissions, loading }) => {
             )}
 
             {/* Modal de Firma */}
-            <SignatureModal 
-                isOpen={isModalOpen} 
-                onClose={() => setIsModalOpen(false)} 
-                admission={selectedAdmission} 
-            />
+            <SignatureModal isOpen={isModalOpen} onClose={handleModalClose} admission={selectedAdmission} />
         </div>
     );
 };

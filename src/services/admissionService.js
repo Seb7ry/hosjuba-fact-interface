@@ -10,6 +10,23 @@ const getAuthHeaders = () => {
     };
 };
 
+export const saveAdmission = async (documentPatient, consecutiveAdmission, signatureBase64) => {
+    try {
+        console.log(documentPatient, ' and ', consecutiveAdmission);
+        const response = await axios.post(
+            `${API_URL}/save?documentPatient=${documentPatient}&consecutiveAdmission=${consecutiveAdmission}`,  // 👈 Ahora se envían en la URL
+            { signature: signatureBase64 },  // Solo la firma va en el body
+            getAuthHeaders()
+        );
+
+        return response.data;
+    } catch (error) {
+        console.error("❌ Error al guardar la admisión:", error);
+        throw error;
+    }
+};
+
+
 // 🔹 Obtener todas las admisiones desde SQL Server
 export const getAllAdmissions = async () => {
     try {
@@ -40,7 +57,7 @@ export const getSignedAdmissions = async (visibleAdmissions) => {
     try {
         const response = await axios.post(
             `${API_URL}/signed`, 
-            { admissions: visibleAdmissions }, // Solo los registros visibles en la página
+            { admissions: visibleAdmissions }, 
             getAuthHeaders()
         );
         return response.data; // Devuelve la lista de admisiones firmadas
