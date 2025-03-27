@@ -24,7 +24,8 @@ const uploadSignature = async (signatureBase64, admissionId) => {
             `${API_URL}/upload`,
             {
                 signatureBase64,
-                filename: `signature-${admissionId}.png`,
+                admissionId, // Cambiado de filename a admissionId
+                signedBy: "user" // Añadido porque el backend lo requiere
             },
             getAuthHeaders()
         );
@@ -33,7 +34,6 @@ const uploadSignature = async (signatureBase64, admissionId) => {
     } catch (error) {
         console.error("❌ Error al subir la firma:", error.response?.data || error.message);
 
-        // Lanzamos un error más claro dependiendo del tipo de fallo
         if (error.response) {
             throw new Error(error.response.data?.message || "Error al subir la firma.");
         } else if (error.request) {
