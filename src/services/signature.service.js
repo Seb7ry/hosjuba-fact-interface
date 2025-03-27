@@ -1,10 +1,15 @@
 import axios from "axios";
 
-const API_URL = "http://localhost:3000/signatures"; // Ajusta la URL de tu backend
+const API_URL = process.env.REACT_APP_API_URL || "http://localhost:3000/signatures";
 
-// 🔹 Función para obtener los headers con el token de autenticación
 const getAuthHeaders = () => {
     const token = sessionStorage.getItem("access_token");
+    
+    if (!token) {
+        console.warn("⚠️ No hay token de autenticación disponible.");
+        return { headers: { "Content-Type": "application/json" } };
+    }
+
     return {
         headers: {
             "Content-Type": "application/json",
@@ -13,7 +18,6 @@ const getAuthHeaders = () => {
     };
 };
 
-// 🔹 Subir la firma al backend
 const uploadSignature = async (signatureBase64, admissionId) => {
     try {
         const response = await axios.post(
@@ -27,8 +31,16 @@ const uploadSignature = async (signatureBase64, admissionId) => {
 
         return response.data;
     } catch (error) {
-        console.error("❌ Error al subir la firma:", error);
-        throw error;
+        console.error("❌ Error al subir la firma:", error.response?.data || error.message);
+
+        // Lanzamos un error más claro dependiendo del tipo de fallo
+        if (error.response) {
+            throw new Error(error.response.data?.message || "Error al subir la firma.");
+        } else if (error.request) {
+            throw new Error("No se pudo conectar con el servidor.");
+        } else {
+            throw new Error("Ocurrió un error inesperado.");
+        }
     }
 };
 

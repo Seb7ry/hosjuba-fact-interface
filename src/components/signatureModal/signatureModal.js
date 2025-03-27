@@ -35,27 +35,40 @@ const SignatureModal = ({ isOpen, onClose, admission }) => {
             alert("Por favor seleccione quién firma y realice la firma.");
             return;
         }
-
+    
         setIsUploading(true);
-
+    
         try {
+            let signedBy;
+            if (signer === 'patient') {
+                signedBy = "patient";
+            } else if (signer === 'companion') {
+                signedBy = "companion";
+            } else {
+                alert("Selección de firmante no válida.");
+                return;
+            }
+    
             const response = await saveAdmission(
                 admission.documentPatient,
                 admission.consecutiveAdmission,
-                {
-                    signedBy: signer,
-                    signatureData,
-                }
+                signatureData,
+                signedBy
             );
+    
             console.log("✅ Admisión guardada:", response);
             setIsSuccess(true);
+    
+            setTimeout(() => {
+                onClose(null);
+            }, 2000);
         } catch (error) {
             console.error("❌ Error al guardar la admisión:", error);
             alert("Hubo un error al registrar la firma. Inténtalo de nuevo.");
         } finally {
             setIsUploading(false);
         }
-    };
+    };    
 
     const MapAdmissionType = (type) => {
         if (type === 1) return "Urgencias";
@@ -107,8 +120,8 @@ const SignatureModal = ({ isOpen, onClose, admission }) => {
                                 onChange={(e) => setSigner(e.target.value)}
                             >
                                 <option value="">Seleccione...</option>
-                                <option value={admission.fullNamePatient}>Paciente</option>
-                                <option value={admission.nameCompanion}>Acompañante</option>
+                                <option value="patient">Paciente</option>
+                                <option value="companion">Acompañante</option>
                                 
                             </select>
                         </div>

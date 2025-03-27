@@ -59,11 +59,12 @@ const DocumentList = ({ admissions, loading }) => {
                         </thead>
                         <tbody>
                             {currentAdmissions.map((admission, index) => {
+                                console.log(admission)
                                 return (
                                     <tr key={index}>
                                         <td>{admission.consecutiveAdmission}</td>
                                         <td>{admission.documentPatient}</td>
-                                        <td>{admission.namePatient}</td>
+                                        <td>{admission.fullNamePatient}</td>
                                         <td>{new Date(admission.dateAdmission).toLocaleDateString()}</td>
                                         <td>{MapAdmissionType(admission.typeAdmission)}</td>
                                         <td>{admission.userAdmission}</td>

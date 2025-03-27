@@ -10,19 +10,30 @@ const getAuthHeaders = () => {
     };
 };
 
-export const saveAdmission = async (documentPatient, consecutiveAdmission, signatureBase64) => {
+export const saveAdmission = async (documentPatient, consecutiveAdmission, signatureBase64, signedBy) => {
     try {
-        console.log(documentPatient, ' and ', consecutiveAdmission);
+        console.log(`📌 Guardando admisión: ${documentPatient} - ${consecutiveAdmission}`);
+
         const response = await axios.post(
-            `${API_URL}/save?documentPatient=${documentPatient}&consecutiveAdmission=${consecutiveAdmission}`,  // 👈 Ahora se envían en la URL
-            { signature: signatureBase64 },  // Solo la firma va en el body
-            getAuthHeaders()
+            `${API_URL}/save`,  // 👈 URL limpia
+            { signature: signatureBase64, signedBy },  // 👈 Se agrega `signedBy` al body
+            {
+                ...getAuthHeaders(),
+                params: { documentPatient, consecutiveAdmission }  // 👈 Parámetros en `params` en lugar de concatenarlos manualmente
+            }
         );
 
         return response.data;
     } catch (error) {
-        console.error("❌ Error al guardar la admisión:", error);
-        throw error;
+        console.error("❌ Error al guardar la admisión:", error.response?.data || error.message);
+
+        if (error.response) {
+            throw new Error(error.response.data?.message || "Error al guardar la admisión.");
+        } else if (error.request) {
+            throw new Error("No se pudo conectar con el servidor.");
+        } else {
+            throw new Error("Ocurrió un error inesperado.");
+        }
     }
 };
 

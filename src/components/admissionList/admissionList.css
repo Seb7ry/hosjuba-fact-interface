@@ -18,6 +18,12 @@
     align-items: center;
 }
 
+.spinner-icon {
+    font-size: 14px;
+    color: white;
+}
+
+
 /* =======================
     Estilos para la Tabla
 ========================== */

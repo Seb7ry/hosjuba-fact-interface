@@ -16,7 +16,6 @@ const Admission = () => {
     const [admissions, setAdmissions] = useState([]);
     const [loading, setLoading] = useState(false);
 
-    // Obtener todas las admisiones al cargar la página
     useEffect(() => {
         fetchAdmissions();
     }, []);
@@ -28,7 +27,7 @@ const Admission = () => {
         setEndDate("");
         setUser("");
         setAdmissionType("");
-        fetchAdmissions(); // Recargar todas las admisiones automáticamente
+        fetchAdmissions();
     };
     
     const handleStartDateChange = (e) => {
@@ -36,7 +35,7 @@ const Admission = () => {
         setStartDate(selectedStartDate);
     
         if (!selectedStartDate) {
-            setEndDate(""); // Borra la fecha final si se borra la de inicio
+            setEndDate("");
             setIsEndDateDisabled(true);
         } else {
             setIsEndDateDisabled(false);
@@ -61,16 +60,9 @@ const Admission = () => {
         setLoading(false);
     };
 
-    // Buscar admisiones filtradas
+
     const handleSearch = async () => {
         setLoading(true);
-    
-        let typeAdmissionValue = admissionType;
-        
-        if (admissionType === "hospitalizacion") {
-            // NO enviamos el filtro al backend, traemos todas las admisiones y filtramos en el frontend
-            typeAdmissionValue = undefined;
-        }
     
         const filters = {
             documentPatient: documentNumber || undefined,
@@ -78,12 +70,11 @@ const Admission = () => {
             startDateAdmission: startDate || undefined,
             endDateAdmission: endDate || undefined,
             userAdmission: user || undefined,
-            typeAdmission: typeAdmissionValue
+            typeAdmission: admissionType || undefined
         };
     
         let data = await getFilteredAdmissions(filters);
     
-        // Si es Hospitalización, filtramos en el frontend
         if (admissionType === "hospitalizacion") {
             data = data.filter(admission => 
                 admission.typeAdmission !== 1 &&
@@ -101,7 +92,6 @@ const Admission = () => {
         }
     }, [documentNumber, admissionNumber, startDate, endDate, user, admissionType]);
 
-    // Deshabilitar filtros si no hay número de documento
     const [isSearchDisabled, setIsSearchDisabled] = useState(true);
     
     useEffect(() => {
