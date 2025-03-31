@@ -143,9 +143,9 @@
     }
 
     .error-alert {
-        z-index: 2;
+        z-index: 3;
         position: absolute;
-        top: -50%; /* Justo arriba del formulario */
+        top: -40%; /* Justo arriba del formulario */
         left: 50%;
         transform: translateX(-50%);
         background-color: #f8d7da; /* Color rojo claro */
@@ -163,7 +163,7 @@
 
     .error-alert.show {
         opacity: 1;
-        top: 20%;
+        top: 15%;
     }
 
     .modal-overlay {

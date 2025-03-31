@@ -6,6 +6,7 @@ import SignatureModal from "../../components/signatureModal/signatureModal";
 import "./admissionList.css";
 
 const AdmissionList = ({ admissions, loading, shouldFetch }) => {
+    // eslint-disable-next-line
     const lastFetchedAdmissions = useRef([]);
     const itemsPerPage = 10;
     const [currentPage, setCurrentPage] = useState(1);
@@ -43,10 +44,12 @@ const AdmissionList = ({ admissions, loading, shouldFetch }) => {
             setIsFetching(false);
             setIsCheckingSignatures({});
         }
+    // eslint-disable-next-line
     }, [currentAdmissions]);
 
     useEffect(() => {
         fetchSignedAdmissions();
+    // eslint-disable-next-line
     }, [currentPage, admissions]);
 
     useEffect(() => {
