@@ -20,6 +20,12 @@ const AdmissionList = ({ admissions, loading, shouldFetch }) => {
     const endIndex = startIndex + itemsPerPage;
     const currentAdmissions = admissions.slice(startIndex, endIndex);
 
+    const MapAdmissionType = (type) => {
+        if (type === 1) return "Urgencias";
+        if (type === 99) return "Consulta Externa";
+        return "Hospitalización";
+    };
+
     const fetchSignedAdmissions = useCallback(async () => {
         if (isFetching || currentAdmissions.length === 0) return;
 
@@ -99,7 +105,7 @@ const AdmissionList = ({ admissions, loading, shouldFetch }) => {
                                         <td>{admission.documentPatient}</td>
                                         <td>{admission.fullNamePatient}</td>
                                         <td>{new Date(admission.dateAdmission).toLocaleDateString()}</td>
-                                        <td>{admission.typeAdmission}</td>
+                                        <td>{MapAdmissionType(admission.typeAdmission)}</td>
                                         <td>{admission.userAdmission}</td>
                                         <td>
                                             {isSigned ? (
