@@ -44,7 +44,7 @@
 
 /* Encabezado de la tabla */
 .admission-table th {
-    background: #5161ce; /* Color de fondo del encabezado */
+    background: #038F67; /* Color de fondo del encabezado */
     color: white;
 }
 
@@ -98,7 +98,7 @@
 
 /* Efecto hover en el botón "Ver" */
 .view-btn:hover {
-    background-color: #3e4dbb;
+    background-color: #038F67;
 }
 
 /* ==========================
@@ -150,7 +150,7 @@
 /* Spinner animado */
 .spinner {
     border: 4px solid #f3f3f3;
-    border-top: 4px solid #0066ff;
+    border-top: 4px solid #038F67;
     border-radius: 50%;
     width: 40px;
     height: 40px;
