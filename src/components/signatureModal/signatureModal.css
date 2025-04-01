@@ -80,6 +80,42 @@
     background: white;
 }
 
+/* Success mensaje */
+.success-message {
+    text-align: center;
+    padding: 20px;
+    background-color: #eaf8e4;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.success-icon {
+    font-size: 40px;
+    color: #28a745;
+    margin-bottom: 15px;
+}
+
+.success-message h3 {
+    font-size: 18px;
+    color: #28a745;
+    margin-bottom: 20px;
+}
+
+.success-message button {
+    background-color: #28a745;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 14px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.success-message button:hover {
+    background-color: #218838;
+}
+
 /* Botones */
 .modal-buttons {
     display: flex;

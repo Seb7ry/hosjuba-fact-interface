@@ -82,6 +82,13 @@
 .admission-table td:nth-child(7) {
     width: 100px; /* Ajuste del ancho de la columna */
 }
+
+.admission-table th:nth-child(8), /* Actualizar */
+.admission-table td:nth-child(8) {
+    width: 120px; /* Ajuste del ancho de la columna */
+}
+
+
 /* ==========================
     Estilos para el Botón "Ver"
 ============================= */
@@ -100,6 +107,7 @@
 .view-btn:hover {
     background-color: #038F67;
 }
+
 
 /* ==========================
     Estilos para Paginación
@@ -128,6 +136,7 @@
     cursor: not-allowed;
 }
 
+
 /* ==========================
     Estilos para Mensajes
 ============================= */
@@ -136,6 +145,7 @@
     font-size: 16px;
     margin-top: 10px;
 }
+
 
 /* ==========================
     Estilos para Spinner de Carga
@@ -156,6 +166,7 @@
     height: 40px;
     animation: spin 1s linear infinite;
 }
+
 
 /* ==========================
     Estilos para el Botón de Firma
@@ -207,4 +218,55 @@
 @keyframes spin {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
+}
+
+
+/* ==========================
+    Estilos para el Botón de Actualización
+============================= */
+.update-btn {
+    background-color: #ffbc00; /* Amarillo para actualizar */
+    color: black;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto; /* Centra el botón dentro de la celda */
+}
+
+/* Efecto hover en el botón de actualización */
+.update-btn:hover {
+    background-color: #e69a00; /* Amarillo oscuro en hover */
+}
+
+/* Deshabilitar el botón cuando se está actualizando */
+.update-btn:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
+/* Spinner dentro del botón de actualización */
+.update-btn svg {
+    font-size: 18px;
+}
+
+.not-signed-icon {
+    color: red;
+    font-size: 1.5rem; /* Ajusta el tamaño según tu necesidad */
+}
+
+
+
+/* ==========================
+    Estilos para centrar iconos
+============================= */
+.signature-btn svg, .update-btn svg, .spinner-icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }

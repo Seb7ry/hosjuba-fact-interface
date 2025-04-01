@@ -14,7 +14,7 @@ export const downloadPdf = async (documentPatient, consecutiveAdmission, numberF
 
         if (!token) {
             console.warn("⚠️ No hay token disponible, asegúrate de estar autenticado.");
-            return;
+            return null;
         }
 
         const queryParams = new URLSearchParams({
@@ -26,24 +26,19 @@ export const downloadPdf = async (documentPatient, consecutiveAdmission, numberF
             queryParams.append("numberFac", numberFac);
         }
 
+        // Aquí se cambia la respuesta a 'blob', que es lo que necesitas
         const response = await axios.get(`${API_URL}?${queryParams.toString()}`, {
             headers: {
                 Authorization: `Bearer ${token}`,
             },
-            responseType: "blob", // 🔥 Importante para descargar archivos
+            responseType: "blob", // Esto asegura que la respuesta es un Blob (archivo binario)
         });
 
-        // Crear un enlace para descargar el archivo
-        const url = window.URL.createObjectURL(new Blob([response.data]));
-        const link = document.createElement("a");
-        link.href = url;
-        link.setAttribute("download", "comprobante.pdf");
-        document.body.appendChild(link);
-        link.click();
-        link.remove();
+        return response.data; // Retornamos el Blob del PDF
 
     } catch (error) {
         console.error("❌ Error al descargar el PDF:", error);
+        return null; // Si hay error, devolvemos null
     }
 };
 

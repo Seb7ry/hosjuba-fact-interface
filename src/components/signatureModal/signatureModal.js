@@ -48,15 +48,14 @@ const SignatureModal = ({ isOpen, onClose, admission }) => {
                 alert("Selección de firmante no válida.");
                 return;
             }
-    
+            
+            // eslint-disable-next-line
             const response = await saveAdmission(
                 admission.documentPatient,
                 admission.consecutiveAdmission,
                 signatureData,
                 signedBy
             );
-    
-            console.log("✅ Admisión guardada:", response);
             setIsSuccess(true);
     
             setTimeout(() => {
@@ -104,7 +103,10 @@ const SignatureModal = ({ isOpen, onClose, admission }) => {
 
                 {isSuccess ? (
                     <div className="success-message">
-                        <h3>✅ Firma registrada correctamente</h3>
+                        <div className="success-icon">
+                            <FontAwesomeIcon icon={faCheck} size="2x" />
+                        </div>
+                        <h3>Firma registrada correctamente</h3>
                         <button className="btn exit-btn" onClick={() => onClose(null)}>
                             <FontAwesomeIcon icon={faTimes} /> Cerrar
                         </button>

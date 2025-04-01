@@ -100,3 +100,34 @@ export const getSignedAdmissionsFiltrer = async (filters) => {
         return [];
     }
 };
+
+// 🔹 Función para actualizar una admisión
+export const updateAdmission = async (documentPatient, consecutiveAdmission) => {
+    try {
+        console.log(`📌 Actualizando admisión: ${documentPatient} - ${consecutiveAdmission}`);
+
+        const response = await axios.put(
+            `${API_URL}/updateSigned`,  // 👈 URL para la actualización
+            {},  // 👈 No es necesario enviar updatedData, ya que se gestionan en el backend
+            {
+                ...getAuthHeaders(),
+                params: { 
+                    documentPatient, 
+                    consecutiveAdmission 
+                }  // 👈 Pasamos los parámetros correctamente
+            }
+        );
+
+        return response.data;
+    } catch (error) {
+        console.error("❌ Error al actualizar la admisión:", error.response?.data || error.message);
+
+        if (error.response) {
+            throw new Error(error.response.data?.message || "Error al actualizar la admisión.");
+        } else if (error.request) {
+            throw new Error("No se pudo conectar con el servidor.");
+        } else {
+            throw new Error("Ocurrió un error inesperado.");
+        }
+    }
+};

@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFileAlt } from "@fortawesome/free-solid-svg-icons";
-import SignatureModal from "../signatureModal/signatureModal";
 import "./documentList.css";
+import DocumentModal from "../documentModal/documentModal";
 
 const DocumentList = ({ admissions, loading }) => {
     const itemsPerPage = 10;
@@ -59,7 +59,6 @@ const DocumentList = ({ admissions, loading }) => {
                         </thead>
                         <tbody>
                             {currentAdmissions.map((admission, index) => {
-                                console.log(admission)
                                 return (
                                     <tr key={index}>
                                         <td>{admission.consecutiveAdmission}</td>
@@ -103,7 +102,7 @@ const DocumentList = ({ admissions, loading }) => {
             )}
 
             {/* Modal de Firma */}
-            <SignatureModal
+            <DocumentModal
                 isOpen={isModalOpen}
                 onClose={() => setIsModalOpen(false)}
                 admission={selectedAdmission}

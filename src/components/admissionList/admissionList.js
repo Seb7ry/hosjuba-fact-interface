@@ -1,13 +1,12 @@
-import React, { useState, useEffect, useCallback, useRef } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSignature, faCheckCircle, faSpinner } from "@fortawesome/free-solid-svg-icons";
-import { getSignedAdmissions } from "../../services/admissionService";
+import { faSignature, faCheckCircle, faSpinner, faRedo, faTimesCircle } from "@fortawesome/free-solid-svg-icons";
+import { getSignedAdmissions, updateAdmission } from "../../services/admissionService";
 import SignatureModal from "../../components/signatureModal/signatureModal";
 import "./admissionList.css";
 
 const AdmissionList = ({ admissions, loading, shouldFetch }) => {
-    // eslint-disable-next-line
-    const lastFetchedAdmissions = useRef([]);
+    
     const itemsPerPage = 10;
     const [currentPage, setCurrentPage] = useState(1);
     const [signedAdmissions, setSignedAdmissions] = useState([]);
@@ -15,6 +14,7 @@ const AdmissionList = ({ admissions, loading, shouldFetch }) => {
     const [selectedAdmission, setSelectedAdmission] = useState(null);
     const [isFetching, setIsFetching] = useState(false);
     const [isCheckingSignatures, setIsCheckingSignatures] = useState({});
+    const [isUpdating, setIsUpdating] = useState({});
 
     const totalPages = Math.ceil(admissions.length / itemsPerPage);
     const startIndex = (currentPage - 1) * itemsPerPage;
@@ -44,12 +44,12 @@ const AdmissionList = ({ admissions, loading, shouldFetch }) => {
             setIsFetching(false);
             setIsCheckingSignatures({});
         }
-    // eslint-disable-next-line
+        // eslint-disable-next-line
     }, [currentAdmissions]);
 
     useEffect(() => {
         fetchSignedAdmissions();
-    // eslint-disable-next-line
+        // eslint-disable-next-line
     }, [currentPage, admissions]);
 
     useEffect(() => {
@@ -65,6 +65,24 @@ const AdmissionList = ({ admissions, loading, shouldFetch }) => {
         setIsModalOpen(false);
         setSelectedAdmission(null);
         await fetchSignedAdmissions();
+    };
+
+    const handleUpdateAdmission = async (admission) => {
+        setIsUpdating((prev) => ({
+            ...prev,
+            [admission.consecutiveAdmission]: true
+        }));
+        try {
+            await updateAdmission(admission.documentPatient, admission.consecutiveAdmission);
+            console.log("Admisión actualizada:", admission);
+        } catch (error) {
+            console.error("Error al actualizar la admisión:", error);
+        } finally {
+            setIsUpdating((prev) => ({
+                ...prev,
+                [admission.consecutiveAdmission]: false
+            }));
+        }
     };
 
     if (loading) {
@@ -92,6 +110,7 @@ const AdmissionList = ({ admissions, loading, shouldFetch }) => {
                                 <th>Servicio</th>
                                 <th>Usuario</th>
                                 <th>Firma</th>
+                                <th>Actualizar</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -110,7 +129,7 @@ const AdmissionList = ({ admissions, loading, shouldFetch }) => {
                                         <td>{new Date(admission.dateAdmission).toLocaleDateString()}</td>
                                         <td>{MapAdmissionType(admission.typeAdmission)}</td>
                                         <td>{admission.userAdmission}</td>
-                                        <td>
+                                        <td className="icon-cell">
                                             {isSigned ? (
                                                 <FontAwesomeIcon icon={faCheckCircle} className="signed-icon" />
                                             ) : (
@@ -121,6 +140,26 @@ const AdmissionList = ({ admissions, loading, shouldFetch }) => {
                                                         <FontAwesomeIcon icon={faSignature} />
                                                     )}
                                                 </button>
+                                            )}
+                                        </td>
+                                        <td className="icon-cell">
+                                            {isSigned ? (
+                                                <button
+                                                    className="update-btn"
+                                                    onClick={() => handleUpdateAdmission(admission)}
+                                                    disabled={isUpdating[admission.consecutiveAdmission]} // Deshabilita el botón si se está actualizando
+                                                >
+                                                    {isUpdating[admission.consecutiveAdmission] ? (
+                                                        <FontAwesomeIcon icon={faSpinner} spin />
+                                                    ) : (
+                                                        <FontAwesomeIcon icon={faRedo} />
+                                                    )}
+                                                </button>
+                                            ) : (
+                                                <FontAwesomeIcon
+                                                    icon={faTimesCircle} 
+                                                    className="not-signed-icon" // Icono de "X" en rojo
+                                                />
                                             )}
                                         </td>
                                     </tr>

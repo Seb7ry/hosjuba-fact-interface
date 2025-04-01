@@ -1,0 +1,244 @@
+/* Fondo del modal - bloquea interacción con elementos detrás */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    overflow: hidden;
+    pointer-events: auto; /* Asegura que bloquea interacciones */
+    overflow-y: auto;
+}
+
+/* Contenedor del modal - más alto */
+.modal-content {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    width: 85vw;
+    height: 90vh; /* Altura aumentada */
+    max-width: 1000px;
+    box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.25);
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    overflow: hidden;
+}
+
+.modal-body {
+    flex: 1;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Bloqueo completo del body cuando el modal está abierto */
+body.modal-open {
+    overflow: hidden;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+}
+
+
+/* Botón de cierre */
+.close-button {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: none;
+    border: none;
+    font-size: 22px;
+    cursor: pointer;
+    color: #666;
+    z-index: 10;
+}
+
+/* Encabezado del modal compacto */
+.modal-header {
+    display: flex;
+    align-items: center;
+    padding-bottom: 15px;
+    margin-bottom: 15px;
+    border-bottom: 1px solid #eee;
+    flex-shrink: 0;
+}
+
+/* Imagen del paciente */
+.patient-image {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    overflow: hidden;
+    margin-right: 15px;
+    flex-shrink: 0;
+}
+
+.patient-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Información del paciente compacta */
+.patient-info {
+    flex: 1;
+    font-size: 14px;
+    text-align: left;
+}
+
+.patient-info h2 {
+    font-size: 18px;
+    margin-bottom: 8px;
+}
+
+.patient-info p {
+    margin: 4px 0;
+}
+
+/* Contenedor del documento - altura máxima */
+.document-container {
+    display: flex;
+    flex: 1;
+    overflow: hidden;
+    gap: 15px;
+    height: calc(100% - 40px); /* Ajuste para usar más espacio */
+}
+
+/* Menú lateral de facturas compacto */
+.factura-list {
+    width: 180px;
+    background: #f8f9fa;
+    padding: 10px;
+    border-radius: 6px;
+    overflow-y: auto;
+    flex-shrink: 0;
+}
+
+.factura-list h3 {
+    font-size: 14px;
+    margin-bottom: 12px;
+    text-align: center;
+    color: #444;
+}
+
+.factura-list ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.factura-list li {
+    padding: 8px 10px;
+    font-size: 13px;
+    margin-bottom: 6px;
+    cursor: pointer;
+    border-radius: 4px;
+    text-align: center;
+    background: white;
+    border: 1px solid #ddd;
+    transition: all 0.2s;
+}
+
+.factura-list li:hover,
+.factura-list .active {
+    background: #007bff;
+    color: white;
+    border-color: #007bff;
+}
+
+/* Vista previa del documento - tamaño máximo */
+.document-preview {
+    flex: 1;
+    display: flex;
+    background: #f9f9f9;
+    border-radius: 6px;
+    border: 1px solid #ddd;
+    overflow: hidden;
+    position: relative;
+    height: 100%;
+}
+
+.document-preview iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+
+.document-preview p {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    color: #666;
+}
+
+/* RESPONSIVIDAD */
+
+@media (max-width: 768px) {
+    .modal-content {
+        width: 95vw;
+        height: 95vh;
+    }
+
+    .document-container {
+        flex-direction: column;
+        height: calc(100% - 120px);
+    }
+
+    .factura-list {
+        width: 100%;
+        max-height: 120px;
+        overflow-x: auto;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .factura-list ul {
+        display: flex;
+        overflow-x: auto;
+        padding-bottom: 10px;
+    }
+
+    .factura-list li {
+        min-width: 150px;
+        margin-right: 8px;
+        margin-bottom: 0;
+    }
+
+    .document-preview {
+        min-height: 60vh;
+    }
+}
+
+@media (max-width: 480px) {
+    .modal-content {
+        width: 100vw;
+        height: 100vh;
+        border-radius: 0;
+        padding: 15px;
+    }
+
+    .modal-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .patient-image {
+        margin: 0 auto 10px;
+    }
+
+    .document-container {
+        height: calc(100% - 150px);
+    }
+
+    .document-preview {
+        min-height: 50vh;
+    }
+}

@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom"; // Cambié Link por NavLink
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHome, faFileAlt, faCalendar, faCogs, faUsers, faSignOutAlt, faBars } from "@fortawesome/free-solid-svg-icons";
 
 import logo from "../../assets/logo-hosjuba.png";
-import { logout } from "../../services/authService"; // Importa la función logout
+import { logout } from "../../services/authService";
 import "./navbar.css";
 
 const Navbar = () => {
@@ -16,12 +16,10 @@ const Navbar = () => {
         setUserGroup(group);
     }, []);
 
-    // Alternar el estado del menú (colapsado o expandido)
     const toggleMenu = () => {
         setIsCollapsed(!isCollapsed);
     };
 
-    // Función para manejar el logout
     const handleLogout = async () => {
         await logout();
     };
@@ -40,41 +38,61 @@ const Navbar = () => {
                 <nav className="menu">
                     <ul>
                         <li className="menu-item">
-                            <Link to="/dashboard" onClick={() => setIsCollapsed(false)}>
+                            <NavLink
+                                to="/dashboard"
+                                className={({ isActive }) => (isActive ? 'active' : '')}
+                                onClick={() => setIsCollapsed(false)}
+                            >
                                 <FontAwesomeIcon icon={faHome} className="menu-icon" />
                                 {!isCollapsed && <span className="menu-title">Inicio</span>}
-                            </Link>
+                            </NavLink>
                         </li>
 
                         <li className="menu-item">
-                            <Link to="/admission" onClick={() => setIsCollapsed(false)}>
+                            <NavLink
+                                to="/admission"
+                                className={({ isActive }) => (isActive ? 'active' : '')}
+                                onClick={() => setIsCollapsed(false)}
+                            >
                                 <FontAwesomeIcon icon={faUsers} className="menu-icon" />
                                 {!isCollapsed && <span className="menu-title">Admisiones</span>}
-                            </Link>
+                            </NavLink>
                         </li>
 
                         <li className="menu-item">
-                            <Link to="/document" onClick={() => setIsCollapsed(false)}>
+                            <NavLink
+                                to="/document"
+                                className={({ isActive }) => (isActive ? 'active' : '')}
+                                onClick={() => setIsCollapsed(false)}
+                            >
                                 <FontAwesomeIcon icon={faFileAlt} className="menu-icon" />
                                 {!isCollapsed && <span className="menu-title">Comprobantes</span>}
-                            </Link>
+                            </NavLink>
                         </li>
 
                         {(userGroup === "ADMINISTRADOR" || userGroup === "COORFACTURACION" || userGroup === "LIDERFACTURACION") && (
                             <li className="menu-item">
-                                <Link to="/history" onClick={() => setIsCollapsed(false)}>
+                                <NavLink
+                                    to="/history"
+                                    className={({ isActive }) => (isActive ? 'active' : '')}
+                                    onClick={() => setIsCollapsed(false)}
+                                >
                                     <FontAwesomeIcon icon={faCalendar} className="menu-icon" />
                                     {!isCollapsed && <span className="menu-title">Historial</span>}
-                                </Link>
+                                </NavLink>
                             </li>
                         )}
 
                         {(userGroup === "ADMINISTRADOR" || userGroup === "COORFACTURACION" || userGroup === "LIDERFACTURACION") && (
                             <li className="menu-item">
-                                <Link to="/record" onClick={() => setIsCollapsed(false)}>
+                                <NavLink
+                                    to="/record"
+                                    className={({ isActive }) => (isActive ? 'active' : '')}
+                                    onClick={() => setIsCollapsed(false)}
+                                >
                                     <FontAwesomeIcon icon={faCogs} className="menu-icon" />
                                     {!isCollapsed && <span className="menu-title">Registros</span>}
-                                </Link>
+                                </NavLink>
                             </li>
                         )}
                     </ul>
@@ -90,7 +108,6 @@ const Navbar = () => {
                 </div>
             </aside>
 
-            {/* Contenido principal que se ajusta al menú sin solaparse */}
             <main className="content">
                 {/* Aquí va el contenido de la página */}
             </main>
