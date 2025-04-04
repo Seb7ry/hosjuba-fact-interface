@@ -1,7 +1,15 @@
 import React, { useEffect, useState } from "react";
-import { NavLink } from "react-router-dom"; // Cambié Link por NavLink
+import { NavLink } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faHome, faFileAlt, faCalendar, faCogs, faUsers, faSignOutAlt, faBars } from "@fortawesome/free-solid-svg-icons";
+import {
+    faHome,
+    faFileAlt,
+    faCalendar,
+    faCogs,
+    faUsers,
+    faSignOutAlt,
+    faBars,
+} from "@fortawesome/free-solid-svg-icons";
 
 import logo from "../../assets/logo-hosjuba.png";
 import { logout } from "../../services/authService";
@@ -16,13 +24,32 @@ const Navbar = () => {
         setUserGroup(group);
     }, []);
 
-    const toggleMenu = () => {
-        setIsCollapsed(!isCollapsed);
-    };
+    const toggleMenu = () => setIsCollapsed(!isCollapsed);
 
     const handleLogout = async () => {
         await logout();
     };
+
+    const renderMenuItem = (to, icon, title, condition = true) => {
+        if (!condition) return null;
+        return (
+            <li className="menu-item">
+                <NavLink
+                    to={to}
+                    className={({ isActive }) => (isActive ? "active" : "")}
+                    onClick={() => setIsCollapsed(false)}
+                >
+                    <FontAwesomeIcon icon={icon} className="menu-icon" />
+                    {!isCollapsed && <span className="menu-title">{title}</span>}
+                </NavLink>
+            </li>
+        );
+    };
+
+    const isAdmin =
+        userGroup === "ADMINISTRADOR" ||
+        userGroup === "COORFACTURACION" ||
+        userGroup === "LIDERFACTURACION";
 
     return (
         <div className={`layout-container ${isCollapsed ? "collapsed" : ""}`}>
@@ -31,70 +58,18 @@ const Navbar = () => {
                     <button className="menu-toggle" onClick={toggleMenu}>
                         <FontAwesomeIcon icon={faBars} />
                     </button>
-                    {/* El logo solo aparece si el menú está expandido */}
-                    {!isCollapsed && <img src={logo} alt="Logo" className="sidebar-logo" />}
+                    {!isCollapsed && (
+                        <img src={logo} alt="Logo" className="sidebar-logo" />
+                    )}
                 </div>
 
                 <nav className="menu">
                     <ul>
-                        <li className="menu-item">
-                            <NavLink
-                                to="/dashboard"
-                                className={({ isActive }) => (isActive ? 'active' : '')}
-                                onClick={() => setIsCollapsed(false)}
-                            >
-                                <FontAwesomeIcon icon={faHome} className="menu-icon" />
-                                {!isCollapsed && <span className="menu-title">Inicio</span>}
-                            </NavLink>
-                        </li>
-
-                        <li className="menu-item">
-                            <NavLink
-                                to="/admission"
-                                className={({ isActive }) => (isActive ? 'active' : '')}
-                                onClick={() => setIsCollapsed(false)}
-                            >
-                                <FontAwesomeIcon icon={faUsers} className="menu-icon" />
-                                {!isCollapsed && <span className="menu-title">Admisiones</span>}
-                            </NavLink>
-                        </li>
-
-                        <li className="menu-item">
-                            <NavLink
-                                to="/document"
-                                className={({ isActive }) => (isActive ? 'active' : '')}
-                                onClick={() => setIsCollapsed(false)}
-                            >
-                                <FontAwesomeIcon icon={faFileAlt} className="menu-icon" />
-                                {!isCollapsed && <span className="menu-title">Comprobantes</span>}
-                            </NavLink>
-                        </li>
-
-                        {(userGroup === "ADMINISTRADOR" || userGroup === "COORFACTURACION" || userGroup === "LIDERFACTURACION") && (
-                            <li className="menu-item">
-                                <NavLink
-                                    to="/history"
-                                    className={({ isActive }) => (isActive ? 'active' : '')}
-                                    onClick={() => setIsCollapsed(false)}
-                                >
-                                    <FontAwesomeIcon icon={faCalendar} className="menu-icon" />
-                                    {!isCollapsed && <span className="menu-title">Historial</span>}
-                                </NavLink>
-                            </li>
-                        )}
-
-                        {(userGroup === "ADMINISTRADOR" || userGroup === "COORFACTURACION" || userGroup === "LIDERFACTURACION") && (
-                            <li className="menu-item">
-                                <NavLink
-                                    to="/record"
-                                    className={({ isActive }) => (isActive ? 'active' : '')}
-                                    onClick={() => setIsCollapsed(false)}
-                                >
-                                    <FontAwesomeIcon icon={faCogs} className="menu-icon" />
-                                    {!isCollapsed && <span className="menu-title">Registros</span>}
-                                </NavLink>
-                            </li>
-                        )}
+                        {renderMenuItem("/dashboard", faHome, "Inicio")}
+                        {renderMenuItem("/admission", faUsers, "Admisiones")}
+                        {renderMenuItem("/document", faFileAlt, "Comprobantes")}
+                        {renderMenuItem("/history", faCalendar, "Historial", isAdmin)}
+                        {renderMenuItem("/record", faCogs, "Registros", isAdmin)}
                     </ul>
                 </nav>
 

@@ -1,82 +1,61 @@
 import React, { useState, useEffect } from "react";
 import "./recordList.css";
 
-/**
- * Componente que muestra una lista de registros con paginación.
- * 
- * @component
- * @param {Object} props - Propiedades del componente.
- * @param {Array} props.logs - Lista de registros a mostrar.
- * @param {boolean} props.loading - Indica si los datos están cargando.
- * @param {Function} props.onFilterApplied - Función para resetear la paginación.
- * @returns {JSX.Element} Componente de lista de registros.
- */
-const RecordList = ({ logs = [], loading, onFilterApplied }) => {
+const RecordList = ({ logs = [], loading, onFilterApplied, title = "Historial de Registros" }) => {
     const itemsPerPage = 10;
     const [currentPage, setCurrentPage] = useState(1);
 
-    // Resetear la paginación cuando cambien los logs (por ejemplo, al aplicar filtros)
     useEffect(() => {
         setCurrentPage(1);
-        if (onFilterApplied) onFilterApplied(); // Llamar a la función para resetear paginación
+        if (onFilterApplied) onFilterApplied();
     }, [logs, onFilterApplied]);
 
     const totalPages = Math.ceil(logs.length / itemsPerPage);
-    const startIndex = (currentPage - 1) * itemsPerPage;
-    const endIndex = startIndex + itemsPerPage;
-    const currentLogs = logs.slice(startIndex, endIndex);
+    const currentLogs = logs.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
 
-    /**
-     * Mapea el nivel del log a un color y estilo visual.
-     * 
-     * @param {string} level - Nivel del log (info, warn, error).
-     * @returns {string} Nombre del nivel formateado.
-     */
     const mapLogLevel = (level) => {
         const levels = {
-            warn: "⚠️Advertencia",
-            error: "⛔Error"
+            warn: "⚠️ Advertencia",
+            error: "⛔ Error",
         };
-        return levels[level];
+        return levels[level] || "ℹ️ Info";
     };
 
-    const getRowBackgroundColor = (level) => {
-        if (level === 'error') return 'error-row';
-        if (level === 'warn') return 'warn-row';
-        return '';
+    const getRowClass = (level) => {
+        if (level === "error") return "record-list-row-error";
+        if (level === "warn") return "record-list-row-warn";
+        return "";
     };
 
     if (loading) {
         return (
-            <div className="loading-container">
-                <div className="spinner"></div>
+            <div className="record-list-loading">
+                <div className="record-list-spinner"></div>
             </div>
         );
     }
 
     return (
         <div className="record-list-container">
-            <h2>Historial de Registros</h2>
+            <h2 className="record-list-title">{title}</h2>
 
-            {/* Mensaje cuando no hay resultados */}
             {logs.length === 0 ? (
-                <p className="no-results">No hay registros disponibles.</p>
+                <p className="record-list-no-results">No hay registros disponibles.</p>
             ) : (
                 <>
-                    {/* Tabla con la lista de registros */}
-                    <table className="record-table">
+                    <table className="record-list-table">
                         <thead>
-                            <tr>
-                                <th>Nivel</th>
-                                <th>Mensaje</th>
-                                <th>Contexto</th>
-                                <th>Fecha</th>
-                            </tr>
+                        <tr>
+                            <th className="record-col-nivel">Nivel</th>
+                            <th className="record-col-mensaje">Mensaje</th>
+                            <th className="record-col-contexto">Contexto</th>
+                            <th className="record-col-fecha">Fecha</th>
+                        </tr>
                         </thead>
                         <tbody>
                             {currentLogs.map((log, index) => (
-                                <tr key={index} className={getRowBackgroundColor(log.level)}>
-                                    <td className="log-level">{mapLogLevel(log.level)}</td>
+                                <tr key={index} className={getRowClass(log.level)}>
+                                    <td>{mapLogLevel(log.level)}</td>
                                     <td>{log.message}</td>
                                     <td>{log.context || "N/A"}</td>
                                     <td>{new Date(log.timestamp).toLocaleString()}</td>
@@ -85,20 +64,19 @@ const RecordList = ({ logs = [], loading, onFilterApplied }) => {
                         </tbody>
                     </table>
 
-                    {/* Sección de paginación */}
                     {totalPages > 1 && (
-                        <div className="pagination">
-                            <button 
-                                className="pagination-btn" 
-                                onClick={() => setCurrentPage(currentPage - 1)} 
+                        <div className="record-list-pagination">
+                            <button
+                                className="record-list-btn"
+                                onClick={() => setCurrentPage(currentPage - 1)}
                                 disabled={currentPage === 1}
                             >
                                 ⬅️ Anterior
                             </button>
                             <span>Página {currentPage} de {totalPages}</span>
-                            <button 
-                                className="pagination-btn" 
-                                onClick={() => setCurrentPage(currentPage + 1)} 
+                            <button
+                                className="record-list-btn"
+                                onClick={() => setCurrentPage(currentPage + 1)}
                                 disabled={currentPage === totalPages}
                             >
                                 Siguiente ➡️

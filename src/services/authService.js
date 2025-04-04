@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { jwtDecode } from 'jwt-decode';
 
-const API_URL = 'http://localhost:3000/auth';
+const API_URL = 'http://192.168.168.108:3000/auth';
 
 // Función para obtener el `access_token` desde `sessionStorage`
 export const getAccessToken = () => sessionStorage.getItem('access_token');

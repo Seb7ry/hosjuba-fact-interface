@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_URL = "http://localhost:3000/admission"; // Ajusta la URL de tu backend
+const API_URL = "http://192.168.168.108:3000/admission"; // Ajusta la URL de tu backend
 
 // 🔹 Función para obtener los headers con el token de autenticación
 const getAuthHeaders = () => {

@@ -1,95 +1,99 @@
-/* Contenedor principal */
+/* ================================
+   Record List: Contenedor General
+================================= */
 .record-list-container {
     width: 100%;
-    max-width: 2000px;
+    max-width: 1200px;
     margin: 20px auto;
-    background: white;
     padding: 20px;
     border-radius: 8px;
+    background-color: #fff;
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
     text-align: center;
+    overflow-x: auto;
 }
 
-/* =======================
-    Estilos para la Tabla
-========================== */
-.record-table {
+/* ================================
+   Título
+================================= */
+.record-list-title {
+    margin-bottom: 15px;
+    font-size: 20px;
+    font-weight: bold;
+    color: #333;
+}
+
+/* ================================
+   Tabla
+================================= */
+.record-list-table {
     width: 100%;
     border-collapse: collapse;
     margin-top: 10px;
-    overflow: hidden;
+    /* Quitar table-layout: fixed para que el contenido defina el tamaño */
 }
 
-.record-table th,
-.record-table td {
-    padding: 12px;
+/* Asignar anchos personalizados a las columnas */
+.record-col-nivel {
+    width: 10%;
+    min-width: 100px;
+}
+
+.record-col-mensaje {
+    width: 50%;
+    min-width: 300px;
+}
+
+.record-col-contexto {
+    width: 20%;
+    min-width: 150px;
+}
+
+.record-col-fecha {
+    width: 20%;
+    min-width: 150px;
+}
+
+.record-list-table th,
+.record-list-table td {
+    padding: 10px;
     border-bottom: 1px solid #ddd;
     text-align: center;
     font-size: 15px;
+    word-break: break-word;
 }
 
-/* Encabezado de la tabla */
-.record-table th {
-    background: #038F67; /* Color de fondo del encabezado */
+.record-list-table th {
+    background-color: #038f67;
     color: white;
     font-weight: bold;
 }
 
-/* Anchos fijos para las columnas */
-.record-table th:nth-child(1), /* Nivel */
-.record-table td:nth-child(1) {
-    width: 150px; /* Ancho fijo para la columna de Nivel */
+/* ================================
+   Filas por Nivel
+================================= */
+.record-list-row-error {
+    background-color: #ffe3e0;
 }
 
-
-.record-table th:nth-child(2), /* Mensaje */
-.record-table td:nth-child(2) {
-    width: 400px; /* Ancho fijo para la columna de Mensaje */
+.record-list-row-warn {
+    background-color: #fff3cd;
 }
 
-.record-table th:nth-child(3), /* Contexto */
-.record-table td:nth-child(3) {
-    width: 150px; /* Ancho fijo para la columna de Contexto */
-}
-
-.record-table th:nth-child(4), /* Fecha */
-.record-table td:nth-child(4) {
-    width: 10px; /* Ancho fijo para la columna de Fecha */
-}
-
-/* Colores de fondo para las filas basados en el nivel */
-.error-row {
-    background-color: #ffe3e0;  /* Rojo claro */
-}
-
-.warn-row {
-    background-color: #fff3cd;  /* Amarillo claro */
-}
-
-.record-table th,
-.record-table td {
-    padding: 12px;
-    border-bottom: 1px solid #ddd;
-    text-align: center;
-    font-size: 15px;
-}
-
-/* Otros estilos para las tablas y paginación siguen igual */
-
-
-/* ==========================
-    Estilos para Paginación
-============================= */
-.pagination {
+/* ================================
+   Paginación
+================================= */
+.record-list-pagination {
     display: flex;
     justify-content: center;
     align-items: center;
     margin-top: 15px;
     font-size: 15px;
     gap: 10px;
+    flex-wrap: wrap;
 }
 
-.pagination-btn {
+.record-list-btn {
     background-color: #f8f9fa;
     border: 1px solid #ccc;
     padding: 8px 12px;
@@ -98,83 +102,96 @@
     transition: background-color 0.3s ease;
 }
 
-.pagination-btn:hover {
+.record-list-btn:hover {
     background-color: #e0e0e0;
 }
 
-.pagination-btn:disabled {
+.record-list-btn:disabled {
     opacity: 0.5;
     cursor: not-allowed;
 }
 
-/* ==========================
-    Estilos para Mensajes de Estado
-============================= */
-.no-results {
-    color: #555;
-    font-size: 16px;
+/* ================================
+   Estados: Sin resultados / Loading
+================================= */
+.record-list-no-results {
     margin-top: 10px;
+    font-size: 20px;
+    color: #555;
     font-weight: bold;
 }
 
-/* ==========================
-    Estilos para Spinner de Carga
-============================= */
-.loading-container {
+.record-list-loading {
     display: flex;
     justify-content: center;
     align-items: center;
     margin-top: 20px;
 }
 
-/* Spinner animado */
-.spinner {
+.record-list-spinner {
     border: 4px solid #f3f3f3;
     border-top: 4px solid #0066ff;
     border-radius: 50%;
     width: 40px;
     height: 40px;
-    animation: spin 1s linear infinite;
+    animation: record-list-spin 1s linear infinite;
 }
 
-/* Animación del spinner */
-@keyframes spin {
+@keyframes record-list-spin {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
 }
 
-/* ==========================
-    Estilos Responsive
-============================= */
+/* ================================
+   Responsive (Reducir Tamaños)
+================================= */
 @media (max-width: 1024px) {
     .record-list-container {
         padding: 15px;
     }
 
-    .record-table th, 
-    .record-table td {
-        font-size: 14px;
+    .record-list-table th,
+    .record-list-table td {
+        font-size: 13px;
+        padding: 8px;
     }
 
-    .pagination-btn {
+    .record-list-title {
+        font-size: 20px;
+    }
+
+    .record-list-pagination {
+        font-size: 15px;
+    }
+
+    .record-list-btn {
         padding: 6px 10px;
+        font-size: 15px;
     }
 }
 
 @media (max-width: 768px) {
-    .record-table th, 
-    .record-table td {
+    .record-list-table th,
+    .record-list-table td {
         font-size: 12px;
-        padding: 8px;
-    }
-    
-    .pagination {
-        flex-direction: column;
-        gap: 5px;
+        padding: 6px;
     }
 
-    .pagination-btn {
-        padding: 6px 10px;
+    .record-list-title {
+        font-size: 16px;
+    }
+
+    .record-list-pagination {
+        gap: 5px;
+        font-size: 12px;
+    }
+
+    .record-list-btn {
+        padding: 5px 8px;
+        font-size: 12px;
+    }
+
+    .record-list-no-results {
         font-size: 14px;
     }
 }

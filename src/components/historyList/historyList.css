@@ -1,172 +1,156 @@
 /* Contenedor principal */
-.history-list-container {
-    width: 100%;
+.history-container {
     max-width: 2000px;
     margin: 20px auto;
-    background: white;
     padding: 20px;
+    background: #fff;
     border-radius: 8px;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     text-align: center;
-}
-
-/* =======================
-    Estilos para la Tabla
-========================== */
-.history-table {
+  }
+  
+  /* Tabla */
+  .history-table {
     width: 100%;
     border-collapse: collapse;
     margin-top: 10px;
-    overflow: hidden;
-}
-
-.history-table th,
-.history-table td {
+  }
+  
+  .history-table th,
+  .history-table td {
     padding: 12px;
     border-bottom: 1px solid #ddd;
     text-align: center;
     font-size: 15px;
-}
-
-/* Encabezado de la tabla */
-.history-table th {
-    background: #038F67;
+  }
+  
+  .history-table th {
+    background-color: #038F67;
     color: white;
     font-weight: bold;
-}
-
-/* Anchos fijos para las columnas */
-.history-table th:nth-child(1), /* Usuario */
-.history-table td:nth-child(1) {
-    width: 150px;
-}
-
-.history-table th:nth-child(2), /* Mensaje */
-.history-table td:nth-child(2) {
-    width: 400px;
-}
-
-.history-table th:nth-child(3), /* Contexto */
-.history-table td:nth-child(3) {
-    width: 150px;
-}
-
-.history-table th:nth-child(4), /* Fecha */
-.history-table td:nth-child(4) {
-    width: 200px;
-}
-
-/* Filas intercaladas con un sombreado sutil */
-.history-table tr:nth-child(even) {
-    background-color: #f9f9f9; /* Color sutil para las filas pares */
-}
-
-.history-table tr:nth-child(odd) {
-    background-color: #ffffff; /* Color blanco para las filas impares */
-}
-
-/* También puedes agregar una transición suave para el cambio de color */
-.history-table tr {
+  }
+  
+  .history-table tr:nth-child(even) {
+    background-color: #f9f9f9;
+  }
+  
+  .history-table tr:nth-child(odd) {
+    background-color: #ffffff;
+  }
+  
+  .history-table tr {
     transition: background-color 0.3s ease;
-}
-
-
-/* ==========================
-    Estilos para Paginación
-============================= */
-.pagination {
+  }
+  
+  /* Columnas fijas */
+  .history-table th:nth-child(1),
+  .history-table td:nth-child(1) {
+    width: 150px;
+  }
+  
+  .history-table th:nth-child(2),
+  .history-table td:nth-child(2) {
+    width: 400px;
+  }
+  
+  .history-table th:nth-child(3),
+  .history-table td:nth-child(3) {
+    width: 150px;
+  }
+  
+  .history-table th:nth-child(4),
+  .history-table td:nth-child(4) {
+    width: 200px;
+  }
+  
+  /* Paginación */
+  .history-pagination {
     display: flex;
     justify-content: center;
     align-items: center;
+    gap: 12px;
     margin-top: 15px;
     font-size: 15px;
-    gap: 10px;
-}
-
-.pagination-btn {
+  }
+  
+  .pagination-button {
     background-color: #f8f9fa;
     border: 1px solid #ccc;
     padding: 8px 12px;
     border-radius: 5px;
     cursor: pointer;
     transition: background-color 0.3s ease;
-}
-
-.pagination-btn:hover {
+  }
+  
+  .pagination-button:hover {
     background-color: #e0e0e0;
-}
-
-.pagination-btn:disabled {
+  }
+  
+  .pagination-button:disabled {
     opacity: 0.5;
     cursor: not-allowed;
-}
-
-/* ==========================
-    Estilos para Mensajes de Estado
-============================= */
-.no-results {
-    color: #555;
+  }
+  
+  /* Estado vacío */
+  .history-empty {
     font-size: 16px;
-    margin-top: 10px;
     font-weight: bold;
-}
-
-/* ==========================
-    Estilos para Spinner de Carga
-============================= */
-.loading-container {
+    color: #555;
+    margin-top: 10px;
+  }
+  
+  /* Carga */
+  .history-loading {
     display: flex;
     justify-content: center;
     align-items: center;
     margin-top: 20px;
-}
-
-.spinner {
+  }
+  
+  .history-spinner {
     border: 4px solid #f3f3f3;
     border-top: 4px solid #038F67;
     border-radius: 50%;
     width: 40px;
     height: 40px;
     animation: spin 1s linear infinite;
-}
-
-@keyframes spin {
-    0% { transform: rotate(0deg); }
+  }
+  
+  @keyframes spin {
+    0% { transform: rotate(0); }
     100% { transform: rotate(360deg); }
-}
-
-/* ==========================
-    Estilos Responsive
-============================= */
-@media (max-width: 1024px) {
-    .history-list-container {
-        padding: 15px;
+  }
+  
+  /* Responsive */
+  @media (max-width: 1024px) {
+    .history-container {
+      padding: 15px;
     }
-
-    .history-table th, 
+  
+    .history-table th,
     .history-table td {
-        font-size: 14px;
+      font-size: 14px;
     }
-
-    .pagination-btn {
-        padding: 6px 10px;
+  
+    .pagination-button {
+      padding: 6px 10px;
     }
-}
-
-@media (max-width: 768px) {
-    .history-table th, 
+  }
+  
+  @media (max-width: 768px) {
+    .history-table th,
     .history-table td {
-        font-size: 12px;
-        padding: 8px;
+      font-size: 12px;
+      padding: 8px;
     }
-    
-    .pagination {
-        flex-direction: column;
-        gap: 5px;
+  
+    .history-pagination {
+      flex-direction: column;
+      gap: 6px;
     }
-
-    .pagination-btn {
-        padding: 6px 10px;
-        font-size: 14px;
+  
+    .pagination-button {
+      font-size: 14px;
     }
-}
+  }
+  

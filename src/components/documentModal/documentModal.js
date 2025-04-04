@@ -11,6 +11,7 @@ const DocumentModal = ({ isOpen, onClose, admission }) => {
 
     const MapAdmissionType = (type) => {
         if (type === 1) return "Urgencias";
+        if (type === 9) return "Triage";
         if (type === 99) return "Consulta Externa";
         return "Hospitalización";
     };
@@ -98,7 +99,7 @@ const DocumentModal = ({ isOpen, onClose, admission }) => {
                         <p><strong>Nombre:</strong> {admission.fullNamePatient}</p>
                         <p><strong>Documento:</strong> {admission.documentPatient}</p>
                         <p><strong>Fecha:</strong> {new Date(admission.dateAdmission).toLocaleDateString()}</p>
-                        <p><strong>Servicio:</strong> {MapAdmissionType(admission.typeAdmission)}</p>
+                        <p><strong>Servicio Ingreso:</strong> {MapAdmissionType(admission.typeAdmission)}</p>
                     </div>
                 </div>
 

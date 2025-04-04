@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_URL = "http://localhost:3000/log"; // Ajusta la URL si es diferente
+const API_URL = "http://192.168.168.108:3000/log"; // Ajusta la URL si es diferente
 
 
 /**

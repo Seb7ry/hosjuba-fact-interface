@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_URL = "http://localhost:3000/document"; // Ajusta la URL si es diferente
+const API_URL = "http://192.168.168.108:3000/document"; // Ajusta la URL si es diferente
 
 /**
  * Descarga el PDF generado para una admisión específica.

@@ -6,34 +6,6 @@
     height: 100vh;
 }
 
-/* =============================
-   Menú Lateral (Sidebar)
-============================= */
-.sidebar {
-    width: 250px;
-    height: 100vh;
-    background: #ffffff;
-    color: #333;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    position: fixed;
-    left: 0;
-    top: 0;
-    bottom: 0;
-    box-shadow: 6px 0px 6px -4px rgba(0, 0, 0, 0.1);
-    transition: width 0.3s ease;
-    overflow: hidden;
-}
-
-/* =============================
-   Menú Colapsado (Responsive)
-============================= */
-.sidebar.collapsed {
-    width: 80px;
-}
-
-/* Ajustar el contenido para que no se solape */
 .content {
     flex-grow: 1;
     margin-left: 250px;
@@ -46,23 +18,47 @@
 }
 
 /* =============================
-   Encabezado del Menú
+   Sidebar
+============================= */
+.sidebar {
+    width: 250px;
+    height: 100vh;
+    background: #fff;
+    color: #333;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    position: fixed;
+    left: 0;
+    top: 0;
+    box-shadow: 6px 0 6px -4px rgba(0, 0, 0, 0.1);
+    transition: width 0.3s ease;
+    overflow: hidden;
+}
+
+.sidebar.collapsed {
+    width: 80px;
+}
+
+/* =============================
+   Sidebar Header
 ============================= */
 .sidebar-header {
     display: flex;
     align-items: center;
     justify-content: space-between;
     padding: 15px;
-    background: #038F67;
-    color: white;
+    background: #038f67;
+    color: #fff;
     height: 55px;
-    width: 100%;  /* Aseguramos que ocupe el 100% del ancho */
+    width: 100%;
 }
 
-/* Solo mostrar el logo cuando el menú está expandido */
 .sidebar-logo {
     width: 40px;
     height: auto;
+    margin-right: 10%;
+    padding: 0;
     transition: opacity 0.3s ease;
 }
 
@@ -71,15 +67,14 @@
 }
 
 /* =============================
-   Botón para Colapsar el Menú
+   Toggle Button
 ============================= */
 .menu-toggle {
     background: none;
     border: none;
-    color: white;
+    color: #fff;
     font-size: 20px;
     cursor: pointer;
-    text-align: center;
     width: 40px;
 }
 
@@ -88,7 +83,7 @@
 }
 
 /* =============================
-   Menú de Navegación
+   Navegación
 ============================= */
 .menu {
     flex-grow: 1;
@@ -101,52 +96,47 @@
     margin: 0;
 }
 
-.menu-item {
-    list-style: none;
-}
-
 .menu-item a {
     display: flex;
     align-items: center;
     padding: 12px 15px;
-    color: black;
+    color: #000;
     text-decoration: none;
-    transition: background 0.3s, color 0.3s;
     border-radius: 8px;
+    transition: background 0.3s, color 0.3s;
 }
 
-/* =============================
-   Iconos del Menú
-============================= */
 .menu-icon {
     width: 30px;
-    text-align: center;
     margin-right: 10px;
-    color: #038F67;
+    text-align: center;
+    color: #038f67;
 }
 
-/* Cuando el menú está colapsado, centrar iconos */
 .sidebar.collapsed .menu-icon {
     margin-right: 0;
-    text-align: center;
     width: 100%;
 }
 
 /* =============================
-   Hover en el Menú
+   Hover & Activo
 ============================= */
 .menu-item a:hover,
 .menu-item a.active {
-    background: #038F67;
-    color: white;
+    background: #038f67;
+    color: #fff;
 }
 
 .menu-item a.active .menu-icon {
-    color: white;
+    color: #fff;
+}
+
+.menu-item a:hover .menu-icon {
+    color: #fff;
 }
 
 /* =============================
-   Botón de Logout
+   Logout
 ============================= */
 .logout-container {
     padding: 15px;
@@ -158,23 +148,20 @@
     justify-content: center;
     width: 100%;
     padding: 12px;
+    margin-bottom: 10%;
     border: 2px solid #ff4d4d;
     background: transparent;
     color: #ff4d4d;
-    text-decoration: none;
-    transition: background 0.3s, color 0.3s;
     border-radius: 8px;
     cursor: pointer;
     font-size: 16px;
     font-weight: bold;
+    transition: background 0.3s, color 0.3s;
 }
 
-/* =============================
-   Hover en Logout
-============================= */
 .logout-button:hover {
     background: #ff4d4d;
-    color: white;
+    color: #fff;
 }
 
 .logout-button .menu-icon {
@@ -182,5 +169,5 @@
 }
 
 .logout-button:hover .menu-icon {
-    color: white;
+    color: #fff;
 }

@@ -12,7 +12,7 @@ const Login = () => {
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
     const [showError, setShowError] = useState(false);
-    const [showModal, setShowModal] = useState(false); // Estado para manejar el modal
+    const [showModal, setShowModal] = useState(false);
 
     const navigate = useNavigate();  
 
@@ -20,19 +20,16 @@ const Login = () => {
         e.preventDefault();
         setLoading(true);
         setShowError(false);
-    
+
         try {
             await authService(username, password);
             setLoading(false);
-            navigate('/dashboard'); 
-        } catch (error) {
+            navigate('/dashboard');
+        } catch (err) {
             setLoading(false);
-            setError(error.message); 
+            setError(err.message);
             setShowError(true);
-    
-            setTimeout(() => {
-                setShowError(false);
-            }, 5000);
+            setTimeout(() => setShowError(false), 5000);
         }
     };
 
@@ -40,12 +37,11 @@ const Login = () => {
         <div className="login-container">
             {loading && <LoadingOverlay />}
 
-            {/* Alerta de error */}
-            <div className={`error-alert ${showError ? 'show' : ''}`}>
+            <div className={`login-error-alert ${showError ? 'login-show' : ''}`}>
                 {error}
             </div>
 
-            <div className={`login-box ${loading ? 'blurred' : ''}`}>
+            <div className={`login-box ${loading ? 'login-blurred' : ''}`}>
                 <h2>Bienvenido</h2>
                 <form onSubmit={handleSubmit}>
                     <label>Usuario</label>
@@ -57,46 +53,51 @@ const Login = () => {
                         required
                     />
                     <label>Contraseña</label>
-                    <div className="password-container">
+                    <div className="login-password-container">
                         <input
-                            type={showPassword ? "text" : "password"}
+                            type={showPassword ? 'text' : 'password'}
                             placeholder="Ingrese su contraseña"
                             value={password}
                             onChange={(e) => setPassword(e.target.value.toUpperCase())}
                             required
                         />
                         <span
-                            className="toggle-password"
+                            className="login-toggle-password"
                             onClick={() => setShowPassword(!showPassword)}
                         >
                             {showPassword ? <FaEyeSlash /> : <FaEye />}
                         </span>
                     </div>
-                    <button type="submit" className="sign-in-button">Ingresar</button>
-                    <p className="signup-text">
-                        ¿Deseas más información de este servicio?
-                        
-                        <a href="#" onClick={(e) => { e.preventDefault(); setShowModal(true); }}>
-                            Aquí
+
+                    <button type="submit" className="login-sign-in-button">Ingresar</button>
+
+                    <p className="login-signup-text">
+                        ¿Deseas más información de este servicio?{' '}
+                        <a
+                        href="/#"
+                        onClick={(e) => {
+                            e.preventDefault();
+                            setShowModal(true);
+                        }}
+                        role="button"
+                        >
+                        Aquí
                         </a>
                     </p>
                 </form>
 
-                {/* MODAL */}
                 {showModal && (
-                    <div className="modal-overlay">
-                        <div className="modal-box">
-                            <div className="modal-header">
-                                <h5 className="modal-title">Información del Servicio</h5>
-                                <button className="close-button" onClick={() => setShowModal(false)}>&times;</button>
+                    <div className="login-modal-overlay">
+                        <div className="login-modal-box">
+                            <div className="login-modal-header">
+                                <h5 className="login-modal-title">Información del Servicio</h5>
+                                <button className="login-close-button" onClick={() => setShowModal(false)}>&times;</button>
                             </div>
-                            <div className="modal-body">
-                                <p>
-                                Pendiente modificar este modal, cambiar en caso de necesitarse.
-                                </p>
+                            <div className="login-modal-body">
+                                <p>Pendiente modificar este modal, cambiar en caso de necesitarse.</p>
                             </div>
-                            <div className="modal-footer">
-                                <button className="btn-close" onClick={() => setShowModal(false)}>Cerrar</button>
+                            <div className="login-modal-footer">
+                                <button className="login-btn-close" onClick={() => setShowModal(false)}>Cerrar</button>
                             </div>
                         </div>
                     </div>
