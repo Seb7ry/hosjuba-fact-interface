@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import Navbar from "../../components/navbar/navbar"; 
-import "./dashboard.css"; 
+//import "./dashboard.css"; 
 
 const Dashboard = () => {
 

@@ -32,20 +32,20 @@ const DocumentList = ({ admissions, loading }) => {
 
     if (loading) {
         return (
-            <div className="loading-container">
-                <div className="spinner"></div>
+            <div className="document-list-loading">
+                <div className="document-spinner"></div>
             </div>
         );
     }
 
     return (
-        <div className="admission-list-container">
-            <h2>Resultados de Admisión</h2>
+        <div className="document-list-wrapper">
+            <h1 className="document-list-title">Resultados de Admisión</h1>
             {admissions.length === 0 ? (
-                <p className="no-results">No se encontraron admisiones.</p>
+                <p className="document-list-no-results">No se encontraron admisiones.</p>
             ) : (
                 <>
-                    <table className="admission-table">
+                    <table className="document-list-table">
                         <thead>
                             <tr>
                                 <th>No. Admisión</th>
@@ -58,32 +58,30 @@ const DocumentList = ({ admissions, loading }) => {
                             </tr>
                         </thead>
                         <tbody>
-                            {currentAdmissions.map((admission, index) => {
-                                return (
-                                    <tr key={index}>
-                                        <td>{admission.consecutiveAdmission}</td>
-                                        <td>{admission.documentPatient}</td>
-                                        <td>{admission.fullNamePatient}</td>
-                                        <td>{new Date(admission.dateAdmission).toLocaleDateString()}</td>
-                                        <td>{MapAdmissionType(admission.typeAdmission)}</td>
-                                        <td>{admission.userAdmission}</td>
-                                        <td>
-                                            <button
-                                                className="signature-btn"
-                                                onClick={() => openModal(admission)}
-                                            >
-                                                <FontAwesomeIcon icon={faFileAlt} />
-                                            </button>
-                                        </td>
-                                    </tr>
-                                );
-                            })}
+                            {currentAdmissions.map((admission, index) => (
+                                <tr key={index}>
+                                    <td>{admission.consecutiveAdmission}</td>
+                                    <td>{admission.documentPatient}</td>
+                                    <td>{admission.fullNamePatient}</td>
+                                    <td>{new Date(admission.dateAdmission).toLocaleDateString()}</td>
+                                    <td>{MapAdmissionType(admission.typeAdmission)}</td>
+                                    <td>{admission.userAdmission}</td>
+                                    <td>
+                                        <button
+                                            className="document-signature-btn"
+                                            onClick={() => openModal(admission)}
+                                        >
+                                            <FontAwesomeIcon icon={faFileAlt} />
+                                        </button>
+                                    </td>
+                                </tr>
+                            ))}
                         </tbody>
                     </table>
 
-                    <div className="pagination">
+                    <div className="document-pagination">
                         <button
-                            className="pagination-btn"
+                            className="document-pagination-btn"
                             onClick={() => setCurrentPage(currentPage - 1)}
                             disabled={currentPage === 1}
                         >
@@ -91,7 +89,7 @@ const DocumentList = ({ admissions, loading }) => {
                         </button>
                         <span>Página {currentPage} de {totalPages}</span>
                         <button
-                            className="pagination-btn"
+                            className="document-pagination-btn"
                             onClick={() => setCurrentPage(currentPage + 1)}
                             disabled={currentPage === totalPages}
                         >
@@ -101,7 +99,6 @@ const DocumentList = ({ admissions, loading }) => {
                 </>
             )}
 
-            {/* Modal de Firma */}
             <DocumentModal
                 isOpen={isModalOpen}
                 onClose={() => setIsModalOpen(false)}

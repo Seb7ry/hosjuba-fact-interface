@@ -7,6 +7,8 @@ const DocumentModal = ({ isOpen, onClose, admission }) => {
     const [facturas, setFacturas] = useState([]);
     const [selectedFactura, setSelectedFactura] = useState(null);
     const [pdfUrl, setPdfUrl] = useState(null);
+    const [loading, setLoading] = useState(false);
+    const [iframeKey, setIframeKey] = useState(0);
     const scrollPosition = useRef(0); // Usamos useRef para almacenar la posición del scroll sin causar re-renderizados
 
     const MapAdmissionType = (type) => {
@@ -46,6 +48,7 @@ const DocumentModal = ({ isOpen, onClose, admission }) => {
         }
     }, [isOpen]);
 
+    
     useEffect(() => {
         if (isOpen && admission) {
             getAllFact(admission.documentPatient, admission.consecutiveAdmission)
@@ -66,17 +69,29 @@ const DocumentModal = ({ isOpen, onClose, admission }) => {
 
     const loadPdf = async (numberFac = null) => {
         try {
+            setLoading(true);
+            setPdfUrl(null); // Oculta el iframe por completo
+            setIframeKey(prev => prev + 1); // Cambiamos la clave del iframe
+    
+            // Esperamos un poco para asegurar que el iframe se desmonte
+            await new Promise(resolve => setTimeout(resolve, 100));
+    
             const pdfBlob = await downloadPdf(admission.documentPatient, admission.consecutiveAdmission, numberFac);
+            await new Promise(resolve => setTimeout(resolve, 3000)); // Espera forzada de carga
+    
             if (pdfBlob instanceof Blob) {
                 const url = window.URL.createObjectURL(pdfBlob);
-                setPdfUrl(url);
+                setPdfUrl(url); // Solo se muestra después del delay
             } else {
                 console.error("Error: No se ha recibido un Blob válido del servidor.");
             }
         } catch (error) {
             console.error("Error al cargar el PDF:", error);
+        } finally {
+            setLoading(false); // Ocultamos el spinner
         }
     };
+    
 
     const handleFacturaClick = (factura) => {
         setSelectedFactura(factura);
@@ -122,17 +137,24 @@ const DocumentModal = ({ isOpen, onClose, admission }) => {
                             </div>
                         )}
 
-                        <div className="document-preview">
-                            {pdfUrl ? (
-                                <iframe 
-                                    src={pdfUrl} 
-                                    title="Factura" 
-                                    style={{ height: '100%' }}
-                                />
-                            ) : (
-                                <p>No hay facturas disponibles</p>
-                            )}
-                        </div>
+<div className="document-preview">
+    {loading || !pdfUrl ? (
+        <div className="spinner-container">
+            <div className="spinner"></div>
+            <p className="loading-text">Cargando documento...</p>
+        </div>
+    ) : (
+        <iframe
+            key={iframeKey}
+            src={pdfUrl}
+            title="Factura"
+            style={{ height: '100%', width: '100%', border: 'none' }}
+        />
+    )}
+</div>
+
+
+
                     </div>
                 </div>
             </div>

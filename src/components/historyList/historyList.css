@@ -1,156 +1,202 @@
-/* Contenedor principal */
-.history-container {
-    max-width: 2000px;
-    margin: 20px auto;
-    padding: 20px;
-    background: #fff;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    text-align: center;
-  }
-  
-  /* Tabla */
-  .history-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 10px;
-  }
-  
-  .history-table th,
-  .history-table td {
-    padding: 12px;
-    border-bottom: 1px solid #ddd;
-    text-align: center;
-    font-size: 15px;
-  }
-  
-  .history-table th {
-    background-color: #038F67;
-    color: white;
-    font-weight: bold;
-  }
-  
-  .history-table tr:nth-child(even) {
-    background-color: #f9f9f9;
-  }
-  
-  .history-table tr:nth-child(odd) {
-    background-color: #ffffff;
-  }
-  
-  .history-table tr {
-    transition: background-color 0.3s ease;
-  }
-  
-  /* Columnas fijas */
-  .history-table th:nth-child(1),
-  .history-table td:nth-child(1) {
-    width: 150px;
-  }
-  
-  .history-table th:nth-child(2),
-  .history-table td:nth-child(2) {
-    width: 400px;
-  }
-  
-  .history-table th:nth-child(3),
-  .history-table td:nth-child(3) {
-    width: 150px;
-  }
-  
-  .history-table th:nth-child(4),
-  .history-table td:nth-child(4) {
-    width: 200px;
-  }
-  
-  /* Paginación */
-  .history-pagination {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 12px;
-    margin-top: 15px;
-    font-size: 15px;
-  }
-  
-  .pagination-button {
-    background-color: #f8f9fa;
-    border: 1px solid #ccc;
-    padding: 8px 12px;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-  }
-  
-  .pagination-button:hover {
-    background-color: #e0e0e0;
-  }
-  
-  .pagination-button:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-  }
-  
-  /* Estado vacío */
-  .history-empty {
-    font-size: 16px;
-    font-weight: bold;
-    color: #555;
-    margin-top: 10px;
-  }
-  
-  /* Carga */
-  .history-loading {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-top: 20px;
-  }
-  
-  .history-spinner {
-    border: 4px solid #f3f3f3;
-    border-top: 4px solid #038F67;
-    border-radius: 50%;
-    width: 40px;
-    height: 40px;
-    animation: spin 1s linear infinite;
-  }
-  
-  @keyframes spin {
-    0% { transform: rotate(0); }
-    100% { transform: rotate(360deg); }
-  }
-  
-  /* Responsive */
-  @media (max-width: 1024px) {
-    .history-container {
+/* ================================
+   History List: Contenedor General
+================================= */
+.history-list-container {
+  width: 100%;
+  max-width: 1200px;
+  padding: 20px;
+  border-radius: 8px;
+  background-color: #fff;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  box-sizing: border-box;
+}
+
+/* ================================
+ Tabla - Contenedor scroll horizontal
+================================= */
+.history-list-table-wrapper {
+  overflow-x: auto;
+  width: 100%;
+}
+
+/* ================================
+ Título
+================================= */
+.history-list-title {
+  margin-bottom: 15px;
+  font-weight: bold;
+  color: black;
+}
+
+/* ================================
+ Tabla
+================================= */
+.history-list-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+  min-width: 600px;
+  table-layout: auto;
+}
+
+/* Asignar anchos personalizados a las columnas */
+.history-col-user {
+  width: 15%;
+  min-width: 100px;
+}
+
+.history-col-message {
+  width: 55%;
+  min-width: 300px;
+}
+
+.history-col-context {
+  width: 15%;
+  min-width: 150px;
+}
+
+.history-col-date {
+  width: 15%;
+  min-width: 150px;
+}
+
+.history-list-table th,
+.history-list-table td {
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+  text-align: center;
+  font-size: 15px;
+  word-break: break-word;
+}
+
+.history-list-table th {
+  background-color: #038f67;
+  color: white;
+  font-weight: bold;
+}
+
+/* ================================
+ Paginación
+================================= */
+.history-list-pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 15px;
+  font-size: 15px;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.history-list-btn {
+  background-color: #f8f9fa;
+  border: 1px solid #ccc;
+  padding: 8px 12px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.history-list-btn:hover {
+  background-color: #e0e0e0;
+}
+
+.history-list-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* ================================
+ Estados: Sin resultados / Loading
+================================= */
+.history-list-no-results {
+  margin-top: 10px;
+  font-size: 20px;
+  color: #555;
+  font-weight: bold;
+}
+
+.history-list-loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.history-list-spinner {
+  border: 4px solid #f3f3f3;
+  border-top: 4px solid #038F67;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  animation: history-list-spin 1s linear infinite;
+}
+
+@keyframes history-list-spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* ================================
+ Responsive (Ajustes en móviles)
+================================= */
+@media (max-width: 1024px) {
+  .history-list-container {
+      width: 90%;
       padding: 15px;
-    }
-  
-    .history-table th,
-    .history-table td {
-      font-size: 14px;
-    }
-  
-    .pagination-button {
-      padding: 6px 10px;
-    }
+      margin-left: auto;
+      margin-right: auto;
   }
-  
-  @media (max-width: 768px) {
-    .history-table th,
-    .history-table td {
-      font-size: 12px;
+
+  .history-list-table th,
+  .history-list-table td {
+      font-size: 13px;
       padding: 8px;
-    }
-  
-    .history-pagination {
-      flex-direction: column;
-      gap: 6px;
-    }
-  
-    .pagination-button {
-      font-size: 14px;
-    }
   }
-  
+
+  .history-list-title {
+      font-size: 18px;
+  }
+
+  .history-list-pagination {
+      font-size: 14px;
+  }
+
+  .history-list-btn {
+      padding: 6px 10px;
+      font-size: 14px;
+  }
+}
+
+@media (max-width: 768px) {
+  .history-list-container {
+      width: 100%;
+      margin: 10px auto;
+      padding: 10px;
+  }
+
+  .history-list-table th,
+  .history-list-table td {
+      font-size: 12px;
+      padding: 6px;
+  }
+
+  .history-list-title {
+      font-size: 16px;
+  }
+
+  .history-list-pagination {
+      gap: 5px;
+      font-size: 12px;
+  }
+
+  .history-list-btn {
+      padding: 5px 8px;
+      font-size: 12px;
+  }
+
+  .history-list-no-results {
+      font-size: 14px;
+  }
+}

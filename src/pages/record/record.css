@@ -6,7 +6,7 @@
 
 .record__container {
     flex: 1;
-    overflow-y: auto;
+    overflow-y: visible;
     padding: 20px;
     margin-left: 20px;  
     margin-right: 20px; 
@@ -37,7 +37,7 @@
 
 .record__text h1 {
     margin: 0;
-    font-size: 1.8rem;
+    font-size: 3rem;
 }
 
 .record__text ul {
@@ -114,12 +114,6 @@
     background-color: #fb8500;
 }
 
-.record__list-container {
-    background: #fff;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
-}
 
 @media (max-width: 1024px) {
     .record__description {

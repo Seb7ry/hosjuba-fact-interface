@@ -127,13 +127,12 @@ const Record = () => {
                         </div>
                         <div className="record__buttons">
                             <button className="btn-search" onClick={handleSearch}>Buscar</button>
-                            <button className="btn-clear" onClick={handleClearFilters}>Actualizar</button>
+                            <button className="btn-clear" onClick={handleClearFilters}>Limpiar</button>
                         </div>
                     </section>
 
-                    <section className="record__list-container">
-                        <RecordList logs={logs} loading={loading} />
-                    </section>
+                    <RecordList logs={logs} loading={loading} />
+                
                 </div>
             </div>
         </div>

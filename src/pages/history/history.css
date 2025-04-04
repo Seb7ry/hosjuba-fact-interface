@@ -1,255 +1,161 @@
-/* Contenedor principal */
-.history-container {
+.history-page {
     display: flex;
-    background-color: #FAFAFA;
     height: 100vh;
+    background-color: #fafafa;
 }
 
-/* Contenido */
-.history-content {
+.history-container {
     flex: 1;
+    overflow-y: visible;
+    padding: 20px;
+    margin-left: 20px;  
+    margin-right: 20px; 
+}
+
+.history-content {
+    max-width: 1200px;
+    margin: 0 auto;
     display: flex;
     flex-direction: column;
-    align-items: center;
-    justify-content: flex-start;
-    padding: 20px;
-    min-height: 100vh;
-    width: 95%;
-    max-width: 2000px; /* Ajuste para mejor distribución */
-    margin-left: auto;
-    margin-right: auto;
 }
 
-/* Sección de descripción */
-.history-description {
+.history-header {
     display: flex;
-    align-items: center;
     justify-content: space-between;
-    background: white;
+    gap: 20px;
+    background: #fff;
+    border-radius: 12px;
     padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-    width: 100%;
-    margin-bottom: 15px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+    flex-wrap: wrap;
 }
 
-/* Ajuste del texto */
-.history-text {
+.history-info {
     flex: 1;
-    padding-right: 20px;
+    font-size: 1rem;
     text-align: left;
-    font-size: 19px;
 }
 
-/* Imagen */
+.history-info h1 {
+    margin: 0;
+    font-size: 3rem;
+}
+
+.history-info ul {
+    margin-top: 10px;
+    padding-left: 18px;
+}
+
 .history-image img {
-    max-width: 220px;
+    max-width: 180px;
     height: auto;
 }
 
-/* Sección de búsqueda con diseño más compacto */
-.search-container {
+.history-filters {
     display: flex;
     flex-wrap: wrap;
     gap: 15px;
-    padding: 15px;
-    background: white;
+    background: #fff;
     border-radius: 10px;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
     justify-content: center;
     align-items: center;
-    width: 100%;
-    margin-bottom: 15px;
+    padding: 20px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
 }
 
-/* Estilo para el select */
-.search-container select {
-    height: 40px;
-    width: 220px;
-    padding: 8px;
-    font-size: 14px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    outline: none;
-    text-align: center;
-}
-
-/* Estilo para los inputs de fecha */
-.search-container input[type="date"] {
-    height: 40px;
-    width: 220px;
-    padding: 8px;
-    font-size: 14px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    outline: none;
-    text-align: center;
-}
-
-/* Contenedor de búsqueda más compacto */
-.search-container {
-    grid-template-columns: repeat(6, 1fr);
+.history-filters div {
     display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-    padding: 15px;
-    background: white;
-    border-radius: 8px;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    max-width: 2000px;
-    margin-left: auto;
-    margin-right: auto;
+    flex-direction: column;
+    gap: 5px;
 }
 
-/* Ajustes para que los inputs y selects se vean más compactos */
-.search-container input,
-.search-container select,
-.search-btn {
-    height: 40px;
-    width: 190px; /* Reduce ancho para que todo encaje mejor */
-    padding: 8px;
-    font-size: 14px;
+.history-filters input,
+.history-filters select {
+    width: 190px;
+    height: 36px;
+    padding: 5px 10px;
+    font-size: 0.9rem;
     border: 1px solid #ccc;
-    border-radius: 5px;
-    outline: none;
+    border-radius: 6px;
     text-align: center;
 }
 
-/* Contenedor para los botones debajo */
-.button-group {
+.history-buttons {
     display: flex;
     gap: 10px;
-    margin-top: 5px;
+    align-items: flex-end;
 }
 
-/* Botones */
-.search-btn, .clear-btn {
+.btnHis-search,
+.btnHis-clear {
     padding: 8px 14px;
     font-size: 14px;
-    border-radius: 5px;
+    border-radius: 6px;
     cursor: pointer;
-    transition: background 0.3s ease-in-out;
     width: 110px;
+    transition: background 0.3s ease;
+    text-align: center;
 }
 
-.search-btn {
+.btnHis-search {
     background-color: #5161ce;
     color: white;
     border: none;
 }
 
-.search-btn:hover {
+.btnHis-search:hover {
     background-color: #3e4dbb;
 }
 
-.clear-btn {
+.btnHis-clear {
     background-color: #ffb703;
-    color: #333;
     border: 1px solid #fb8500;
+    color: #333;
 }
 
-.clear-btn:hover {
+.btnHis-clear:hover {
     background-color: #fb8500;
 }
 
-/* Tabla de historial */
-.history-table-container {
-    overflow-x: auto;
-    width: 100%;
-    background: white;
-    padding: 15px;
-    border-radius: 10px;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-}
+/* Responsive */
 
-.history-table {
-    width: 100%;
-    border-collapse: collapse;
-    border-radius: 10px;
-    overflow: hidden;
-}
-
-/* Encabezado de la tabla */
-.history-table th {
-    background-color: #5161ce;
-    color: white;
-    font-weight: bold;
-    padding: 10px;
-    text-align: center;
-}
-
-/* Filas de la tabla */
-.history-table td {
-    padding: 8px;
-    text-align: center;
-    border-bottom: 1px solid #ddd;
-    font-size: 14px;
-}
-
-/* Niveles de historial con colores */
-.history-info .history-level {
-    color: #0d6efd;
-    font-weight: bold;
-}
-
-.history-warn .history-level {
-    color: #ffc107;
-    font-weight: bold;
-}
-
-.history-error .history-level {
-    color: #dc3545;
-    font-weight: bold;
-}
-
-/* Estilos responsivos */
 @media (max-width: 1024px) {
-    .history-description {
+    .history-header {
         flex-direction: column;
-        text-align: center;
         align-items: center;
-    }
-    
-    .history-text {
-        padding-right: 0;
         text-align: center;
     }
 
     .history-image img {
-        max-width: 110px;
+        max-width: 120px;
     }
 
-    .search-container {
-        flex-direction: column;
-        align-items: center;
+    .history-container {
+        padding: 15px;
+        margin-left: 10px; 
+        margin-right: 10px;
     }
 
-    .history-table th, .history-table td {
-        font-size: 13px;
-        padding: 6px;
+    .history-content {
+        width: 100%;
     }
 }
 
 @media (max-width: 768px) {
-    .history-description {
+    .history-filters {
         flex-direction: column;
-        text-align: center;
-    }
-    
-    .history-image img {
-        max-width: 90px;
+        align-items: stretch;
     }
 
-    .search-container {
-        flex-direction: column;
-        align-items: center;
+    .history-filters input,
+    .history-filters select,
+    .btnHis-search,
+    .btnHis-clear {
+        width: 100%;
     }
 
-    .history-table th, .history-table td {
-        font-size: 12px;
-        padding: 6px;
+    .history-container {
+        margin-left: 5px;  
+        margin-right: 5px;
     }
 }

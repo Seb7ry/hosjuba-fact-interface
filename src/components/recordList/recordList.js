@@ -37,32 +37,34 @@ const RecordList = ({ logs = [], loading, onFilterApplied, title = "Historial de
 
     return (
         <div className="record-list-container">
-            <h2 className="record-list-title">{title}</h2>
+            <h1 className="record-list-title">{title}</h1>
 
             {logs.length === 0 ? (
                 <p className="record-list-no-results">No hay registros disponibles.</p>
             ) : (
                 <>
-                    <table className="record-list-table">
-                        <thead>
-                        <tr>
-                            <th className="record-col-nivel">Nivel</th>
-                            <th className="record-col-mensaje">Mensaje</th>
-                            <th className="record-col-contexto">Contexto</th>
-                            <th className="record-col-fecha">Fecha</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                            {currentLogs.map((log, index) => (
-                                <tr key={index} className={getRowClass(log.level)}>
-                                    <td>{mapLogLevel(log.level)}</td>
-                                    <td>{log.message}</td>
-                                    <td>{log.context || "N/A"}</td>
-                                    <td>{new Date(log.timestamp).toLocaleString()}</td>
+                    <div className="record-list-table-wrapper">
+                        <table className="record-list-table">
+                            <thead>
+                                <tr>
+                                    <th className="record-col-nivel">Nivel</th>
+                                    <th className="record-col-mensaje">Mensaje</th>
+                                    <th className="record-col-contexto">Contexto</th>
+                                    <th className="record-col-fecha">Fecha</th>
                                 </tr>
-                            ))}
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody>
+                                {currentLogs.map((log, index) => (
+                                    <tr key={index} className={getRowClass(log.level)}>
+                                        <td>{mapLogLevel(log.level)}</td>
+                                        <td>{log.message}</td>
+                                        <td>{log.context || "N/A"}</td>
+                                        <td>{new Date(log.timestamp).toLocaleString()}</td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    </div>
 
                     {totalPages > 1 && (
                         <div className="record-list-pagination">

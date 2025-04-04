@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Navbar from "../../components/navbar/navbar";
-import "./admission.css";
+//import "./admission.css";
 import admisionImg from "../../assets/ux/admision.png";
 import AdmissionList from "../../components/admissionList/admissionList";
 import { getAllAdmissions, getFilteredAdmissions } from "../../services/admissionService";

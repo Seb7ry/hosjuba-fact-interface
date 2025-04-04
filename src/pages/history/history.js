@@ -15,7 +15,6 @@ const History = () => {
     const [username, setUsername] = useState("");
     const [isEndDateDisabled, setIsEndDateDisabled] = useState(true);
 
-    // Carga inicial con logs de nivel info
     useEffect(() => {
         fetchInitialHistory();
     }, []);
@@ -23,7 +22,7 @@ const History = () => {
     const fetchInitialHistory = async () => {
         setLoading(true);
         try { 
-            const data = await getLogsByLevels(['info']);
+            const data = await getLogsByLevels(["info"]);
             setHistory(data);
         } catch (err) {
             setError("No se pudieron cargar los registros iniciales de historial.");
@@ -33,7 +32,7 @@ const History = () => {
         }
     };
 
-    const fetchFilteredHistory = async (startDate = "", endDate = "", username = "") => {
+    const fetchFilteredHistory = async () => {
         setLoading(true);
         try {
             const data = await getLogsHistory(startDate, endDate, username);
@@ -47,25 +46,19 @@ const History = () => {
     };
 
     const handleStartDateChange = (event) => {
-        const selectedStartDate = event.target.value;
-        setStartDate(selectedStartDate);
-
-        if (!selectedStartDate) {
-            setEndDate("");
-            setIsEndDateDisabled(true);
-        } else {
-            setIsEndDateDisabled(false);
-        }
+        const value = event.target.value;
+        setStartDate(value);
+        setIsEndDateDisabled(!value);
+        if (!value) setEndDate("");
     };
 
     const handleEndDateChange = (event) => {
-        const selectedEndDate = event.target.value;
-
-        if (selectedEndDate < startDate) {
+        const value = event.target.value;
+        if (value < startDate) {
             alert("⚠️ La fecha de final no puede ser menor a la fecha de inicio.");
             return;
         }
-        setEndDate(selectedEndDate);
+        setEndDate(value);
     };
 
     const handleUsernameChange = (event) => {
@@ -73,12 +66,9 @@ const History = () => {
     };
 
     const handleSearch = () => {
-        // Usar getLogsHistory solo cuando hay filtros aplicados
         if (startDate || endDate || username) {
-            fetchFilteredHistory(startDate, endDate, username);
-            console.log('Filtros aplicados: ', startDate, endDate, username);
+            fetchFilteredHistory();
         } else {
-            // Si no hay filtros, cargar los logs iniciales de info
             fetchInitialHistory();
         }
     };
@@ -87,75 +77,53 @@ const History = () => {
         setStartDate("");
         setEndDate("");
         setUsername("");
-        fetchInitialHistory(); // Volver a cargar logs iniciales de info
+        fetchInitialHistory();
     };
 
     return (
-        <div className="history-container">
+        <div className="history-page">
             <Navbar />
-            <div className="history-content">
-                {/* Sección de descripción con imagen */}
-                <div className="history-description">
-                    <div className="history-text">
-                        <h1>Historial</h1>
-                        <hr className="my-4" />
-                        <br />
-                        <p>
-                            En este apartado puedes visualizar y gestionar el historial de eventos informativos del sistema.
-                            Aquí se almacena información clave que puedes revisar cuando sea necesario.
-                        </p>
-                        <br />
-                        <ul className="field-descriptions">
-                            <li><strong>Usuario:</strong> Usuario asociado al evento.</li>
-                            <li><strong>Mensaje:</strong> Breve explicación del evento registrado.</li>
-                            <li><strong>Contexto:</strong> Documento del código donde se manifestó el evento.</li>
-                            <li><strong>Fecha de Registro:</strong> Indica cuándo se almacenó la información.</li>
-                        </ul>
-                    </div>
-                    <div className="history-image">
-                        <img src={historyImg} alt="Descripción de historial" />
-                    </div>
+            <div className="history-container">
+                <div className="history-content">
+                    <section className="history-header">
+                        <div className="history-info">
+                            <h1>Historial</h1>
+                            <hr />
+                            <p>
+                                Visualiza y gestiona el historial de eventos informativos del sistema.
+                            </p>
+                            <ul>
+                                <li><strong>Usuario:</strong> Usuario asociado al evento.</li>
+                                <li><strong>Mensaje:</strong> Breve explicación del evento registrado.</li>
+                                <li><strong>Contexto:</strong> Documento del código donde ocurrió el evento.</li>
+                                <li><strong>Fecha de Registro:</strong> Cuándo se almacenó la información.</li>
+                            </ul>
+                        </div>
+                        <div className="history-image">
+                            <img src={historyImg} alt="Historial" />
+                        </div>
+                    </section>
+
+                    <section className="history-filters">
+                        <div>
+                            <label>Fecha de Inicio</label>
+                            <input type="date" value={startDate} onChange={handleStartDateChange} />
+                        </div>
+                        <div>
+                            <label>Fecha de Fin</label>
+                            <input type="date" value={endDate} onChange={handleEndDateChange} disabled={isEndDateDisabled} />
+                        </div>
+                        <div>
+                            <label>Usuario</label>
+                            <input type="text" placeholder="Buscar por usuario" value={username} onChange={handleUsernameChange} />
+                        </div>
+                        <div className="history-buttons">
+                            <button className="btnHis-search" onClick={handleSearch}>Buscar</button>
+                            <button className="btnHis-clear" onClick={handleClearFilters}>Actualizar</button>
+                        </div>
+                    </section>
+                    <HistoryList history={history} loading={loading} />
                 </div>
-
-                {/* Filtros de búsqueda */}
-                <div className="search-container">
-                    <div className="search-field">
-                        <label><strong>Fecha de Inicio</strong></label>
-                        <input
-                            type="date"
-                            value={startDate}
-                            onChange={handleStartDateChange}
-                        />
-                    </div>
-
-                    <div className="search-field">
-                        <label><strong>Fecha de Fin</strong></label>
-                        <input
-                            type="date"
-                            value={endDate}
-                            onChange={handleEndDateChange}
-                            disabled={isEndDateDisabled}
-                        />
-                    </div>
-
-                    <div className="search-field">
-                        <label><strong>Usuario</strong></label>
-                        <input 
-                            type="text" 
-                            placeholder="Buscar por usuario"
-                            value={username}
-                            onChange={handleUsernameChange}
-                        />
-                    </div>
-
-                    <div className="button-group">
-                        <button className="search-btn" onClick={handleSearch}>Buscar</button>
-                        <button className="clear-btn" onClick={handleClearFilters}>Actualizar</button>
-                    </div>
-                </div>
-
-                {/* Tabla de historial */}
-                <HistoryList history={history} loading={loading} />
             </div>
         </div>
     );
