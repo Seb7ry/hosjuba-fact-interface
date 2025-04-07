@@ -1,33 +1,43 @@
 import React, { useEffect } from "react";
 import Navbar from "../../components/navbar/navbar"; 
-//import "./dashboard.css"; 
+import "./dashboard.css"; 
 
 const Dashboard = () => {
 
     useEffect(() => {
         if (!sessionStorage.getItem("access_token")) {
             console.warn("⚠️ No hay access token, redirigiendo al login...");
-            window.location.href = "/"; // Redirige al login si no hay sesión
+            window.location.href = "/";
         }
     }, []);
 
     return (
-        <div className="dashboard-container">
-            <Navbar /> {/* Menú lateral */}
-            <div className="dashboard-content">
-                {/* Jumbotron mejorado */}  
+        <div className="dashboard-layout">
+            <Navbar /> 
+            <div className="dashboard-container">
                 <div className="jumbotron">
-                    <h1 className="display-4">Bienvenido</h1>
-                    <hr className="my-4" />
+                    <h1>Bienvenido</h1>
+                    <hr />
                     <p> 
                         Gestiona de manera eficiente las admisiones, 
                         firmas digitales y comprobantes médicos en un solo lugar.
                     </p>
-                    <p>
-                        Accede a las funciones clave a través del menú lateral.
-                    </p>
                 </div>
 
+                <div className="dashboard-cards">
+                    <div className="dashboard-card">
+                        <h2>Documentos Recientes</h2>
+                        <p>Estos son los últimos documentos generados por el sistema.</p>
+                        <ul className="document-list">
+                            <li><span className="pdf-icon">📄</span> Comprobante de atención - 2025/04/01</li>
+                            <li><span className="pdf-icon">📄</span> Consentimiento informado - 2025/03/29</li>
+                        </ul>
+                    </div>
+                    <div className="dashboard-card">
+                        <h2>Resumen General</h2>
+                        <p>Aquí podrás ver estadísticas de registros y firmas asignadas.</p>
+                    </div>
+                </div>
             </div>
         </div>
     );

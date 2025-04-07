@@ -1,25 +1,30 @@
-.dashboard-container {
+.dashboard-layout {
     display: flex;
-    background-color: #FAFAFA;
+    background-color: #fafafa;
 }
 
-.dashboard-content {
+.dashboard-container {
     flex: 1;
+    overflow-y: visible;
     padding: 20px;
+    margin-left: 20px;  
+    margin-right: 20px; 
 }
 
 /* Estilos para el Jumbotron mejorado */
 .jumbotron {
     background-color: #f8f9fa;
-    padding: 3rem 2rem;
     border-radius: 10px;
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
     text-align: center;
     margin-bottom: 20px;
+    flex: 1;
+    font-size: 1rem;
 }
 
 .jumbotron h1 {
-    font-size: 3rem;
+    margin: 0;
+    font-size: 5rem;
     font-weight: bold;
 }
 
@@ -28,49 +33,54 @@
     margin-bottom: 20px;
 }
 
-/* Estilos del Menú superior */
-.navbar-mainbg {
-    background-color: #5161ce;
-    padding: 15px 0; /* Aumenta la altura del menú */
-    border-radius: 8px;
-    margin-top: 20px;
-}
-
-.navbar-nav {
+.dashboard-cards {
     display: flex;
-    justify-content: center;
-    width: 100%;
-    padding-left: 0; /* Elimina los puntos negros */
-    list-style: none; /* Quita los puntos de la lista */
+    gap: 20px;
+    margin-top: 20px;
+    flex-wrap: wrap;
 }
 
-.nav-item {
-    padding: 10px 20px;
-    cursor: pointer;
-    position: relative;
+.dashboard-card {
+    flex: 1;
+    min-width: 300px;
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+    padding: 20px;
+    transition: transform 0.2s ease-in-out;
 }
 
-.nav-item a {
-    color: rgba(255, 255, 255, 0.8);
-    text-decoration: none;
-    font-size: 16px;
-    transition: all 0.3s ease-in-out;
-    font-weight: bold;
+.dashboard-card:hover {
+    transform: translateY(-4px);
 }
 
-/* Efecto hover */
-.nav-item:hover a {
-    color: white;
+.dashboard-card h2 {
+    margin-top: 0;
+    font-size: 1.5rem;
+    color: black;
 }
 
-/* Efecto de selección */
-.nav-item.active-tab {
-    background: white;
-    border-radius: 8px 8px 0 0;
-    padding: 10px 20px;
+.dashboard-card p {
+    color: black;
+    margin-bottom: 10px;
 }
 
-.nav-item.active-tab a {
-    color: #5161ce;
-    font-weight: bold;
+.document-list {
+    list-style: none;
+    padding-left: 0;
+    margin-top: 10px;
+}
+
+.document-list li {
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    font-size: 0.95rem;
+    color: black;
+}
+
+.pdf-icon {
+    margin-right: 10px;
+    font-size: 1.2rem;
+    color: #d32f2f;
 }

@@ -61,6 +61,11 @@ const Record = () => {
 
     const handleEndDateChange = (e) => {
         const date = e.target.value;
+        if (!date) {
+            setEndDate("");
+            return;
+        }
+        
         if (date < startDate) {
             alert("⚠️ La fecha de final no puede ser menor a la fecha de inicio.");
             return;
@@ -90,18 +95,20 @@ const Record = () => {
                 <div className="record__content">
                     <section className="record__description">
                         <div className="record__text">
-                            <h1>Registros</h1>
-                            <hr />
-                            <p>
-                                En este apartado puedes visualizar y gestionar los registros relevantes del sistema.
-                                Aquí se almacena información clave que puedes revisar cuando sea necesario.
-                            </p>
-                            <ul>
-                                <li><strong>Nivel:</strong> Nivel de afectación del registro en el sistema.</li>
-                                <li><strong>Mensaje:</strong> Explicación del evento registrado.</li>
-                                <li><strong>Contexto:</strong> Documento del código donde ocurrió el registro.</li>
-                                <li><strong>Fecha de Registro:</strong> Fecha de almacenamiento.</li>
-                            </ul>
+                        <h1>Registros</h1>
+                        <hr />
+                        <p>
+                            En este apartado puedes visualizar y gestionar los registros relevantes del sistema. 
+                            Aquí se almacena información clave relacionada con errores o advertencias del software,
+                             lo que te permitirá identificar con precisión dónde y cuándo ocurrió un incidente, 
+                             incluyendo la fecha y hora exactas. Los campos mostrados en la lista son los siguientes:
+                        </p>
+                        <ul className="record__list">
+                            <li><strong>Nivel:</strong> Indica el grado de afectación del evento en el sistema.<code>Ejemplo: Advertencia</code></li>
+                            <li><strong>Mensaje:</strong> Describe brevemente el evento registrado.<code>Ejemplo: Usuario no encontrado</code></li>
+                            <li><strong>Contexto:</strong> Documento o módulo del backend donde se originó el registro.<code>Ejemplo: AdmissionService</code></li>
+                            <li><strong>Fecha de Registro:</strong> Momento en que se almacenó el evento.<code>Ejemplo:: 7/4/2025, 8:42:07</code></li>
+                        </ul>
                         </div>
                         <div className="record__image">
                             <img src={recordsImg} alt="Descripción de registros" />
@@ -128,6 +135,10 @@ const Record = () => {
                         <div className="record__buttons">
                             <button className="btn-search" onClick={handleSearch}>Buscar</button>
                             <button className="btn-clear" onClick={handleClearFilters}>Limpiar</button>
+                        </div>
+
+                        <div className="record__buttons">
+                            <button className="btn-updates" onClick={fetchInitialLogs}>Actualizar Registros</button>
                         </div>
                     </section>
 

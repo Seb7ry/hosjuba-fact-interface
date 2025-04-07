@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSignature, faCheckCircle, faSpinner, faRedo, faTimesCircle } from "@fortawesome/free-solid-svg-icons";
+import { faSignature, faCheckCircle, faRedo, faTimesCircle } from "@fortawesome/free-solid-svg-icons";
 import { getSignedAdmissions, updateAdmission } from "../../services/admissionService";
 import SignatureModal from "../../components/signatureModal/signatureModal";
 import "./admissionList.css";
@@ -49,6 +49,7 @@ const AdmissionList = ({ admissions, loading, shouldFetch }) => {
 
     useEffect(() => {
         fetchSignedAdmissions();
+
         // eslint-disable-next-line
     }, [currentPage, admissions]);
 
@@ -87,20 +88,20 @@ const AdmissionList = ({ admissions, loading, shouldFetch }) => {
 
     if (loading) {
         return (
-            <div className="loading-container">
-                <div className="spinner"></div>
+            <div className="admission_list-loading">
+                <div className="admission-spinner"></div>
             </div>
         );
     }
 
     return (
-        <div className="admission-list-container">
-            <h2>Resultados de Admisión</h2>
+        <div className="admission__list-container">
+            <h1>Resultados de Admisión</h1>
             {admissions.length === 0 ? (
-                <p className="no-results">No se encontraron admisiones.</p>
+                <p className="admission__no-results">No se encontraron admisiones.</p>
             ) : (
                 <>
-                    <table className="admission-table">
+                    <table className="admission__list-table">
                         <thead>
                             <tr>
                                 <th>No. Admisión</th>
@@ -135,7 +136,7 @@ const AdmissionList = ({ admissions, loading, shouldFetch }) => {
                                             ) : (
                                                 <button className="signature-btn" onClick={() => openModal(admission)}>
                                                     {isCheckingSignatures[admission.consecutiveAdmission] ? (
-                                                        <FontAwesomeIcon icon={faSpinner} spin className="spinner-icon" />
+                                                         <div className="admission-spinner-update"></div>
                                                     ) : (
                                                         <FontAwesomeIcon icon={faSignature} />
                                                     )}
@@ -145,20 +146,21 @@ const AdmissionList = ({ admissions, loading, shouldFetch }) => {
                                         <td className="icon-cell">
                                             {isSigned ? (
                                                 <button
-                                                    className="update-btn"
-                                                    onClick={() => handleUpdateAdmission(admission)}
-                                                    disabled={isUpdating[admission.consecutiveAdmission]} // Deshabilita el botón si se está actualizando
-                                                >
-                                                    {isUpdating[admission.consecutiveAdmission] ? (
-                                                        <FontAwesomeIcon icon={faSpinner} spin />
-                                                    ) : (
-                                                        <FontAwesomeIcon icon={faRedo} />
-                                                    )}
-                                                </button>
+                                                className={`update-btn ${isUpdating[admission.consecutiveAdmission] ? "loading" : ""}`}
+                                                onClick={() => handleUpdateAdmission(admission)}
+                                                disabled={isUpdating[admission.consecutiveAdmission]}
+                                              >
+                                                {isUpdating[admission.consecutiveAdmission] ? (
+                                                   <div className="admission-spinner-update"></div>
+                                                ) : (
+                                                  <FontAwesomeIcon icon={faRedo} />
+                                                )}
+                                              </button>
+                                              
                                             ) : (
                                                 <FontAwesomeIcon
                                                     icon={faTimesCircle} 
-                                                    className="not-signed-icon" // Icono de "X" en rojo
+                                                    className="not-signed-icon"
                                                 />
                                             )}
                                         </td>
@@ -168,9 +170,9 @@ const AdmissionList = ({ admissions, loading, shouldFetch }) => {
                         </tbody>
                     </table>
 
-                    <div className="pagination">
+                    <div className="admission__pagination">
                         <button
-                            className="pagination-btn"
+                            className="admission__pagination-btn"
                             onClick={() => setCurrentPage(currentPage - 1)}
                             disabled={currentPage === 1}
                         >
@@ -178,7 +180,7 @@ const AdmissionList = ({ admissions, loading, shouldFetch }) => {
                         </button>
                         <span>Página {currentPage} de {totalPages}</span>
                         <button
-                            className="pagination-btn"
+                            className="admission__pagination-btn"
                             onClick={() => setCurrentPage(currentPage + 1)}
                             disabled={currentPage === totalPages}
                         >

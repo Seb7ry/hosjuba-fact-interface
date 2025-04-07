@@ -29,14 +29,13 @@ const HistoryList = ({ history = [], loading, onFilterApplied, title = "Historia
                 <p className="history-list-no-results">No hay eventos de historial disponibles.</p>
             ) : (
                 <>
-                    <div className="history-list-table-wrapper">
                         <table className="history-list-table">
                             <thead>
                                 <tr>
-                                    <th className="history-col-user">Usuario</th>
-                                    <th className="history-col-message">Mensaje</th>
-                                    <th className="history-col-context">Contexto</th>
-                                    <th className="history-col-date">Fecha</th>
+                                    <th>Usuario</th>
+                                    <th>Mensaje</th>
+                                    <th>Contexto</th>
+                                    <th>Fecha</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -50,12 +49,10 @@ const HistoryList = ({ history = [], loading, onFilterApplied, title = "Historia
                                 ))}
                             </tbody>
                         </table>
-                    </div>
 
-                    {totalPages > 1 && (
-                        <div className="history-list-pagination">
-                            <button
-                                className="history-list-btn"
+                    <div className="history-pagination">
+                        <button
+                                className="history-pagination-btn"
                                 onClick={() => setCurrentPage(currentPage - 1)}
                                 disabled={currentPage === 1}
                             >
@@ -63,14 +60,13 @@ const HistoryList = ({ history = [], loading, onFilterApplied, title = "Historia
                             </button>
                             <span>Página {currentPage} de {totalPages}</span>
                             <button
-                                className="history-list-btn"
+                                className="history-pagination-btn"
                                 onClick={() => setCurrentPage(currentPage + 1)}
                                 disabled={currentPage === totalPages}
                             >
                                 Siguiente ➡️
-                            </button>
-                        </div>
-                    )}
+                        </button>
+                    </div>
                 </>
             )}
         </div>

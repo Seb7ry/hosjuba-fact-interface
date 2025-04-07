@@ -4,7 +4,7 @@ import { faFileAlt } from "@fortawesome/free-solid-svg-icons";
 import "./documentList.css";
 import DocumentModal from "../documentModal/documentModal";
 
-const DocumentList = ({ admissions, loading }) => {
+const DocumentList = ({ admissions, loading, onRefresh }) => {
     const itemsPerPage = 10;
     const [currentPage, setCurrentPage] = useState(1);
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -17,12 +17,16 @@ const DocumentList = ({ admissions, loading }) => {
 
     const MapAdmissionType = (type) => {
         if (type === '1') return "Urgencias";
+        if (type === '9') return "Triage";
         if (type === '99') return "Consulta Externa";
         return "Hospitalización";
     };
 
     useEffect(() => {
-        setCurrentPage(1);
+        if(currentPage > Math.ceil(admissions.length / itemsPerPage)) {
+            setCurrentPage(1);
+        }
+        // eslint-disable-next-line
     }, [admissions]);
 
     const openModal = (admission) => {
@@ -40,7 +44,8 @@ const DocumentList = ({ admissions, loading }) => {
 
     return (
         <div className="document-list-wrapper">
-            <h1 className="document-list-title">Resultados de Admisión</h1>
+            <h1>Resultados de Comprobantes</h1>
+            
             {admissions.length === 0 ? (
                 <p className="document-list-no-results">No se encontraron admisiones.</p>
             ) : (
@@ -52,7 +57,7 @@ const DocumentList = ({ admissions, loading }) => {
                                 <th>Documento</th>
                                 <th>Nombre Paciente</th>
                                 <th>Fecha</th>
-                                <th>Servicio</th>
+                                <th>Ingreso</th>
                                 <th>Usuario</th>
                                 <th>Comprobante</th>
                             </tr>
@@ -101,7 +106,10 @@ const DocumentList = ({ admissions, loading }) => {
 
             <DocumentModal
                 isOpen={isModalOpen}
-                onClose={() => setIsModalOpen(false)}
+                onClose={() => {
+                    setIsModalOpen(false);
+                    onRefresh();
+                }}
                 admission={selectedAdmission}
             />
         </div>

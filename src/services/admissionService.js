@@ -12,8 +12,6 @@ const getAuthHeaders = () => {
 
 export const saveAdmission = async (documentPatient, consecutiveAdmission, signatureBase64, signedBy) => {
     try {
-        console.log(`📌 Guardando admisión: ${documentPatient} - ${consecutiveAdmission}`);
-
         const response = await axios.post(
             `${API_URL}/save`,  // 👈 URL limpia
             { signature: signatureBase64, signedBy },  // 👈 Se agrega `signedBy` al body
@@ -37,8 +35,6 @@ export const saveAdmission = async (documentPatient, consecutiveAdmission, signa
     }
 };
 
-
-// 🔹 Obtener todas las admisiones desde SQL Server
 export const getAllAdmissions = async () => {
     try {
         const response = await axios.get(API_URL, getAuthHeaders());
@@ -101,20 +97,17 @@ export const getSignedAdmissionsFiltrer = async (filters) => {
     }
 };
 
-// 🔹 Función para actualizar una admisión
 export const updateAdmission = async (documentPatient, consecutiveAdmission) => {
     try {
-        console.log(`📌 Actualizando admisión: ${documentPatient} - ${consecutiveAdmission}`);
-
         const response = await axios.put(
-            `${API_URL}/updateSigned`,  // 👈 URL para la actualización
-            {},  // 👈 No es necesario enviar updatedData, ya que se gestionan en el backend
+            `${API_URL}/updateSigned`, 
+            {},  
             {
                 ...getAuthHeaders(),
                 params: { 
                     documentPatient, 
                     consecutiveAdmission 
-                }  // 👈 Pasamos los parámetros correctamente
+                }  
             }
         );
 

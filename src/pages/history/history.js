@@ -52,13 +52,19 @@ const History = () => {
         if (!value) setEndDate("");
     };
 
-    const handleEndDateChange = (event) => {
-        const value = event.target.value;
-        if (value < startDate) {
+    const handleEndDateChange = (e) => {
+        const selectedEndDate = e.target.value;
+        
+        if (!selectedEndDate) {
+            setEndDate("");
+            return;
+        }
+        
+        if (selectedEndDate < startDate) {
             alert("⚠️ La fecha de final no puede ser menor a la fecha de inicio.");
             return;
         }
-        setEndDate(value);
+        setEndDate(selectedEndDate);
     };
 
     const handleUsernameChange = (event) => {
@@ -90,13 +96,16 @@ const History = () => {
                             <h1>Historial</h1>
                             <hr />
                             <p>
-                                Visualiza y gestiona el historial de eventos informativos del sistema.
+                            Este apartado te permite consultar las acciones realizadas por los usuarios, 
+                            como la generación o consulta de documentos, facilitando el seguimiento de la 
+                            actividad dentro de la plataforma. Los campos mostrados en la lista son los 
+                            siguientes:
                             </p>
-                            <ul>
-                                <li><strong>Usuario:</strong> Usuario asociado al evento.</li>
-                                <li><strong>Mensaje:</strong> Breve explicación del evento registrado.</li>
-                                <li><strong>Contexto:</strong> Documento del código donde ocurrió el evento.</li>
-                                <li><strong>Fecha de Registro:</strong> Cuándo se almacenó la información.</li>
+                            <ul className="history__list">
+                                <li><strong>Usuario:</strong> Identificador del usuario asociado al evento.<code>Ejemplo: JMURILLO</code></li>
+                                <li><strong>Mensaje:</strong> Breve explicación del evento registrado.<code>Ejemplo: Documento generado exitosamente</code></li>
+                                <li><strong>Contexto:</strong> Pagina o componente de la aplicación web donde ocurrió el evento.<code>Ejemplo: DocumentService</code></li>
+                                <li><strong>Fecha de Registro:</strong> Momento en que se almacenó el evento.<code>Ejemplo: 7/4/2025, 10:15:42</code></li>
                             </ul>
                         </div>
                         <div className="history-image">
@@ -119,7 +128,10 @@ const History = () => {
                         </div>
                         <div className="history-buttons">
                             <button className="btnHis-search" onClick={handleSearch}>Buscar</button>
-                            <button className="btnHis-clear" onClick={handleClearFilters}>Actualizar</button>
+                            <button className="btnHis-clear" onClick={handleClearFilters}>Limpiar</button>
+                        </div>
+                        <div className="history-buttons">
+                            <button className="btnHis-update" onClick={fetchInitialHistory}>Actualizar Historial</button>
                         </div>
                     </section>
                     <HistoryList history={history} loading={loading} />

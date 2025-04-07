@@ -1,6 +1,5 @@
 .history-page {
     display: flex;
-    height: 100vh;
     background-color: #fafafa;
 }
 
@@ -28,6 +27,15 @@
     padding: 20px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
     flex-wrap: wrap;
+}
+
+.history__list code {
+    background-color: #f4f4f4;
+    padding: 6px 10px;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    color: #333;
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.05);
 }
 
 .history-info {
@@ -59,7 +67,6 @@
     border-radius: 10px;
     justify-content: center;
     align-items: center;
-    padding: 20px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
 }
 
@@ -87,7 +94,8 @@
 }
 
 .btnHis-search,
-.btnHis-clear {
+.btnHis-clear,
+.btnHis-update {
     padding: 8px 14px;
     font-size: 14px;
     border-radius: 6px;
@@ -115,6 +123,17 @@
 
 .btnHis-clear:hover {
     background-color: #fb8500;
+}
+
+.btnHis-update {
+    background-color: #588157;
+    border: 1px solid #344e41;
+    color: white;
+
+}
+
+.btnHis-update:hover {
+    background-color: #344e41;
 }
 
 /* Responsive */
@@ -150,7 +169,8 @@
     .history-filters input,
     .history-filters select,
     .btnHis-search,
-    .btnHis-clear {
+    .btnHis-clear,
+    .btnHis-update {
         width: 100%;
     }
 

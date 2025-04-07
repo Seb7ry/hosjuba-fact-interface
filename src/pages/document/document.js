@@ -10,7 +10,6 @@ const Document = () => {
   const [admissionNumber, setAdmissionNumber] = useState("");
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
-  const [isEndDateDisabled, setIsEndDateDisabled] = useState(true);
   const [user, setUser] = useState("");
   const [admissionType, setAdmissionType] = useState("");
   const [admissions, setAdmissions] = useState([]);
@@ -40,12 +39,17 @@ const Document = () => {
   const handleStartDateChange = (e) => {
     const selectedDate = e.target.value;
     setStartDate(selectedDate);
-    setIsEndDateDisabled(!selectedDate);
     if (!selectedDate) setEndDate("");
   };
 
   const handleEndDateChange = (e) => {
     const selectedEndDate = e.target.value;
+    
+    if (!selectedEndDate) {
+      setEndDate("");
+      return;
+    }
+    
     if (selectedEndDate < startDate) {
       alert("⚠️ La fecha de final no puede ser menor a la fecha de inicio.");
       return;
@@ -78,16 +82,17 @@ const Document = () => {
               <h1>Comprobantes</h1>
               <hr />
               <p>
-                En este apartado puedes visualizar y gestionar los comprobantes del sistema.
-                Aquí se almacena información clave que puedes revisar cuando sea necesario.
+              En esta sección puedes visualizar y descargar los comprobantes de atención registrados en el sistema. 
+              Estos documentos contienen información esencial que puedes consultar en cualquier momento. Los campos mostrados
+              en la lista son los siguientes:
               </p>
-              <ul>
-                <li><strong>Número de Documento:</strong> Ej: <code>1001234567</code></li>
-                <li><strong>Número de Admisión:</strong> Ej: <code>59</code></li>
-                <li><strong>Fecha de Inicio:</strong> Ej: <code>2025-03-10</code></li>
-                <li><strong>Fecha de Final:</strong> Ej: <code>2025-03-15</code></li>
-                <li><strong>Usuario:</strong> Ej: <code>JMURILLO</code></li>
-                <li><strong>Tipo de Admisión:</strong> Ej: <code>Consulta Externa</code></li>
+              <ul className="document__list">
+                <li><strong>Número de Admisión:</strong> Consecutivo asignado a la admisión del paciente relacionada con el comprobante.<code>Ejemplo: 59</code></li>
+                <li><strong>Número de Documento:</strong> Documento de identidad del paciente al que pertenece el comprobante.<code>Ejemplo: 1001234567</code></li>
+                <li><strong>Nombre Paciente:</strong> Nombre completo del paciente relacionado con el comprobante de atención.<code> Ejemplo: Consulta Externa</code></li>
+                <li><strong>Fecha de Inicio:</strong> Fecha en la que se realizó la admisión correspondiente al comprobante.<code>Ejemplo: 2025-03-10</code></li>
+                <li><strong>Tipo de Admisión:</strong> Clasificación del servicio al que ingresó el paciente.<code>Ejemplo: Consulta Externa</code></li>
+                <li><strong>Usuario:</strong> Usuario que registró la admisión del paciente.<code>Ejemplo: JMURILLO</code></li>
               </ul>
             </div>
             <div className="document-image">
@@ -98,12 +103,26 @@ const Document = () => {
           <section className="document-filters">
             <div>
               <label>Número de Documento</label>
-              <input type="text" placeholder="Ingresar número de documento" value={documentNumber} onChange={(e) => setDocumentNumber(e.target.value)} />
+              <input 
+                type="text" 
+                placeholder="Ingresar número de documento" 
+                value={documentNumber} 
+                onChange={(e) => {
+                  const document = e.target.value.replace(/\D/g, "");
+                  setDocumentNumber(document);
+                  }} />
             </div>
 
             <div>
               <label>Número de Admisión</label>
-              <input type="text" placeholder="Ingresar número de admisión" value={admissionNumber} onChange={(e) => setAdmissionNumber(e.target.value)} />
+              <input 
+                type="text" 
+                placeholder="Ingresar número de admisión" 
+                value={admissionNumber} 
+                onChange={(e) => {
+                  const consecutive = e.target.value.replace(/\D/g, "");
+                  setAdmissionNumber(consecutive)
+                  }} />
             </div>
 
             <div>
@@ -113,18 +132,28 @@ const Document = () => {
 
             <div>
               <label>Fecha de Final</label>
-              <input type="date" value={endDate} onChange={handleEndDateChange} disabled={isEndDateDisabled} />
+              <input 
+                type="date" 
+                value={endDate} 
+                onChange={handleEndDateChange} 
+                disabled={!startDate} />
             </div>
 
             <div>
               <label>Usuario</label>
-              <input type="text" placeholder="Ingresar el usuario que admisionó" value={user} onChange={(e) => setUser(e.target.value)} />
+              <input 
+                type="text" 
+                placeholder="Ingresar el usuario que admisionó" 
+                value={user} 
+                onChange={(e) => setUser(e.target.value.toUpperCase()
+                )} />
             </div>
 
             <div>
               <label>Tipo de Admisión</label>
               <select value={admissionType} onChange={(e) => setAdmissionType(e.target.value)}>
                 <option value="">Seleccione el tipo</option>
+                <option value="9">Triage</option>
                 <option value="1">Urgencias</option>
                 <option value="99">Consulta Externa</option>
                 <option value="hospitalizacion">Hospitalización</option>
@@ -135,6 +164,11 @@ const Document = () => {
               <button className="search-btn" onClick={handleSearch}>Buscar</button>
               <button className="clear-btn" onClick={handleClearFilters}>Limpiar</button>
             </div>
+
+            <div className="document-buttons">
+              <button className="updatedocument-btn" onClick={fetchAdmissions}> Actualizar Comprobantes </button>
+            </div>
+
           </section>
 
           <section className="document-message">
@@ -145,7 +179,7 @@ const Document = () => {
             </div>
           </section>
 
-          <DocumentList admissions={admissions} loading={loading} />
+          <DocumentList admissions={admissions} loading={loading} onRefresh={fetchAdmissions} />
         
         </div>
       </div>

@@ -6,35 +6,27 @@
 */
 
 /* Contenedor principal */
-.admission-list-container {
+.admission__list-container {
     width: 100%;
-    max-width: 2200px; /* Ajusta el ancho máximo */
-    margin: 20px auto; /* Centrar el contenedor */
-    background: white;
-    padding: 20px;
+    max-width: 1200px;
     border-radius: 8px;
+    background-color: #fff;
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
     text-align: center;
-    align-items: center;
+    box-sizing: border-box;
 }
-
-.spinner-icon {
-    font-size: 14px;
-    color: white;
-}
-
 
 /* =======================
     Estilos para la Tabla
 ========================== */
-.admission-table {
+.admission__list-table {
     width: 100%;
     border-collapse: collapse;
     margin-top: 10px;
 }
 
-.admission-table th, 
-.admission-table td {
+.admission__list-table th, 
+.admission__list-table td {
     padding: 10px;
     border-bottom: 1px solid #ddd;
     text-align: center;
@@ -43,49 +35,49 @@
 }
 
 /* Encabezado de la tabla */
-.admission-table th {
+.admission__list-table th {
     background: #038F67; /* Color de fondo del encabezado */
     color: white;
 }
 
-.admission-table th:nth-child(1), /* No. Admisión */
-.admission-table td:nth-child(1) {
-    width: 120px; /* Ajuste del ancho de la columna */
+.admission__list-table th:nth-child(1), /* No. Admisión */
+.admission__list-table td:nth-child(1) {
+    width: 5%; /* Ajuste del ancho de la columna */
 }
 
-.admission-table th:nth-child(2), /* Documento */
-.admission-table td:nth-child(2) {
-    width: 160px; /* Ajuste del ancho de la columna */
+.admission__list-table th:nth-child(2), /* Documento */
+.admission__list-table td:nth-child(2) {
+    width: 10%; /* Ajuste del ancho de la columna */
 }
 
-.admission-table th:nth-child(3), /* Nombre Paciente */
-.admission-table td:nth-child(3) {
-    width: 250px; /* Ajuste del ancho de la columna */
+.admission__list-table th:nth-child(3), /* Nombre Paciente */
+.admission__list-table td:nth-child(3) {
+    width: 40%; /* Ajuste del ancho de la columna */
 }
 
-.admission-table th:nth-child(4), /* Fecha */
-.admission-table td:nth-child(4) {
-    width: 120px; /* Ajuste del ancho de la columna */
+.admission__list-table th:nth-child(4), /* Fecha */
+.admission__list-table td:nth-child(4) {
+    width: 5%; /* Ajuste del ancho de la columna */
 }
 
-.admission-table th:nth-child(5), /* Servicio */
-.admission-table td:nth-child(5) {
-    width: 150px; /* Ajuste del ancho de la columna */
+.admission__list-table th:nth-child(5), /* Servicio */
+.admission__list-table td:nth-child(5) {
+    width: 20%; /* Ajuste del ancho de la columna */
 }
 
-.admission-table th:nth-child(6), /* Usuario */
-.admission-table td:nth-child(6) {
-    width: 140px; /* Ajuste del ancho de la columna */
+.admission__list-table th:nth-child(6), /* Usuario */
+.admission__list-table td:nth-child(6) {
+    width: 10%; /* Ajuste del ancho de la columna */
 }
 
-.admission-table th:nth-child(7), /* Firma */
-.admission-table td:nth-child(7) {
-    width: 100px; /* Ajuste del ancho de la columna */
+.admission__list-table th:nth-child(7), /* Firma */
+.admission__list-table td:nth-child(7) {
+    width: 5%; /* Ajuste del ancho de la columna */
 }
 
-.admission-table th:nth-child(8), /* Actualizar */
-.admission-table td:nth-child(8) {
-    width: 120px; /* Ajuste del ancho de la columna */
+.admission__list-table th:nth-child(8), /* Actualizar */
+.admission__list-table td:nth-child(8) {
+    width: 5%; /* Ajuste del ancho de la columna */
 }
 
 
@@ -112,7 +104,7 @@
 /* ==========================
     Estilos para Paginación
 ============================= */
-.pagination {
+.admission__pagination {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -120,7 +112,7 @@
     font-size: 15px;
 }
 
-.pagination-btn {
+.admission__pagination-btn {
     background-color: #f8f9fa;
     border: 1px solid #ccc;
     padding: 8px 12px;
@@ -140,7 +132,7 @@
 /* ==========================
     Estilos para Mensajes
 ============================= */
-.no-results {
+.admission__no-results {
     color: #555;
     font-size: 16px;
     margin-top: 10px;
@@ -150,7 +142,7 @@
 /* ==========================
     Estilos para Spinner de Carga
 ============================= */
-.loading-container {
+.admission_list-loading {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -158,12 +150,20 @@
 }
 
 /* Spinner animado */
-.spinner {
+.admission-spinner {
     border: 4px solid #f3f3f3;
     border-top: 4px solid #038F67;
     border-radius: 50%;
-    width: 40px;
-    height: 40px;
+    width: 50px;
+    height: 50px;
+    animation: spin 1s linear infinite;
+}
+
+.admission-spinner-update {
+    border-top: 4px solid #038F67;
+    border-radius: 50%;
+    width: 13px;
+    height: 13px;
     animation: spin 1s linear infinite;
 }
 
@@ -185,7 +185,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    margin: 0 auto; /* Centra el botón dentro de la celda */
+    margin: 0 auto;
 }
 
 .signed-icon {
@@ -194,7 +194,7 @@
 }
 
 .signed-row {
-    background-color: #e6f9e6; /* Verde clarito */
+    background-color: #e6f9e6;
     transition: background-color 0.3s ease-in-out;
 }
 

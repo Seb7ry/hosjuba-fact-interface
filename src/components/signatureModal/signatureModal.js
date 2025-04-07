@@ -2,12 +2,15 @@ import React, { useState, useRef, useEffect } from "react";
 import SignatureCanvas from "react-signature-canvas";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheck, faRedo, faTimes } from "@fortawesome/free-solid-svg-icons";
+
 import { saveAdmission } from "../../services/admissionService";
+import ConfirmationModal from "../confirmationModal/confirmationModal";
 import signatureImg from "../../assets/ux/signature.png";
 import "./signatureModal.css";
 
 const SignatureModal = ({ isOpen, onClose, admission }) => {
     const [isSigned, setIsSigned] = useState(false);
+    const [showConfirmModal, setShowConfirmModal] = useState(false);
     const [signatureData, setSignatureData] = useState(null);
     const [isUploading, setIsUploading] = useState(false);
     const [isSuccess, setIsSuccess] = useState(false);
@@ -30,25 +33,13 @@ const SignatureModal = ({ isOpen, onClose, admission }) => {
         }
     };
 
-    const handleConfirm = async () => {
-        if (!signatureData || !admission || !signer) {
-            alert("Por favor seleccione quién firma y realice la firma.");
-            return;
-        }
+    const handleFinalConfirm = async () => {
+        setShowConfirmModal(false); // Cierra el modal de confirmación
     
         setIsUploading(true);
-    
         try {
-            let signedBy;
-            if (signer === 'patient') {
-                signedBy = "patient";
-            } else if (signer === 'companion') {
-                signedBy = "companion";
-            } else {
-                alert("Selección de firmante no válida.");
-                return;
-            }
-            
+            let signedBy = signer;
+    
             // eslint-disable-next-line
             const response = await saveAdmission(
                 admission.documentPatient,
@@ -56,11 +47,9 @@ const SignatureModal = ({ isOpen, onClose, admission }) => {
                 signatureData,
                 signedBy
             );
-            setIsSuccess(true);
     
-            setTimeout(() => {
-                onClose(null);
-            }, 2000);
+            setIsSuccess(true);
+            setTimeout(() => onClose(null), 2000);
         } catch (error) {
             console.error("❌ Error al guardar la admisión:", error);
             alert("Hubo un error al registrar la firma. Inténtalo de nuevo.");
@@ -82,6 +71,19 @@ const SignatureModal = ({ isOpen, onClose, admission }) => {
             document.body.style.overflow = "auto";
         };
     }, [isOpen]);
+
+    useEffect(() => {
+        if(isOpen){
+            if(signatureRef.current) {
+                signatureRef.current.clear();
+            }
+            setIsSigned(false);
+            setSignatureData(null);
+            setIsSuccess(false);
+            setSigner("");
+            setIsUploading(false);
+        }
+    }, [isOpen, admission]);
 
     if (!isOpen) return null;
 
@@ -141,13 +143,13 @@ const SignatureModal = ({ isOpen, onClose, admission }) => {
                         </div>
 
                         <div className="modal-buttons">
-                            <button 
-                                className="btn confirm-btn" 
-                                onClick={handleConfirm} 
-                                disabled={!isSigned || isUploading || !signer}
-                            >
-                                {isUploading ? "Enviando..." : <><FontAwesomeIcon icon={faCheck} /> Confirmar</>}
-                            </button>
+                        <button 
+                            className="btn confirm-btn" 
+                            onClick={() => setShowConfirmModal(true)} 
+                            disabled={!isSigned || isUploading || !signer}
+                        >
+                            {isUploading ? "Enviando..." : <><FontAwesomeIcon icon={faCheck} /> Confirmar</>}
+                        </button>
                             <button className="btn reset-btn" onClick={handleClear} disabled={isUploading}>
                                 <FontAwesomeIcon icon={faRedo} /> Repetir
                             </button>
@@ -158,6 +160,12 @@ const SignatureModal = ({ isOpen, onClose, admission }) => {
                     </>
                 )}
             </div>
+
+            <ConfirmationModal
+                isOpen={showConfirmModal}
+                onConfirm={handleFinalConfirm}
+                onCancel={() => setShowConfirmModal(false)}
+            />
         </div>
     );
 };

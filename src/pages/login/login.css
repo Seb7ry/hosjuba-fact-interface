@@ -130,7 +130,7 @@
 
 /* ===================== ALERTA DE ERROR ===================== */
 .login-error-alert {
-    z-index: 3;
+    z-index: 30;
     position: absolute;
     top: -40%;
     left: 50%;
