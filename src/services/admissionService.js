@@ -87,15 +87,23 @@ export const getSignedAdmissionsAll = async () => {
 export const getSignedAdmissionsFiltrer = async (filters) => {
     try {
         const response = await axios.get(`${API_URL}/signedFiltrer`, {
-            params: filters, // Los filtros que se pasan desde el frontend
+            params: filters,
             ...getAuthHeaders()
         });
-        return response.data; // Devuelve las admisiones filtradas que cumplen con los parámetros
+
+        // Si viene un nuevo access_token, lo guardamos en sessionStorage
+        if (response.data.access_token) {
+            sessionStorage.setItem("access_token", response.data.access_token);
+        }
+
+        return response.data.data; // Solo devolvemos la data (admisiones)
+
     } catch (error) {
         console.error("❌ Error al obtener admisiones filtradas:", error);
         return [];
     }
 };
+
 
 export const updateAdmission = async (documentPatient, consecutiveAdmission) => {
     try {
