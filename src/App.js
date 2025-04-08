@@ -9,12 +9,14 @@ import PublicRoute from './components/routes/publicRoute';
 import SessionMonitor from './components/sessionMonitor/sessionMonitor';
 import Record from './pages/record/record';
 import History from './pages/history/history';
+import ScrollToTop from './components/scrollOnTop/scrollOnTop';
 
 function App() {
   const isAuthenticated = !!sessionStorage.getItem("access_token");
 
   return (
     <Router>
+      <ScrollToTop />
       {isAuthenticated && <SessionMonitor />}
       <Routes>
         <Route path="/" element={<PublicRoute component={Login} />} />

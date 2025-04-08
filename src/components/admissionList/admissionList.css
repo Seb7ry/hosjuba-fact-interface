@@ -14,7 +14,6 @@
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
     text-align: center;
     box-sizing: border-box;
-    overflow-y: auto;
 }
 
 /* =======================
@@ -24,6 +23,11 @@
     width: 100%;
     border-collapse: collapse;
     margin-top: 10px;
+}
+
+.admission__table-wrapper {
+    width: 100%;
+    overflow-x: auto;
 }
 
 .admission__list-table th, 

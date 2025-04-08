@@ -97,7 +97,7 @@ const Dashboard = () => {
                                     </ResponsiveContainer>
                                 </div>
                                 <div style={{ textAlign: "center", marginTop: "10px", fontWeight: "bold", color: "#333" }}>
-                                    Total de admisiones: {total}
+                                    Total de admisiones firmadas: {total}
                                 </div>
                             </>
                         )}

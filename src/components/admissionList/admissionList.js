@@ -20,9 +20,13 @@ const AdmissionList = ({ admissions, loading, shouldFetch }) => {
     const startIndex = (currentPage - 1) * itemsPerPage;
     const endIndex = startIndex + itemsPerPage;
     const currentAdmissions = admissions.slice(startIndex, endIndex);
+    const [showSuccessModal, setShowSuccessModal] = useState(false);
+    const [successAdmission, setSuccessAdmission] = useState(null);
+
 
     const MapAdmissionType = (type) => {
         if (type === 1) return "Urgencias";
+        if (type === 9) return "Triage";
         if (type === 99) return "Consulta Externa";
         return "Hospitalización";
     };
@@ -75,6 +79,8 @@ const AdmissionList = ({ admissions, loading, shouldFetch }) => {
         }));
         try {
             await updateAdmission(admission.documentPatient, admission.consecutiveAdmission);
+            setSuccessAdmission(admission);
+            setShowSuccessModal(true);
         } catch (error) {
             console.error("Error al actualizar la admisión:", error);
         } finally {
@@ -83,7 +89,7 @@ const AdmissionList = ({ admissions, loading, shouldFetch }) => {
                 [admission.consecutiveAdmission]: false
             }));
         }
-    };
+    };    
 
     if (loading) {
         return (
@@ -100,6 +106,7 @@ const AdmissionList = ({ admissions, loading, shouldFetch }) => {
                 <p className="admission__no-results">No se encontraron admisiones.</p>
             ) : (
                 <>
+                <div>
                     <table className="admission__list-table">
                         <thead>
                             <tr>
@@ -185,10 +192,28 @@ const AdmissionList = ({ admissions, loading, shouldFetch }) => {
                         >
                             Siguiente ➡️
                         </button>
-                    </div>
+                    </div>                    </div>
                 </>
             )}
-
+            {showSuccessModal && (
+                <div className="modal-overlay">
+                    <div className="modal-container">
+                        <div className="success-message">
+                            <div className="success-icon">
+                                <FontAwesomeIcon icon={faCheckCircle} size="2x" />
+                            </div>
+                            <h3>Admisión actualizada correctamente</h3>
+                            <p>{successAdmission?.fullNamePatient}</p>
+                            <button
+                                className="btn exit-btn"
+                                onClick={() => setShowSuccessModal(false)}
+                            >
+                                <FontAwesomeIcon icon={faTimesCircle} /> Cerrar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
             <SignatureModal isOpen={isModalOpen} onClose={handleModalClose} admission={selectedAdmission} />
         </div>
     );

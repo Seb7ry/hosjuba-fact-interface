@@ -165,6 +165,7 @@ const SignatureModal = ({ isOpen, onClose, admission }) => {
                 isOpen={showConfirmModal}
                 onConfirm={handleFinalConfirm}
                 onCancel={() => setShowConfirmModal(false)}
+                admission={admission}
             />
         </div>
     );

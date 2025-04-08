@@ -94,7 +94,7 @@ const Login = () => {
                                 <button className="login-close-button" onClick={() => setShowModal(false)}>&times;</button>
                             </div>
                             <div className="login-modal-body">
-                                <p>Pendiente modificar este modal, cambiar en caso de necesitarse.</p>
+                                <p>Este software de gestión documental de comprobantes de atención fue desarrollado en el Hospital San Juan Bautista como parte del proyecto de paz y desarrollo regional. El desarrollo estuvo a cargo de un estudiante de la Universidad de Ibagué, en el marco del programa Paz y Región durante su semestre de inmersión, contando con el respaldo, acompañamiento y facilidades brindadas por el área de sistemas del hospital. Esta colaboración tuvo como propósito contribuir a la transformación digital del sistema de salud y al fortalecimiento institucional en el municipio de Chaparral, Tolima.</p>
                             </div>
                             <div className="login-modal-footer">
                                 <button className="login-btn-close" onClick={() => setShowModal(false)}>Cerrar</button>

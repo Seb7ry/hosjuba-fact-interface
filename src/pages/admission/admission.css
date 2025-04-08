@@ -5,7 +5,6 @@
 
 .admission__container {
     flex: 1;
-    overflow-y: visible;
     padding: 20px;
     margin-left: 20px;  
     margin-right: 20px; 
@@ -213,4 +212,39 @@
         margin-left: 5px;  
         margin-right: 5px;
     }
+}
+
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.modal {
+    background: white;
+    padding: 20px 30px;
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+}
+
+.modal button {
+    margin-top: 15px;
+    padding: 8px 16px;
+    background-color: #ff6b6b;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.modal button:hover {
+    background-color: #d62828;
 }

@@ -14,6 +14,8 @@ const Document = () => {
   const [admissionType, setAdmissionType] = useState("");
   const [admissions, setAdmissions] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [showDateErrorModal, setShowDateErrorModal] = useState(false);
+
 
   useEffect(() => {
     fetchAdmissions();
@@ -44,21 +46,17 @@ const Document = () => {
 
   const handleEndDateChange = (e) => {
     const selectedEndDate = e.target.value;
-    
-    if (!selectedEndDate) {
-      setEndDate("");
-      return;
-    }
-    
-    if (selectedEndDate < startDate) {
-      alert("⚠️ La fecha de final no puede ser menor a la fecha de inicio.");
-      return;
-    }
     setEndDate(selectedEndDate);
   };
 
   const handleSearch = async () => {
+    if (startDate && endDate && startDate > endDate) {
+      setShowDateErrorModal(true);
+      return;
+    }
+
     setLoading(true);
+    
     const filters = {
       documentPatient: documentNumber || undefined,
       consecutiveAdmission: admissionNumber || undefined,
@@ -67,7 +65,9 @@ const Document = () => {
       userAdmission: user || undefined,
       typeAdmission: admissionType || undefined,
     };
+
     const data = await getSignedAdmissionsFiltrer(filters);
+
     setAdmissions(data);
     setLoading(false);
   };
@@ -183,6 +183,14 @@ const Document = () => {
         
         </div>
       </div>
+      {showDateErrorModal && (
+          <div className="modal-overlay">
+              <div className="modal">
+                  <p>⚠️ La fecha de inicio no puede ser mayor que la fecha final. Por favor corrígela.</p>
+                  <button onClick={() => setShowDateErrorModal(false)}>Cerrar</button>
+              </div>
+          </div>
+      )}
     </div>
   );
 };

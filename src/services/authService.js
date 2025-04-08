@@ -3,23 +3,20 @@ import { jwtDecode } from 'jwt-decode';
 
 const API_URL = 'http://192.168.168.108:3000/auth';
 
-// Función para obtener el `access_token` desde `sessionStorage`
 export const getAccessToken = () => sessionStorage.getItem('access_token');
 
-// Función para verificar si el `accessToken` ha expirado
 export const isAccessTokenExpired = () => {
     const token = getAccessToken();
     if (!token) return true;
 
     try {
         const decoded = jwtDecode(token);
-        return decoded.exp * 1000 < Date.now(); // Convierte `exp` a milisegundos
+        return decoded.exp * 1000 < Date.now(); 
     } catch (error) {
         return true;
     }
 };
 
-// Función para solicitar un nuevo `accessToken` usando el `refreshToken`
 export const refreshAccessToken = async () => {
     const refreshToken = sessionStorage.getItem('refresh_token');
     if (!refreshToken) return null;
@@ -31,14 +28,13 @@ export const refreshAccessToken = async () => {
         sessionStorage.setItem('access_token', access_token);
         return access_token;
     } catch (error) {
-        logout(); // Si falla la renovación, cerramos sesión
+        logout();
         return null;
     }
 };
 
-// Función para cerrar sesión llamando al backend
 export const logout = async () => {
-    const username = sessionStorage.getItem('username'); // Guardamos el usuario logueado (debes almacenarlo en el login)
+    const username = sessionStorage.getItem('username'); 
     if (!username) {
         clearSession();
         return;
@@ -52,24 +48,21 @@ export const logout = async () => {
         console.warn('Error al cerrar sesión en el backend:', error);
     }
 
-    clearSession(); // Eliminamos la sesión en el frontend después de llamar al backend
+    clearSession(); 
 };
 
-// Función para limpiar la sesión en el frontend
 const clearSession = () => {
     sessionStorage.removeItem('access_token');
     sessionStorage.removeItem('refresh_token');
     sessionStorage.removeItem('username');
-    sessionStorage.removeItem('grupo'); // También eliminamos el username
-    window.location.href = '/'; // Redirige al Login
+    sessionStorage.removeItem('grupo'); 
+    window.location.href = '/'; 
 };
 
-// API client con Interceptor para manejar tokens
 export const apiClient = axios.create({
     baseURL: API_URL,
 });
 
-// Interceptor para renovar el token antes de cada petición
 apiClient.interceptors.request.use(
     async (config) => {
         if (isAccessTokenExpired()) {
@@ -84,18 +77,16 @@ apiClient.interceptors.request.use(
     (error) => Promise.reject(error)
 );
 
-// Interceptor para manejar respuestas 401
 apiClient.interceptors.response.use(
     response => response,
     async (error) => {
         if (error.response?.status === 401) {
-            logout(); // Cerrar sesión si el token es inválido
+            logout(); 
         }
         return Promise.reject(error);
     }
 );
 
-// Servicio de autenticación
 export const authService = async (username, password) => {
     try {
         const response = await axios.post(`${API_URL}/login`, { username, password });
