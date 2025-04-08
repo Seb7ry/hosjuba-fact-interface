@@ -14,6 +14,7 @@
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
     text-align: center;
     box-sizing: border-box;
+    overflow-y: auto;
 }
 
 /* =======================
@@ -269,4 +270,43 @@
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+    .admission__list-container {
+        margin: 70px 15px 20px;
+        padding: 15px;
+    }
+
+    .admission__list-container th,
+    .admission__list-container td {
+        font-size: 0.9rem;
+        padding: 8px;
+    }
+}
+
+@media (max-width: 768px) {
+    .admission__list-container {
+        margin: 65px 10px 15px;
+        padding: 10px;
+    }
+
+    .admission__pagination {
+        flex-direction: column;
+    }
+
+    .admission__pagination-btn {
+        width: 100%;
+        margin: 5px 0;
+    }
+
+    .admission__list-table {
+        font-size: 0.85rem;
+    }
 }

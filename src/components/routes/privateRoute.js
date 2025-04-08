@@ -23,9 +23,9 @@ const PrivateRoute = ({ component: Component, ...rest }) => {
   }
 
   return isAuthenticated ? (
-    <Component {...rest} /> // Si está autenticado, renderiza el componente
+    <Component {...rest} /> 
   ) : (
-    <Navigate to="/" /> // Si no está autenticado, redirige a la página de login
+    <Navigate to="/" /> 
   );
 };
 

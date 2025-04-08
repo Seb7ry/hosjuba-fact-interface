@@ -84,3 +84,10 @@
     font-size: 1.2rem;
     color: #d32f2f;
 }
+
+.dashboard-card > div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+

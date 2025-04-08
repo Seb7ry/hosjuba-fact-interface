@@ -2,12 +2,12 @@ import React from 'react';
 import { Navigate } from 'react-router-dom';
 
 const PublicRoute = ({ component: Component, ...rest }) => {
-  const isAuthenticated = !!sessionStorage.getItem('access_token'); // Verifica si hay un token de sesión
+  const isAuthenticated = !!sessionStorage.getItem('access_token'); 
 
   return isAuthenticated ? (
-    <Navigate to="/dashboard" /> // Redirige si ya está autenticado
+    <Navigate to="/dashboard" /> 
   ) : (
-    <Component {...rest} /> // Si no está autenticado, renderiza el componente
+    <Component {...rest} /> 
   );
 };
 

@@ -5,7 +5,7 @@ import "./sessionMonitor.css";
 
 const SessionMonitor = () => {
   const [showWarning, setShowWarning] = useState(false);
-  const [tokenVersion, setTokenVersion] = useState(0); // para forzar actualización
+  const [tokenVersion, setTokenVersion] = useState(0);
 
   useEffect(() => {
     const checkSession = () => {
@@ -23,12 +23,6 @@ const SessionMonitor = () => {
         const currentTime = Date.now();
         const timeRemaining = expiresAt - currentTime;
 
-        console.log(
-          `🕒 Tiempo restante antes de expirar el token: ${Math.floor(
-            timeRemaining / 1000
-          )} segundos`
-        );
-
         if (timeRemaining <= 0) {
           logout();
         } else if (timeRemaining <= 5 * 60 * 1000) {
@@ -42,33 +36,27 @@ const SessionMonitor = () => {
       }
     };
 
-    checkSession(); // primera ejecución inmediata
-    const intervalId = setInterval(checkSession, 10000); // cada 10 segundos
+    checkSession();
+    const intervalId = setInterval(checkSession, 5 * 60 * 1000);
 
-    // Escuchar cambios en el sessionStorage (token actualizado desde otra pestaña)
-    const handleStorageChange = (event) => {
+    window.addEventListener("storage", (event) => {
       if (event.key === "access_token") {
-        console.log("🔄 Token actualizado en sessionStorage.");
-        setTokenVersion((prev) => prev + 1); // fuerza que el hook se reejecute
+        setTokenVersion((prev) => prev + 1);
       }
-    };
+    });
 
-    window.addEventListener("storage", handleStorageChange);
-
-    return () => {
-      clearInterval(intervalId);
-      window.removeEventListener("storage", handleStorageChange);
-    };
-  }, [tokenVersion]); // si cambia el token, se vuelve a ejecutar el efecto
+    return () => clearInterval(intervalId);
+  }, [tokenVersion]);
 
   return (
     <>
       {showWarning && (
-        <div className="session-warning">
-          ⚠️ Tu sesión expirará en menos de 5 minutos.
-          <button className="close-button" onClick={() => setShowWarning(false)}>
-            ✖
-          </button>
+        <div className="session-modal-backdrop">
+          <div className="session-modal">
+            <h3>⏳ Tu sesión está por expirar</h3>
+            <p>Tu sesión expirará en menos de 5 minutos.</p>
+            <button onClick={() => setShowWarning(false)}>Entiendo</button>
+          </div>
         </div>
       )}
     </>

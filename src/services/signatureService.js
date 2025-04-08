@@ -18,19 +18,28 @@ const getAuthHeaders = () => {
     };
 };
 
+const handleTokenRefresh = (response) => {
+    if (response?.access_token) {
+        sessionStorage.setItem("access_token", response.access_token);
+    }
+};
+
 const uploadSignature = async (signatureBase64, admissionId) => {
     try {
         const response = await axios.post(
             `${API_URL}/upload`,
             {
                 signatureBase64,
-                admissionId, // Cambiado de filename a admissionId
-                signedBy: "user" // Añadido porque el backend lo requiere
+                admissionId, 
+                signedBy: "user" 
             },
             getAuthHeaders()
         );
 
-        return response.data;
+        const resData = response.data;
+        handleTokenRefresh(resData);
+
+        return resData.data;
     } catch (error) {
         console.error("❌ Error al subir la firma:", error.response?.data || error.message);
 

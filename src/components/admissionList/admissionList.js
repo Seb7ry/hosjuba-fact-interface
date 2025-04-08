@@ -75,7 +75,6 @@ const AdmissionList = ({ admissions, loading, shouldFetch }) => {
         }));
         try {
             await updateAdmission(admission.documentPatient, admission.consecutiveAdmission);
-            console.log("Admisión actualizada:", admission);
         } catch (error) {
             console.error("Error al actualizar la admisión:", error);
         } finally {

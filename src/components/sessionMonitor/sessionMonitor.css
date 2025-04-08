@@ -1,45 +1,45 @@
-/* ============================================================================
-    Estilos para la Advertencia de Expiración de Sesión (SessionMonitor)
-    - Muestra una alerta fija en la parte inferior de la pantalla.
-    - Incluye un botón para cerrar la advertencia.
-============================================================================ */
-
-/* =============================
-    Estilos de la Advertencia de Sesión
-============================= */
-.session-warning {
-    position: fixed; /* Se mantiene fija en la pantalla */
-    bottom: 20px; /* Distancia desde la parte inferior */
-    left: 50%; /* Centra horizontalmente */
-    transform: translateX(-50%); /* Ajuste para el centrado */
-
-    background: #ffcc00; /* Color de fondo de advertencia */
-    color: black;
-    padding: 10px 15px;
-    border-radius: 5px; /* Bordes redondeados */
-    font-weight: bold;
-    text-align: center;
-    z-index: 1000; /* Asegura que esté sobre otros elementos */
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Sombra ligera */
-    
+.session-modal-backdrop {
+    position: fixed;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.4);
     display: flex;
+    justify-content: center;
     align-items: center;
-    gap: 10px; /* Espaciado entre el texto y el botón */
+    z-index: 2000;
 }
 
-/* =============================
-    Estilos para el Botón de Cierre (✖)
-============================= */
-.close-button {
-    background: none; /* Sin fondo */
-    border: none; /* Sin borde */
-    font-size: 16px;
-    font-weight: bold;
+.session-modal {
+    background: white;
+    padding: 30px 20px;
+    border-radius: 8px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    max-width: 400px;
+    width: 90%;
+    text-align: center;
+}
+
+.session-modal h3 {
+    margin-bottom: 10px;
+    font-size: 18px;
+    color: #333;
+}
+
+.session-modal p {
+    font-size: 15px;
+    margin-bottom: 20px;
+    color: #555;
+}
+
+.session-modal button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 6px;
     cursor: pointer;
-    color: black;
+    font-weight: bold;
 }
 
-/* Cambio de color al pasar el mouse */
-.close-button:hover {
-    color: red;
+.session-modal button:hover {
+    background-color: #0056b3;
 }

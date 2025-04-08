@@ -1,8 +1,7 @@
 import axios from "axios";
 
-const API_URL = "http://192.168.168.108:3000/admission"; // Ajusta la URL de tu backend
+const API_URL = "http://192.168.168.108:3000/admission"; 
 
-// 🔹 Función para obtener los headers con el token de autenticación
 const getAuthHeaders = () => {
     const token = sessionStorage.getItem("access_token");
     return {
@@ -10,18 +9,27 @@ const getAuthHeaders = () => {
     };
 };
 
+const handleTokenRefresh = (response) => {
+    if (response?.access_token) {
+        sessionStorage.setItem("access_token", response.access_token);
+    }
+};
+
 export const saveAdmission = async (documentPatient, consecutiveAdmission, signatureBase64, signedBy) => {
     try {
         const response = await axios.post(
-            `${API_URL}/save`,  // 👈 URL limpia
-            { signature: signatureBase64, signedBy },  // 👈 Se agrega `signedBy` al body
+            `${API_URL}/save`, 
+            { signature: signatureBase64, signedBy },  
             {
                 ...getAuthHeaders(),
-                params: { documentPatient, consecutiveAdmission }  // 👈 Parámetros en `params` en lugar de concatenarlos manualmente
+                params: { documentPatient, consecutiveAdmission }  
             }
         );
 
-        return response.data;
+        const resData = response.data;
+        handleTokenRefresh(resData);
+
+        return resData.data
     } catch (error) {
         console.error("❌ Error al guardar la admisión:", error.response?.data || error.message);
 
@@ -45,21 +53,23 @@ export const getAllAdmissions = async () => {
     }
 };
 
-// 🔹 Obtener admisiones con filtros desde SQL Server
 export const getFilteredAdmissions = async (filters) => {
     try {
         const response = await axios.get(`${API_URL}/filtrer`, { 
             params: filters,
             ...getAuthHeaders()
         });
-        return response.data;
+
+        const resData = response.data;
+        handleTokenRefresh(resData);
+
+        return resData.data;
     } catch (error) {
         console.error("❌ Error al filtrar admisiones:", error);
         return [];
     }
 };
 
-// 🔹 Obtener admisiones firmadas desde MongoDB **SOLO las visibles en la página actual**
 export const getSignedAdmissions = async (visibleAdmissions) => {
     try {
         const response = await axios.post(
@@ -67,7 +77,7 @@ export const getSignedAdmissions = async (visibleAdmissions) => {
             { admissions: visibleAdmissions }, 
             getAuthHeaders()
         );
-        return response.data; // Devuelve la lista de admisiones firmadas
+        return response.data;
     } catch (error) {
         console.error("❌ Error al obtener admisiones firmadas:", error);
         return [];
@@ -76,8 +86,8 @@ export const getSignedAdmissions = async (visibleAdmissions) => {
 
 export const getSignedAdmissionsAll = async () => {
     try {
-        const response = await axios.get(`${API_URL}/signedAll`, getAuthHeaders()); // Llamada GET sin enviar "admissions"
-        return response.data; // Devuelve todas las admisiones firmadas
+        const response = await axios.get(`${API_URL}/signedAll`, getAuthHeaders()); 
+        return response.data; 
     } catch (error) {
         console.error("❌ Error al obtener admisiones firmadas:", error);
         return [];
@@ -91,19 +101,15 @@ export const getSignedAdmissionsFiltrer = async (filters) => {
             ...getAuthHeaders()
         });
 
-        // Si viene un nuevo access_token, lo guardamos en sessionStorage
-        if (response.data.access_token) {
-            sessionStorage.setItem("access_token", response.data.access_token);
-        }
+        const resData = response.data;
+        handleTokenRefresh(resData);
 
-        return response.data.data; // Solo devolvemos la data (admisiones)
-
+        return resData.data;
     } catch (error) {
         console.error("❌ Error al obtener admisiones filtradas:", error);
         return [];
     }
 };
-
 
 export const updateAdmission = async (documentPatient, consecutiveAdmission) => {
     try {
@@ -119,7 +125,10 @@ export const updateAdmission = async (documentPatient, consecutiveAdmission) => 
             }
         );
 
-        return response.data;
+        const resData = response.data;
+        handleTokenRefresh(resData);
+
+        return resData.data;
     } catch (error) {
         console.error("❌ Error al actualizar la admisión:", error.response?.data || error.message);
 

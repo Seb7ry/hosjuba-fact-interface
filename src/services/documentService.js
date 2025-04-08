@@ -2,12 +2,12 @@ import axios from "axios";
 
 const API_URL = "http://192.168.168.108:3000/document"; // Ajusta la URL si es diferente
 
-/**
- * Descarga el PDF generado para una admisión específica.
- * @param {string} documentPatient - Documento del paciente.
- * @param {number} consecutiveAdmission - Número de admisión.
- * @param {string} [numberFac] - (Opcional) Número de factura.
- */
+const handleTokenRefresh = (response) => {
+    if (response?.access_token) {
+        sessionStorage.setItem("access_token", response.access_token);
+    }
+};
+
 export const downloadPdf = async (documentPatient, consecutiveAdmission, numberFac = null) => {
     try {
         const token = sessionStorage.getItem("access_token");
@@ -26,28 +26,20 @@ export const downloadPdf = async (documentPatient, consecutiveAdmission, numberF
             queryParams.append("numberFac", numberFac);
         }
 
-        // Aquí se cambia la respuesta a 'blob', que es lo que necesitas
         const response = await axios.get(`${API_URL}?${queryParams.toString()}`, {
             headers: {
                 Authorization: `Bearer ${token}`,
             },
-            responseType: "blob", // Esto asegura que la respuesta es un Blob (archivo binario)
+            responseType: "blob",
         });
 
-        return response.data; // Retornamos el Blob del PDF
-
+        return response.data; 
     } catch (error) {
         console.error("❌ Error al descargar el PDF:", error);
-        return null; // Si hay error, devolvemos null
+        return null; 
     }
 };
 
-/**
- * Obtiene todas las facturas asociadas a una admisión.
- * @param {string} documentPatient - Documento del paciente.
- * @param {string} consecutiveAdmission - Número de admisión.
- * @returns {Promise<Array>} Lista de facturas.
- */
 export const getAllFact = async (documentPatient, consecutiveAdmission) => {
     try {
         const token = sessionStorage.getItem("access_token");
@@ -64,20 +56,16 @@ export const getAllFact = async (documentPatient, consecutiveAdmission) => {
             params: { documentPatient, consecutiveAdmission },
         });
 
-        return response.data;
+        const resData = response.data;
+        handleTokenRefresh(resData);
+
+        return resData.data;
     } catch (error) {
         console.error("❌ Error al obtener las facturas:", error);
         return [];
     }
 };
 
-/**
- * Obtiene los detalles de una factura específica.
- * @param {string} documentPatient - Documento del paciente.
- * @param {string} consecutiveAdmission - Número de admisión.
- * @param {string} numberFac - Número de factura.
- * @returns {Promise<any>} Detalles de la factura.
- */
 export const getFactDetails = async (documentPatient, consecutiveAdmission, numberFac) => {
     try {
         const token = sessionStorage.getItem("access_token");
