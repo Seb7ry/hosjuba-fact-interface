@@ -1,41 +1,27 @@
-/* ============================================================================
-    Estilos para la Superposición de Carga (Loading Overlay)
-    - Proporciona una capa de carga que bloquea la interacción del usuario.
-    - Incluye un spinner animado para indicar que una acción está en proceso.
-============================================================================ */
 
-/* Capa de carga superpuesta */
 .loading-overlay {
-    z-index: 3; /* Asegura que la capa de carga esté sobre otros elementos */
-    position: absolute; /* Fija la superposición en la pantalla */
+    z-index: 3;
+    position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    
     display: flex;
     justify-content: center;
     align-items: center;
-
-    filter: blur(0px); /* Mantiene la visibilidad clara del spinner */
+    filter: blur(0px); 
 }
 
-/* =============================
-    Estilos para el Spinner de Carga
-============================= */
 .spinner {
-    z-index: 30; /* Garantiza que el spinner esté al frente */
-    border: 4px solid #f3f3f3; /* Color de borde base */
-    border-top: 4px solid #0066ff; /* Color de la parte giratoria */
+    z-index: 30;
+    border: 4px solid #f3f3f3; 
+    border-top: 4px solid #0066ff; 
     border-radius: 50%;
     width: 50px;
     height: 50px;
-    animation: spin 2s linear infinite; /* Animación de rotación */
+    animation: spin 2s linear infinite; 
 }
 
-/* =============================
-    Animación del Spinner
-============================= */
 @keyframes spin {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }

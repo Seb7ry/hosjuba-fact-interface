@@ -1,19 +1,19 @@
-import React, { useState } from 'react';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
-import './login.css';
-import { authService } from '../../services/authService';
-import LoadingOverlay from '../../components/loadingOverlay/loadingOverlay';
 import { useNavigate } from 'react-router-dom';
+import React, { useState } from 'react';
+import './login.css';
+
+import LoadingOverlay from '../../components/loadingOverlay/loadingOverlay';
+import { authService } from '../../services/authService';
 
 const Login = () => {
-    const [username, setUsername] = useState('');
-    const [password, setPassword] = useState('');
     const [showPassword, setShowPassword] = useState(false);
-    const [error, setError] = useState('');
-    const [loading, setLoading] = useState(false);
     const [showError, setShowError] = useState(false);
     const [showModal, setShowModal] = useState(false);
-
+    const [loading, setLoading] = useState(false);
+    const [username, setUsername] = useState('');
+    const [password, setPassword] = useState('');
+    const [error, setError] = useState('');
     const navigate = useNavigate();  
 
     const handleSubmit = async (e) => {

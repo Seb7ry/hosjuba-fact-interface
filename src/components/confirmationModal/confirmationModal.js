@@ -1,5 +1,4 @@
 import React from "react";
-//import "../signatureModal/signatureModal.css";
 import "./confirmationModal.css";
 
 const ConfirmationModal = ({ isOpen, onConfirm, onCancel, admission }) => {
@@ -8,42 +7,41 @@ const ConfirmationModal = ({ isOpen, onConfirm, onCancel, admission }) => {
     const {
         fullNamePatient,
         documentPatient,
-        companionName,
-        phoneConpanion,
-        companionDocument,
-        typeAdmission,
-        dateAdmission
+        phonePatient,
+        nameCompanion,
+        documentCompanion,
+        phoneCompanion,
+        relationCompanion
     } = admission;
 
-    console.log(admission)
-
-    const mapAdmissionType = (type) => {
-        if (type === 1) return "Urgencias";
-        if (type === 9) return "Triage";
-        if (type === 99) return "Consulta Externa";
-        return "Hospitalización";
+    const mapCompanionType = (type) => {
+        if (type === 'H') return "Hijo(a)";
+        if (type === 'F') return "Familiar";
+        if (type === 'C') return "Conyuge";
+        if (type === 'A') return "Amigo(a)";
+        if (type === 'O') return "Otro";
     };
 
     return (
         <div className="modal-overlay">
             <div className="confirmation-modal">
                 <h3 className="modal-title">¿Guardar firma?</h3>
-
+                <p>Verifique los datos actuales en el sistema.</p>
+                <hr/>
                 <div className="minimal-columns">
                     <div className="minimal-block">
                         <h4 className="block-title">Datos del paciente</h4>
                         <p><strong>Nombre:</strong> {fullNamePatient}</p>
                         <p><strong>Documento:</strong> {documentPatient}</p>
-                        <p><strong>Telefono:</strong> {mapAdmissionType(typeAdmission)}</p>
-                        <p><strong>Fecha:</strong> {new Date(dateAdmission).toLocaleDateString()}</p>
+                        <p><strong>Telefono:</strong> {phonePatient}</p>
                     </div>
 
                     <div className="minimal-block">
                         <h4 className="block-title">Datos del acompañante</h4>
-                        <p><strong>Nombre:</strong> {companionName || "N/A"}</p>
-                        <p><strong>Documento:</strong> {companionDocument || "N/A"}</p>
-                        <p><strong>Documento:</strong> {companionDocument || "N/A"}</p>
-                        <p><strong>Documento:</strong> {companionDocument || "N/A"}</p>
+                        <p><strong>Nombre:</strong> {nameCompanion}</p>
+                        <p><strong>Documento:</strong> {documentCompanion}</p>
+                        <p><strong>Teléfono:</strong> {phoneCompanion}</p>
+                        <p><strong>Relación:</strong> {mapCompanionType(relationCompanion)}</p>
                     </div>
                 </div>
 

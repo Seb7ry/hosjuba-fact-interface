@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
-import Navbar from "../../components/navbar/navbar";
 import "./history.css";
-import historyImg from "../../assets/ux/history.png";
+
 import { getLogsByLevels, getLogsHistory } from "../../services/recordService";
 import HistoryList from "../../components/historyList/historyList";
+import Navbar from "../../components/navbar/navbar";
 
 const History = () => {
     const [history, setHistory] = useState([]);
@@ -78,7 +78,6 @@ const History = () => {
             fetchInitialHistory();
         }
     };
-
     const handleClearFilters = () => {
         setStartDate("");
         setEndDate("");
@@ -107,9 +106,6 @@ const History = () => {
                                 <li><strong>Contexto:</strong> Pagina o componente de la aplicación web donde ocurrió el evento.<code>Ejemplo: DocumentService</code></li>
                                 <li><strong>Fecha de Registro:</strong> Momento en que se almacenó el evento.<code>Ejemplo: 7/4/2025, 10:15:42</code></li>
                             </ul>
-                        </div>
-                        <div className="history-image">
-                            <img src={historyImg} alt="Historial" />
                         </div>
                     </section>
 

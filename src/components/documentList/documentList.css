@@ -9,7 +9,6 @@
     overflow-y: auto;
 }
 
-/* Tabla */
 .document-list-table {
     width: 100%;
     border-collapse: collapse;
@@ -35,7 +34,6 @@
     width: 80px;
 }
 
-/* Botón de comprobante */
 .document-signature-btn {
     background-color: #5161ce;
     color: white;
@@ -61,7 +59,6 @@
     font-size: 16px;
 }
 
-/* Paginación */
 .document-pagination {
     display: flex;
     justify-content: center;
@@ -86,14 +83,12 @@
     cursor: not-allowed;
 }
 
-/* Mensajes */
 .document-list-no-results {
     color: #555;
     font-size: 1rem;
     margin-top: 15px;
 }
 
-/* Spinner */
 .document-list-loading {
     display: flex;
     justify-content: center;
@@ -110,13 +105,11 @@
     animation: spin 1s linear infinite;
 }
 
-/* Animación */
 @keyframes spin {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
 }
 
-/* Responsive */
 @media (max-width: 1024px) {
     .document-list-wrapper {
         margin: 70px 15px 20px;

@@ -136,8 +136,6 @@
     background-color: #344e41;
 }
 
-/* Responsive */
-
 @media (max-width: 1024px) {
     .history-header {
         flex-direction: column;

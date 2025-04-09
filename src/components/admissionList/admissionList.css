@@ -1,11 +1,3 @@
-/* 
-===============================================================================
-    Estilos para la Lista de Admisiones (AdmissionList)
-    - Contiene diseño para la tabla de admisiones, botones y paginación.
-===============================================================================
-*/
-
-/* Contenedor principal */
 .admission__list-container {
     width: 100%;
     max-width: 1200px;
@@ -16,9 +8,6 @@
     box-sizing: border-box;
 }
 
-/* =======================
-    Estilos para la Tabla
-========================== */
 .admission__list-table {
     width: 100%;
     border-collapse: collapse;
@@ -36,59 +25,54 @@
     border-bottom: 1px solid #ddd;
     text-align: center;
     font-size: 15px;
-    vertical-align: middle; /* Asegura que el contenido de la celda esté centrado */
+    vertical-align: middle; 
 }
 
-/* Encabezado de la tabla */
 .admission__list-table th {
-    background: #038F67; /* Color de fondo del encabezado */
+    background: #038F67; 
     color: white;
 }
 
-.admission__list-table th:nth-child(1), /* No. Admisión */
+.admission__list-table th:nth-child(1), 
 .admission__list-table td:nth-child(1) {
-    width: 5%; /* Ajuste del ancho de la columna */
+    width: 5%;
 }
 
-.admission__list-table th:nth-child(2), /* Documento */
+.admission__list-table th:nth-child(2),
 .admission__list-table td:nth-child(2) {
-    width: 10%; /* Ajuste del ancho de la columna */
+    width: 10%;
 }
 
-.admission__list-table th:nth-child(3), /* Nombre Paciente */
+.admission__list-table th:nth-child(3), 
 .admission__list-table td:nth-child(3) {
-    width: 40%; /* Ajuste del ancho de la columna */
+    width: 40%;
 }
 
-.admission__list-table th:nth-child(4), /* Fecha */
+.admission__list-table th:nth-child(4), 
 .admission__list-table td:nth-child(4) {
-    width: 5%; /* Ajuste del ancho de la columna */
+    width: 5%; 
 }
 
-.admission__list-table th:nth-child(5), /* Servicio */
+.admission__list-table th:nth-child(5),
 .admission__list-table td:nth-child(5) {
-    width: 20%; /* Ajuste del ancho de la columna */
+    width: 20%; 
 }
 
-.admission__list-table th:nth-child(6), /* Usuario */
+.admission__list-table th:nth-child(6), 
 .admission__list-table td:nth-child(6) {
-    width: 10%; /* Ajuste del ancho de la columna */
+    width: 10%;
 }
 
-.admission__list-table th:nth-child(7), /* Firma */
+.admission__list-table th:nth-child(7),
 .admission__list-table td:nth-child(7) {
-    width: 5%; /* Ajuste del ancho de la columna */
+    width: 5%; 
 }
 
-.admission__list-table th:nth-child(8), /* Actualizar */
+.admission__list-table th:nth-child(8), 
 .admission__list-table td:nth-child(8) {
-    width: 5%; /* Ajuste del ancho de la columna */
+    width: 5%;
 }
 
-
-/* ==========================
-    Estilos para el Botón "Ver"
-============================= */
 .view-btn {
     background-color: #43aa8b;
     color: white;
@@ -100,15 +84,10 @@
     transition: background-color 0.3s ease;
 }
 
-/* Efecto hover en el botón "Ver" */
 .view-btn:hover {
     background-color: #038F67;
 }
 
-
-/* ==========================
-    Estilos para Paginación
-============================= */
 .admission__pagination {
     display: flex;
     justify-content: center;
@@ -127,26 +106,17 @@
     transition: background-color 0.3s ease;
 }
 
-/* Botón de paginación deshabilitado */
 .pagination-btn:disabled {
     opacity: 0.5;
     cursor: not-allowed;
 }
 
-
-/* ==========================
-    Estilos para Mensajes
-============================= */
 .admission__no-results {
     color: #555;
     font-size: 16px;
     margin-top: 10px;
 }
 
-
-/* ==========================
-    Estilos para Spinner de Carga
-============================= */
 .admission_list-loading {
     display: flex;
     justify-content: center;
@@ -154,7 +124,6 @@
     margin-top: 20px;
 }
 
-/* Spinner animado */
 .admission-spinner {
     border: 4px solid #f3f3f3;
     border-top: 4px solid #038F67;
@@ -172,10 +141,6 @@
     animation: spin 1s linear infinite;
 }
 
-
-/* ==========================
-    Estilos para el Botón de Firma
-============================= */
 .signature-btn {
     background-color: #5161ce;
     color: white;
@@ -208,29 +173,21 @@
     font-size: 1.2rem;
 }
 
-
-/* Icono dentro del botón */
 .signature-btn svg {
     font-size: 16px;
 }
 
-/* Efecto hover */
 .signature-btn:hover {
     background-color: #3e4dbb;
 }
 
-/* Animación de carga */
 @keyframes spin {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
 }
 
-
-/* ==========================
-    Estilos para el Botón de Actualización
-============================= */
 .update-btn {
-    background-color: #ffbc00; /* Amarillo para actualizar */
+    background-color: #ffbc00; 
     color: black;
     border: none;
     padding: 8px 12px;
@@ -241,35 +198,27 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    margin: 0 auto; /* Centra el botón dentro de la celda */
+    margin: 0 auto; 
 }
 
-/* Efecto hover en el botón de actualización */
 .update-btn:hover {
-    background-color: #e69a00; /* Amarillo oscuro en hover */
+    background-color: #e69a00;
 }
 
-/* Deshabilitar el botón cuando se está actualizando */
 .update-btn:disabled {
     background-color: #ccc;
     cursor: not-allowed;
 }
 
-/* Spinner dentro del botón de actualización */
 .update-btn svg {
     font-size: 18px;
 }
 
 .not-signed-icon {
     color: red;
-    font-size: 1.5rem; /* Ajusta el tamaño según tu necesidad */
+    font-size: 1.5rem;
 }
 
-
-
-/* ==========================
-    Estilos para centrar iconos
-============================= */
 .signature-btn svg, .update-btn svg, .spinner-icon {
     display: flex;
     justify-content: center;
@@ -281,7 +230,6 @@
     100% { transform: rotate(360deg); }
 }
 
-/* Responsive */
 @media (max-width: 1024px) {
     .admission__list-container {
         margin: 70px 15px 20px;

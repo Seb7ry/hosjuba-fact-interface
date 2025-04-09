@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
-import Navbar from "../../components/navbar/navbar";
 import "./document.css";
-import documentImg from "../../assets/ux/document.png";
+
 import { getSignedAdmissionsFiltrer, getSignedAdmissionsAll } from "../../services/admissionService";
 import DocumentList from "../../components/documentList/documentList";
+import Navbar from "../../components/navbar/navbar";
 
 const Document = () => {
   const [documentNumber, setDocumentNumber] = useState("");
@@ -94,9 +94,6 @@ const Document = () => {
                 <li><strong>Tipo de Admisión:</strong> Clasificación del servicio al que ingresó el paciente.<code>Ejemplo: Consulta Externa</code></li>
                 <li><strong>Usuario:</strong> Usuario que registró la admisión del paciente.<code>Ejemplo: JMURILLO</code></li>
               </ul>
-            </div>
-            <div className="document-image">
-              <img src={documentImg} alt="Descripción de documentos" />
             </div>
           </section>
 

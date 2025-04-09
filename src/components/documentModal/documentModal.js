@@ -1,5 +1,4 @@
 import React, { useEffect, useState, useRef } from "react";
-import modalDocumentImg from "../../assets/ux/modal-document.png";
 import "./documentModal.css";
 import { getAllFact, downloadPdf } from "../../services/documentService";
 
@@ -16,6 +15,14 @@ const DocumentModal = ({ isOpen, onClose, admission }) => {
         if (type === '9') return "Triage";
         if (type === '99') return "Consulta Externa";
         return "Hospitalización";
+    };
+
+    const mapCompanionType = (type) => {
+        if (type === 'H') return "Hijo(a)";
+        if (type === 'F') return "Familiar";
+        if (type === 'C') return "Conyuge";
+        if (type === 'A') return "Amigo(a)";
+        if (type === 'O') return "Otro";
     };
 
     useEffect(() => {
@@ -45,6 +52,7 @@ const DocumentModal = ({ isOpen, onClose, admission }) => {
     
     useEffect(() => {
         if (isOpen && admission) {
+            console.log(admission)
             getAllFact(admission.documentPatient, admission.consecutiveAdmission)
                 .then(response => {
                     setFacturas(response); 
@@ -99,15 +107,19 @@ const DocumentModal = ({ isOpen, onClose, admission }) => {
                 <button className="close-button" onClick={onClose}>✖</button>
 
                 <div className="modal-header">
-                    <div className="patient-image">
-                        <img src={modalDocumentImg} alt="Paciente" />
-                    </div>
                     <div className="patient-info">
                         <h2>Información de la Admisión</h2>
-                        <p><strong>Nombre:</strong> {admission.fullNamePatient}</p>
-                        <p><strong>Documento:</strong> {admission.documentPatient}</p>
-                        <p><strong>Fecha:</strong> {new Date(admission.dateAdmission).toLocaleDateString()}</p>
-                        <p><strong>Servicio de Ingreso:</strong> {MapAdmissionType(admission.typeAdmission)}</p>
+                        <hr />
+                        <div className="info-grid">
+                            <div><strong>Nombre Paciente:</strong> {admission.fullNamePatient}</div>
+                            <div><strong>Documento Paciente:</strong> {admission.documentPatient}</div>
+                            <div><strong>Nombre Acompañante:</strong> {admission.nameCompanion}</div>
+                            <div><strong>Documento Acompañante:</strong> {admission.documentCompanion}</div>
+                            <div><strong>Fecha:</strong> {new Date(admission.dateAdmission).toLocaleDateString()}</div>
+                            <div><strong>Telefono Acompañante:</strong> {admission.phoneCompanion}</div>
+                            <div><strong>Servicio de Ingreso:</strong> {MapAdmissionType(admission.typeAdmission)}</div>
+                            <div><strong>Parentesco Acompañante:</strong> {mapCompanionType(admission.relationCompanion)}</div>
+                        </div>
                     </div>
                 </div>
 

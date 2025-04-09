@@ -5,7 +5,7 @@ import { getSignedAdmissions, updateAdmission } from "../../services/admissionSe
 import SignatureModal from "../../components/signatureModal/signatureModal";
 import "./admissionList.css";
 
-const AdmissionList = ({ admissions, loading, shouldFetch }) => {
+const AdmissionList = ({ admissions, loading }) => {
     
     const itemsPerPage = 10;
     const [currentPage, setCurrentPage] = useState(1);
@@ -63,6 +63,7 @@ const AdmissionList = ({ admissions, loading, shouldFetch }) => {
 
     const openModal = (admission) => {
         setSelectedAdmission(admission);
+        console.log(admission)
         setIsModalOpen(true);
     };
 

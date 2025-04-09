@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
-import Navbar from "../../components/navbar/navbar";
 import "./admission.css";
-import admisionImg from "../../assets/ux/admision.png";
-import AdmissionList from "../../components/admissionList/admissionList";
+
 import { getAllAdmissions, getFilteredAdmissions } from "../../services/admissionService";
+import AdmissionList from "../../components/admissionList/admissionList";
+import Navbar from "../../components/navbar/navbar";
 
 const Admission = () => {
     const [documentNumber, setDocumentNumber] = useState(""); 
@@ -119,9 +119,6 @@ const Admission = () => {
                                     <li><strong>Firma:</strong> Indica si ya existe una firma para el paciente o no. En caso de que no, le permite acceder al formulario para asignar la firma; en caso de que si, muestra un check de confirmación.</li>
                                     <li><strong>Actualizar:</strong> Permite actualizar los datos de la admisión como lo pueden ser datos del paciente o del acompañante desde el hosvital. Esta función únicamente será habilitada si es que existe una firma para la admisión del paciente en cuestión.</li>         
                                 </ul>
-                            </div>
-                            <div className="admission__image">
-                                <img src={admisionImg} alt="Descripción de la sección" />
                             </div>
                         </section>
                         

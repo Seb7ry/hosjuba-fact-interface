@@ -1,15 +1,17 @@
-import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Login from './pages/login/login';  
-import Dashboard from './pages/dashboard/dashboard';
-import Admission from './pages/admission/admission';
-import Document from './pages/document/document';
+import React from 'react';
+
+import SessionMonitor from './components/sessionMonitor/sessionMonitor';
+import ScrollToTop from './components/scrollOnTop/scrollOnTop';
 import PrivateRoute from './components/routes/privateRoute';
 import PublicRoute from './components/routes/publicRoute';
-import SessionMonitor from './components/sessionMonitor/sessionMonitor';
-import Record from './pages/record/record';
+
+import Admission from './pages/admission/admission';
+import Dashboard from './pages/dashboard/dashboard';
+import Document from './pages/document/document';
 import History from './pages/history/history';
-import ScrollToTop from './components/scrollOnTop/scrollOnTop';
+import Record from './pages/record/record';
+import Login from './pages/login/login';  
 
 function App() {
   const isAuthenticated = !!sessionStorage.getItem("access_token");

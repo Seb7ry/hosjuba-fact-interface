@@ -1,7 +1,15 @@
 import axios from "axios";
 
-const API_URL = process.env.REACT_APP_API_URL || "http://192.168.168.108:3000/signature";
+const API_URL = `${process.env.REACT_APP_ROUTEROUTE_BACKSERVICE}/signature`;
 
+/**
+ * Genera los encabezados de autenticación para las solicitudes HTTP.
+ * 
+ * Obtiene el token almacenado en `sessionStorage` y lo incluye en los headers.
+ * Si no hay token disponible, solo retorna el encabezado de tipo de contenido.
+ * 
+ * @returns {Object} Encabezados HTTP con Content-Type y, si está disponible, Authorization.
+ */
 const getAuthHeaders = () => {
     const token = sessionStorage.getItem("access_token");
     
@@ -18,12 +26,28 @@ const getAuthHeaders = () => {
     };
 };
 
+/**
+ * Actualiza el token de acceso si la respuesta del backend contiene un nuevo `access_token`.
+ * 
+ * @param {Object} response - Objeto de respuesta del backend que puede contener un nuevo token.
+ */
 const handleTokenRefresh = (response) => {
     if (response?.access_token) {
         sessionStorage.setItem("access_token", response.access_token);
     }
 };
 
+/**
+ * Sube una firma digital al servidor asociada a una admisión específica.
+ * 
+ * Envía la firma en formato base64 junto con el ID de la admisión y el nombre del firmante.
+ * Si la respuesta incluye un nuevo token, se actualiza automáticamente en el `sessionStorage`.
+ * 
+ * @param {string} signatureBase64 - Firma digital codificada en base64.
+ * @param {string} admissionId - Identificador de la admisión relacionada.
+ * @returns {Promise<Object>} Objeto con los datos de la firma guardada.
+ * @throws {Error} Lanza un error con un mensaje específico si la solicitud falla.
+ */
 const uploadSignature = async (signatureBase64, admissionId) => {
     try {
         const response = await axios.post(
@@ -53,6 +77,12 @@ const uploadSignature = async (signatureBase64, admissionId) => {
     }
 };
 
+/**
+ * Exporta las funciones del servicio de firma digital.
+ * 
+ * Métodos disponibles:
+ * - uploadSignature: Sube una firma digital para una admisión.
+ */
 export default {
     uploadSignature,
 };

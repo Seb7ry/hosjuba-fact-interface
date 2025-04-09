@@ -1,34 +1,57 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
-import Navbar from "../../components/navbar/navbar";
-import {
-    PieChart, Pie, Cell, Tooltip, Legend, ResponsiveContainer
-} from "recharts";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faFilePdf } from "@fortawesome/free-solid-svg-icons";
+import { PieChart, Pie, Cell, Tooltip, Legend, ResponsiveContainer } from "recharts";
 import "./dashboard.css";
+
+import { getStats } from "../../services/statService";
+import Navbar from "../../components/navbar/navbar";
 
 const Dashboard = () => {
     const [stats, setStats] = useState(null);
+    const [hoveredDoc, setHoveredDoc] = useState(null);
 
     useEffect(() => {
         if (!sessionStorage.getItem("access_token")) {
             console.warn("⚠️ No hay access token, redirigiendo al login...");
             window.location.href = "/";
+            return;
         }
 
+        /**
+         * Obtiene las estadísticas generales desde el backend utilizando el servicio `getStats`.
+         * Actualiza el estado global `stats` con los datos obtenidos.
+         * Maneja errores de red o del servidor con un log en consola.
+         */
         const fetchStats = async () => {
             try {
-                const token = sessionStorage.getItem("access_token");
-                const res = await axios.get("http://192.168.168.108:3000/stat", {
-                    headers: { Authorization: `Bearer ${token}` },
-                });
-                setStats(res.data);
-            } catch (error) {
-                console.error("Error obteniendo estadísticas:", error);
+                const data = await getStats();
+                setStats(data);
+            } catch(error) {
+                console.error("Error de estadísticas:", error);
             }
         };
 
         fetchStats();
     }, []);
+
+    const documents = [
+        {
+            id: 1,
+            title: "Manual de usuario (Instrucciones de Uso)",
+            url: process.env.REACT_APP_MANUAL_USUARIO
+        },
+        {
+            id: 2,
+            title: "Manual de usuario técnico (Back-end)",
+            url: process.env.REACT_APP_MANUAL_TECNICO
+        },
+        {
+            id: 3,
+            title: "Manual de usuario técnico (Front-end)",
+            url: process.env.REACT_APP_MANUAL_TECNICO
+        }
+    ];
 
     const COLORS = ["#1f77b4", "#d62728", "#2ca02c", "#9467bd"];
 
@@ -62,11 +85,27 @@ const Dashboard = () => {
 
                 <div className="dashboard-cards">
                     <div className="dashboard-card">
-                        <h2>Documentos Recientes</h2>
-                        <p>Estos son los últimos documentos generados por el sistema.</p>
+                        <h2>Manuales de Uso</h2>
+                        <p>Aquí encontrarás el manual de usuario para el uso del sistema. Tanto para administradores como para usuarios regulares.</p>
                         <ul className="document-list">
-                            <li><span className="pdf-icon">📄</span> Comprobante de atención - 2025/04/01</li>
-                            <li><span className="pdf-icon">📄</span> Consentimiento informado - 2025/03/29</li>
+                            {documents.map((doc) => (
+                                <li 
+                                    key={doc.id}
+                                    className={`document-item ${hoveredDoc === doc.id ? 'document-item-hovered' : ''}`}
+                                    onMouseEnter={() => setHoveredDoc(doc.id)}
+                                    onMouseLeave={() => setHoveredDoc(null)}
+                                >
+                                    <a 
+                                        href={doc.url} 
+                                        target="_blank" 
+                                        rel="noopener noreferrer"
+                                        className="document-link"
+                                    >
+                                        <FontAwesomeIcon icon={faFilePdf} className="pdf-icon" />
+                                        {doc.title}
+                                    </a>
+                                </li>
+                            ))}
                         </ul>
                     </div>
 

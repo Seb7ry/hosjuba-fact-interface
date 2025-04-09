@@ -5,7 +5,6 @@ import { faCheck, faRedo, faTimes } from "@fortawesome/free-solid-svg-icons";
 
 import { saveAdmission } from "../../services/admissionService";
 import ConfirmationModal from "../confirmationModal/confirmationModal";
-import signatureImg from "../../assets/ux/signature.png";
 import "./signatureModal.css";
 
 const SignatureModal = ({ isOpen, onClose, admission }) => {
@@ -14,12 +13,12 @@ const SignatureModal = ({ isOpen, onClose, admission }) => {
     const [signatureData, setSignatureData] = useState(null);
     const [isUploading, setIsUploading] = useState(false);
     const [isSuccess, setIsSuccess] = useState(false);
-    const [signer, setSigner] = useState(""); // Estado para el firmante
+    const [signer, setSigner] = useState(""); 
     const signatureRef = useRef(null);
 
     const handleEnd = () => {
         if (signatureRef.current && !signatureRef.current.isEmpty()) {
-            const dataURL = signatureRef.current.toDataURL().split(",")[1]; // Quitamos "data:image/png;base64,"
+            const dataURL = signatureRef.current.toDataURL().split(",")[1]; 
             setSignatureData(dataURL);
             setIsSigned(true);
         }
@@ -34,7 +33,7 @@ const SignatureModal = ({ isOpen, onClose, admission }) => {
     };
 
     const handleFinalConfirm = async () => {
-        setShowConfirmModal(false); // Cierra el modal de confirmación
+        setShowConfirmModal(false); 
     
         setIsUploading(true);
         try {
@@ -93,9 +92,6 @@ const SignatureModal = ({ isOpen, onClose, admission }) => {
                 <h2 className="modal-title">Firma Digital</h2>
 
                 <div className="patient-container">
-                    <div className="patient-image">
-                        <img src={signatureImg} alt="Firma digital" className="signature-icon" />
-                    </div>
                     <div className="patient-info">
                         <p><strong>Paciente:</strong> {admission.fullNamePatient}</p>
                         <p><strong>Documento:</strong> {admission.documentPatient}</p>
@@ -116,7 +112,6 @@ const SignatureModal = ({ isOpen, onClose, admission }) => {
                     </div>
                 ) : (
                     <>
-                        {/* Selector de quién firma */}
                         <div className="signer-select">
                             <label htmlFor="signer"><strong>¿Quién firma?</strong></label>
                             <select
