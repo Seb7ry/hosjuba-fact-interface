@@ -9,10 +9,13 @@ const SessionMonitor = () => {
   const warningShownRef = useRef(false);
   const lastTokenRef = useRef(null);
 
+  const WARNING_TIME = 5 * 60 * 1000; 
+  const VIBRATION_TIME = 1 * 60 * 1000; 
+
   const getTokenId = (token) => {
     try {
       const decoded = jwtDecode(token);
-      return decoded.jti || decoded.exp; // usamos `jti` si existe, o el `exp` como fallback
+      return decoded.jti || decoded.exp;
     } catch {
       return null;
     }
@@ -21,7 +24,6 @@ const SessionMonitor = () => {
   const getExpiration = (token) => {
     try {
       const decoded = jwtDecode(token);
-      console.log("🔐 Token decodificado, expira en:", new Date(decoded.exp * 1000));
       return decoded.exp * 1000;
     } catch (error) {
       console.error("❌ Error al decodificar el token:", error);
@@ -40,7 +42,6 @@ const SessionMonitor = () => {
       }
 
       if (token !== lastTokenRef.current) {
-        console.log("🔄 Token cambiado o refrescado");
         lastTokenRef.current = token;
       }
 
@@ -53,12 +54,9 @@ const SessionMonitor = () => {
       const currentTime = Date.now();
       const timeRemaining = expiresAt - currentTime;
 
-      console.log("⏱️ Tiempo restante:", formatTimeLeft(timeRemaining));
-
       setTimeLeft(timeRemaining);
 
       if (timeRemaining <= 0) {
-        console.log("⏳ Token expirado. Cerrando sesión...");
         logout();
         return;
       }
@@ -66,24 +64,23 @@ const SessionMonitor = () => {
       const tokenId = getTokenId(token);
       const alreadyWarnedKey = `warned_${tokenId}`;
 
-      if (timeRemaining <= 40000 && !warningShownRef.current && !sessionStorage.getItem(alreadyWarnedKey)) {
-        console.log("⚠️ Mostrando advertencia de expiración");
+      if (timeRemaining <= WARNING_TIME && !warningShownRef.current && !sessionStorage.getItem(alreadyWarnedKey)) {
         setShowWarning(true);
         warningShownRef.current = true;
-        sessionStorage.setItem(alreadyWarnedKey, "true"); // ✅ Asociamos el warning al token específico
+        sessionStorage.setItem(alreadyWarnedKey, "true");
       }
 
-      if (timeRemaining > 40000 && warningShownRef.current) {
-        console.log("✅ Advertencia ocultada, suficiente tiempo restante");
+      if (timeRemaining > WARNING_TIME && warningShownRef.current) {
         setShowWarning(false);
         warningShownRef.current = false;
       }
     };
 
-    checkSession(); // Ejecutar inmediatamente
-    const intervalId = setInterval(checkSession, 1000); // Revisar cada segundo
+    checkSession(); 
+    const intervalId = setInterval(checkSession, 1000); 
 
     return () => clearInterval(intervalId);
+    // eslint-disable-next-line
   }, []);
 
   const formatTimeLeft = (ms) => {
@@ -97,10 +94,10 @@ const SessionMonitor = () => {
     <>
       {showWarning && timeLeft !== null && (
         <div className="session-modal-backdrop">
-          <div className={`session-modal ${timeLeft <= 10000 ? "vibrate" : ""}`}>
+          <div className={`session-modal ${timeLeft <= VIBRATION_TIME ? "vibrate" : ""}`}>
             <h3>⏳ Tu sesión está por expirar</h3>
             <p>
-              Tu sesión expirará en <strong>{formatTimeLeft(timeLeft)}</strong>. Realiza acciones para no ser expulsado.
+              Tu sesión expirará en <strong>{formatTimeLeft(timeLeft)}</strong>. Realiza alguna función para no ser expulsado.
             </p>
             <button onClick={() => setShowWarning(false)}>Entiendo</button>
           </div>
