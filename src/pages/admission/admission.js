@@ -113,7 +113,7 @@ const Admission = () => {
                                     <li><strong>Número de Admisión:</strong> Código único de la admisión del paciente.<code>Ejemplo: 59</code></li>
                                     <li><strong>Documento:</strong> Número de identificación del paciente.<code>Ejemplo: 1001234567</code></li>
                                     <li><strong>Nombre Paciente:</strong> Nombre del paciente.<code>Ejemplo: 59</code></li>
-                                    <li><strong>Fecha:</strong> Fecha en la que se realizó la admisión.<code>Ejemplo: 2025-03-10</code></li>
+                                    <li><strong>Fecha:</strong> Fecha en la que se realizó la admisión.<code>Ejemplo: 10-03-2025</code></li>
                                     <li><strong>Servicio: Servicio por el cual tuvo la admisión el paciente.</strong> <code>Ejemplo: Triage</code></li>
                                     <li><strong>Usuario:</strong> Nombre del funcionario que realizó la admisión.<code>Ejemplo: JMURILLO</code></li>
                                     <li><strong>Firma:</strong> Indica si ya existe una firma para el paciente o no. En caso de que no, le permite acceder al formulario para asignar la firma; en caso de que si, muestra un check de confirmación.</li>

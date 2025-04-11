@@ -1,60 +1,107 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { jwtDecode } from "jwt-decode";
-import { logout } from "../../services/authService";
+import { logout, getAccessToken } from "../../services/authService";
 import "./sessionMonitor.css";
 
 const SessionMonitor = () => {
   const [showWarning, setShowWarning] = useState(false);
-  const [tokenVersion, setTokenVersion] = useState(0);
+  const [timeLeft, setTimeLeft] = useState(null);
+  const warningShownRef = useRef(false);
+  const lastTokenRef = useRef(null);
+
+  const getTokenId = (token) => {
+    try {
+      const decoded = jwtDecode(token);
+      return decoded.jti || decoded.exp; // usamos `jti` si existe, o el `exp` como fallback
+    } catch {
+      return null;
+    }
+  };
+
+  const getExpiration = (token) => {
+    try {
+      const decoded = jwtDecode(token);
+      console.log("🔐 Token decodificado, expira en:", new Date(decoded.exp * 1000));
+      return decoded.exp * 1000;
+    } catch (error) {
+      console.error("❌ Error al decodificar el token:", error);
+      return null;
+    }
+  };
 
   useEffect(() => {
     const checkSession = () => {
-      const token = sessionStorage.getItem("access_token");
+      const token = getAccessToken();
 
       if (!token) {
-        console.warn("🚨 No hay token, cerrando sesión...");
+        console.warn("🚫 No hay token, cerrando sesión...");
         logout();
         return;
       }
 
-      try {
-        const decoded = jwtDecode(token);
-        const expiresAt = decoded.exp * 1000;
-        const currentTime = Date.now();
-        const timeRemaining = expiresAt - currentTime;
+      if (token !== lastTokenRef.current) {
+        console.log("🔄 Token cambiado o refrescado");
+        lastTokenRef.current = token;
+      }
 
-        if (timeRemaining <= 0) {
-          logout();
-        } else if (timeRemaining <= 5 * 60 * 1000) {
-          setShowWarning(true);
-        } else {
-          setShowWarning(false);
-        }
-      } catch (error) {
-        console.error("⚠️ Error al decodificar el token:", error);
+      const expiresAt = getExpiration(token);
+      if (!expiresAt) {
         logout();
+        return;
+      }
+
+      const currentTime = Date.now();
+      const timeRemaining = expiresAt - currentTime;
+
+      console.log("⏱️ Tiempo restante:", formatTimeLeft(timeRemaining));
+
+      setTimeLeft(timeRemaining);
+
+      if (timeRemaining <= 0) {
+        console.log("⏳ Token expirado. Cerrando sesión...");
+        logout();
+        return;
+      }
+
+      const tokenId = getTokenId(token);
+      const alreadyWarnedKey = `warned_${tokenId}`;
+
+      if (timeRemaining <= 40000 && !warningShownRef.current && !sessionStorage.getItem(alreadyWarnedKey)) {
+        console.log("⚠️ Mostrando advertencia de expiración");
+        setShowWarning(true);
+        warningShownRef.current = true;
+        sessionStorage.setItem(alreadyWarnedKey, "true"); // ✅ Asociamos el warning al token específico
+      }
+
+      if (timeRemaining > 40000 && warningShownRef.current) {
+        console.log("✅ Advertencia ocultada, suficiente tiempo restante");
+        setShowWarning(false);
+        warningShownRef.current = false;
       }
     };
 
-    checkSession();
-    const intervalId = setInterval(checkSession, 5 * 60 * 1000);
-
-    window.addEventListener("storage", (event) => {
-      if (event.key === "access_token") {
-        setTokenVersion((prev) => prev + 1);
-      }
-    });
+    checkSession(); // Ejecutar inmediatamente
+    const intervalId = setInterval(checkSession, 1000); // Revisar cada segundo
 
     return () => clearInterval(intervalId);
-  }, [tokenVersion]);
+  }, []);
+
+  const formatTimeLeft = (ms) => {
+    const totalSeconds = Math.max(Math.floor(ms / 1000), 0);
+    const minutes = Math.floor(totalSeconds / 60);
+    const seconds = totalSeconds % 60;
+    return `${minutes}m ${seconds}s`;
+  };
 
   return (
     <>
-      {showWarning && (
+      {showWarning && timeLeft !== null && (
         <div className="session-modal-backdrop">
-          <div className="session-modal">
+          <div className={`session-modal ${timeLeft <= 10000 ? "vibrate" : ""}`}>
             <h3>⏳ Tu sesión está por expirar</h3>
-            <p>Tu sesión expirará en menos de 5 minutos.</p>
+            <p>
+              Tu sesión expirará en <strong>{formatTimeLeft(timeLeft)}</strong>. Realiza acciones para no ser expulsado.
+            </p>
             <button onClick={() => setShowWarning(false)}>Entiendo</button>
           </div>
         </div>

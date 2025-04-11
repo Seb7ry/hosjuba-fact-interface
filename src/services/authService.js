@@ -41,6 +41,7 @@ export const refreshAccessToken = async () => {
         const { access_token } = response.data;
 
         sessionStorage.setItem('access_token', access_token);
+        sessionStorage.removeItem("warning_shown");
         return access_token;
     } catch (error) {
         logout();
@@ -136,6 +137,9 @@ export const authService = async (username, password) => {
         sessionStorage.setItem('username', username);
         sessionStorage.setItem('grupo', grupo )
 
+        sessionStorage.removeItem("warning_shown");
+        window.location.reload(); 
+        
         return response.data;
     } catch (error) {
         if (error.response) {

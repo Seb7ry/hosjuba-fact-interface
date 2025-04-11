@@ -43,7 +43,7 @@ const Dashboard = () => {
         },
         {
             id: 2,
-            title: "Manual de usuario técnico (Back-end)",
+            title: "Manual de Usuario Técnico (Back-end)",
             url: process.env.REACT_APP_MANUAL_TECNICO
         },
         {

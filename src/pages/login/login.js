@@ -22,6 +22,7 @@ const Login = () => {
         setShowError(false);
 
         try {
+            console.log("ENV:", process.env.REACT_APP_ROUTEROUTE_BACKSERVICE);
             await authService(username, password);
             setLoading(false);
             navigate('/dashboard');
