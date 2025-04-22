@@ -49,17 +49,17 @@ Crea una versión optimizada para producción en la carpeta `/build`.
 
 src/
 <br> 
-├── assets/ # Logos y recursos visuales
+├── assets/ 
 <br>
-├── components/ # Componentes reutilizables 
+├── components/ 
 <br>
-├── pages/ # Páginas principales 
+├── pages/ 
 <br>
-├── services/ # Servicios API 
+├── services/ 
 <br>
-├── App.js # Estructura principal 
+├── App.js 
 <br>
-├── index.js # Punto de entrada
+├── index.js 
 <br>
 ---
 
