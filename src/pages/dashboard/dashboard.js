@@ -10,24 +10,22 @@ import Navbar from "../../components/navbar/navbar";
 const Dashboard = () => {
     const [stats, setStats] = useState(null);
     const [hoveredDoc, setHoveredDoc] = useState(null);
+    const [userGroup, setUserGroup] = useState(null);
 
     useEffect(() => {
+        const group = sessionStorage.getItem("grupo");
+        setUserGroup(group);
         if (!sessionStorage.getItem("access_token")) {
             console.warn("⚠️ No hay access token, redirigiendo al login...");
             window.location.href = "/";
             return;
         }
 
-        /**
-         * Obtiene las estadísticas generales desde el backend utilizando el servicio `getStats`.
-         * Actualiza el estado global `stats` con los datos obtenidos.
-         * Maneja errores de red o del servidor con un log en consola.
-         */
         const fetchStats = async () => {
             try {
                 const data = await getStats();
                 setStats(data);
-            } catch(error) {
+            } catch (error) {
                 console.error("Error de estadísticas:", error);
             }
         };
@@ -35,23 +33,43 @@ const Dashboard = () => {
         fetchStats();
     }, []);
 
+    const isAdmin =
+        userGroup === "ADMINISTRADOR" ||
+        userGroup === "COORFACTURACION" ||
+        userGroup === "LIDERFACTURACION";
+
     const documents = [
         {
             id: 1,
-            title: "Manual de usuario (Instrucciones de Uso)",
-            url: process.env.REACT_APP_MANUAL_USUARIO
+            title: "Manual de Instalación",
+            url: process.env.REACT_APP_MANUAL_INSTALACION
         },
         {
             id: 2,
-            title: "Manual de Usuario Técnico (Back-end)",
-            url: process.env.REACT_APP_MANUAL_TECNICO
+            title: "Manual de Usuario (Intrucciones de Uso)",
+            url: process.env.REACT_APP_MANUAL_USUARIO_REGULAR
         },
         {
             id: 3,
+            title: "Manual de Usuario Administradores (Intrucciones de Uso)",
+            url: process.env.REACT_APP_MANUAL_USUARIO_ADMIN
+        },
+        {
+            id: 4,
             title: "Manual de usuario técnico (Front-end)",
-            url: process.env.REACT_APP_MANUAL_TECNICO
+            url: process.env.REACT_APP_MANUAL_TECNICO_FRONT
+        },
+        {
+            id: 5,
+            title: "Manual de usuario técnico (Back-end + Base de Datos)",
+            url: process.env.REACT_APP_MANUAL_TECNICO_BACK
         }
     ];
+
+    const visibleDocuments = documents.filter((doc) => {
+        if ([3, 4, 5].includes(doc.id) && !isAdmin) return false;
+        return true;
+    });
 
     const COLORS = ["#1f77b4", "#d62728", "#2ca02c", "#9467bd"];
 
@@ -88,16 +106,16 @@ const Dashboard = () => {
                         <h2>Manuales de Uso</h2>
                         <p>Aquí encontrarás el manual de usuario para el uso del sistema. Tanto para administradores como para usuarios regulares.</p>
                         <ul className="document-list">
-                            {documents.map((doc) => (
-                                <li 
+                            {visibleDocuments.map((doc) => (
+                                <li
                                     key={doc.id}
                                     className={`document-item ${hoveredDoc === doc.id ? 'document-item-hovered' : ''}`}
                                     onMouseEnter={() => setHoveredDoc(doc.id)}
                                     onMouseLeave={() => setHoveredDoc(null)}
                                 >
-                                    <a 
-                                        href={doc.url} 
-                                        target="_blank" 
+                                    <a
+                                        href={doc.url}
+                                        target="_blank"
                                         rel="noopener noreferrer"
                                         className="document-link"
                                     >
