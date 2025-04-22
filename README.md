@@ -1,70 +1,64 @@
-# Getting Started with Create React App
+# Firma Digital – Frontend
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Este proyecto es el **frontend de una aplicación web full stack** diseñada para digitalizar la captura de firmas mediante un **pad de firma**, con el fin de generar documentos o comprobantes de facturación médica. Fue desarrollado específicamente para el **Hospital San Juan Bautista**, como parte del programa **Paz y Región** de la **Universidad de Ibagué**.
 
-## Available Scripts
+<div align="center">
+  <img src="./src/assets/logo-hospital.png" alt="Logo Hospital San Juan Bautista" height="80"/>
+  &nbsp;&nbsp;&nbsp;&nbsp;
+  <img src="./src/assets/logo-paz-y-region.png" alt="Logo Paz y Región" height="80"/>
+</div>
 
-In the project directory, you can run:
+## 👨‍💻 Desarrollador
+
+**Juan Sebastián Murillo Méndez**  
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-blue?logo=linkedin&style=flat-square)](https://www.linkedin.com/in/juan-sebastian-murillo/)  
+[![GitHub](https://img.shields.io/badge/GitHub-black?logo=github&style=flat-square)](https://github.com/tu-usuario-github)  
+[🌐 Portafolio](https://tu-portafolio.com)
+
+---
+
+## 🚀 Tecnologías Utilizadas
+
+- **Framework:** React v19.0.0  
+- **Node.js:** v20.19.0  
+- Estilos personalizados con CSS/SCSS  
+- Librerías auxiliares: Axios, React Router, entre otras
+
+---
+
+## ⚙️ Scripts disponibles
+
+En el directorio del proyecto, puedes ejecutar:
+
+### `npm install`
+
+Instala todas las dependencias necesarias del proyecto.
 
 ### `npm start`
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
-
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
-
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Ejecuta la aplicación en modo desarrollo.  
+Abre [http://localhost:3001](http://localhost:3001) para verla en el navegador.
 
 ### `npm run build`
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Crea una versión optimizada para producción en la carpeta `/build`.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+---
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## 📁 Estructura del Proyecto
 
-### `npm run eject`
+src/ ├── assets/ # Logos y recursos visuales ├── components/ # Componentes reutilizables ├── pages/ # Páginas principales ├── services/ # Servicios API ├── App.js # Estructura principal └── index.js # Punto de entrada
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+---
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+## 📝 Notas Adicionales
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+- Este proyecto se conecta al backend que gestiona la lógica de autenticación, almacenamiento y firma de documentos.
+- Se recomienda utilizar Google Chrome para una mejor compatibilidad con el pad de firma.
 
-## Learn More
+---
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+## 📦 Despliegue
 
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Puedes desplegar este proyecto en plataformas como **Vercel**, **Netlify**, o servidores propios que soporten aplicaciones React.

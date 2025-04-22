@@ -54,6 +54,8 @@ const SessionMonitor = () => {
       const currentTime = Date.now();
       const timeRemaining = expiresAt - currentTime;
 
+      console.log(`⏱️ Tiempo restante para la sesión: ${formatTimeLeft(timeRemaining)}`); // 👈 Aquí
+
       setTimeLeft(timeRemaining);
 
       if (timeRemaining <= 0) {
