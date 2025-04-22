@@ -3,9 +3,9 @@
 Este proyecto es el **frontend de una aplicación web full stack** diseñada para digitalizar la captura de firmas mediante un **pad de firma**, con el fin de generar documentos o comprobantes de facturación médica. Fue desarrollado específicamente para el **Hospital San Juan Bautista**, como parte del programa **Paz y Región** de la **Universidad de Ibagué**.
 
 <div align="center">
-  <img src="./src/assets/logo-hospital.png" alt="Logo Hospital San Juan Bautista" height="80"/>
+  <img src="./src/assets/logo.png" alt="Logo Hospital San Juan Bautista" height="80"/>
   &nbsp;&nbsp;&nbsp;&nbsp;
-  <img src="./src/assets/logo-paz-y-region.png" alt="Logo Paz y Región" height="80"/>
+  <img src="./src/assets/unibague.png" alt="Logo Paz y Región" height="80"/>
 </div>
 
 ## 👨‍💻 Desarrollador
