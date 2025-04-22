@@ -13,7 +13,7 @@ Este proyecto es el **frontend de una aplicación web full stack** diseñada par
 **Juan Sebastián Murillo Méndez**  
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-blue?logo=linkedin&style=flat-square)](https://www.linkedin.com/in/juan-sebastian-murillo/)  
 [![GitHub](https://img.shields.io/badge/GitHub-black?logo=github&style=flat-square)](https://github.com/tu-usuario-github)  
-[![🌐 Portafolio](https://tu-portafolio.com)]
+[![Portafolio](https://img.shields.io/badge/Portafolio-🌐-blueviolet?style=flat-square)](https://tu-portafolio.com)
 
 ---
 
