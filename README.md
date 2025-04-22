@@ -1,4 +1,4 @@
-# Firma Digital – Frontend
+# Gestor de Documentos Hosjuba – Frontend
 
 Este proyecto es el **frontend de una aplicación web full stack** diseñada para digitalizar la captura de firmas mediante un **pad de firma**, con el fin de generar documentos o comprobantes de facturación médica. Fue desarrollado específicamente para el **Hospital San Juan Bautista**, como parte del programa **Paz y Región** de la **Universidad de Ibagué**.
 
