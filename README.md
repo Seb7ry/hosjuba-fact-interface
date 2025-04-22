@@ -47,14 +47,20 @@ Crea una versión optimizada para producción en la carpeta `/build`.
 
 ## 📁 Estructura del Proyecto
 
-src/ 
-├── assets/ # Logos y recursos visuales 
+src/
+<br> 
+├── assets/ # Logos y recursos visuales
+<br>
 ├── components/ # Componentes reutilizables 
+<br>
 ├── pages/ # Páginas principales 
+<br>
 ├── services/ # Servicios API 
+<br>
 ├── App.js # Estructura principal 
+<br>
 ├── index.js # Punto de entrada
-
+<br>
 ---
 
 ## 📝 Notas Adicionales
