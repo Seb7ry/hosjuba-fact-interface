@@ -25,9 +25,9 @@ const AdmissionList = ({ admissions, loading }) => {
 
 
     const MapAdmissionType = (type) => {
-        if (type === 1) return "Urgencias";
-        if (type === 9) return "Triage";
-        if (type === 99) return "Consulta Externa";
+        if (type === "1") return "Urgencias";
+        if (type === "9") return "Triage";
+        if (type === "99") return "Consulta Externa";
         return "Hospitalización";
     };
 
@@ -82,6 +82,7 @@ const AdmissionList = ({ admissions, loading }) => {
             await updateAdmission(admission.documentPatient, admission.consecutiveAdmission);
             setSuccessAdmission(admission);
             setShowSuccessModal(true);
+            console.log(admission)
         } catch (error) {
             console.error("Error al actualizar la admisión:", error);
         } finally {
