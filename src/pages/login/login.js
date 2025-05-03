@@ -72,6 +72,14 @@ const Login = () => {
 
                     <button type="submit" className="login-sign-in-button">Ingresar</button>
 
+                    <p className="login-signup-text"></p>
+                    <div className="login-test-credentials">
+                        <p><strong>Usuarios demo:</strong></p>
+                        <ul>
+                            <li><b>Usuario:</b> ADMIN | <b>Contraseña:</b> 1234</li>
+                            <li><b>Usuario:</b> USER | <b>Contraseña:</b> 1234</li>
+                        </ul>
+                    </div>
                     <p className="login-signup-text">
                         ¿Deseas más información de este servicio?{' '}
                         <a
