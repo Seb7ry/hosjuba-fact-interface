@@ -1,35 +1,22 @@
-# Etapa 1: Construcción de la app
+# Etapa de build
 FROM node:20.19.0 as builder
 
-# Establece el directorio de trabajo
 WORKDIR /app
-
-# Copia los archivos necesarios
 COPY package*.json ./
-
-# Instala dependencias
 RUN npm install
-
-# Copia el resto de archivos de la app
 COPY . .
-
-# Construye la app para producción
 RUN npm run build
 
-# Etapa 2: Servir la app usando 'serve'
+# Etapa final: Servir la app
 FROM node:20.19.0-slim
 
-# Instala el servidor estático 'serve'
+# Instalar 'serve' para servir el frontend
 RUN npm install -g serve
 
-# Crea un directorio para la app
 WORKDIR /app
-
-# Copia la build desde la etapa anterior
 COPY --from=builder /app/build ./build
 
-# Expone el puerto 3000
-EXPOSE 3001
+# El puerto que expone tu frontend (Render espera 3000 por defecto)
+EXPOSE 3000
 
-# Comando por defecto
 CMD ["serve", "-s", "build", "-l", "3000"]
