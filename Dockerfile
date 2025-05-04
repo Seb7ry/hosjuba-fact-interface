@@ -19,4 +19,4 @@ COPY --from=builder /app/build ./build
 # El puerto que expone tu frontend (Render espera 3000 por defecto)
 EXPOSE 3000
 
-CMD ["serve", "-s", "build", "-l", "3000"]
+CMD ["serve", "-s", "build", "-l", "3000", "--single"]
