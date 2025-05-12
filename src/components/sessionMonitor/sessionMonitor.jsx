@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { jwtDecode } from "jwt-decode";
 import { logout, getAccessToken } from "../../services/authService";
-import "./sessionMonitor.css";
 
 const SessionMonitor = () => {
   const [showWarning, setShowWarning] = useState(false);
@@ -9,8 +8,8 @@ const SessionMonitor = () => {
   const warningShownRef = useRef(false);
   const lastTokenRef = useRef(null);
 
-  const WARNING_TIME = 5 * 60 * 1000; 
-  const VIBRATION_TIME = 1 * 60 * 1000; 
+  const WARNING_TIME = 5 * 60 * 1000;
+  const VIBRATION_TIME = 1 * 60 * 1000;
 
   const getTokenId = (token) => {
     try {
@@ -54,8 +53,6 @@ const SessionMonitor = () => {
       const currentTime = Date.now();
       const timeRemaining = expiresAt - currentTime;
 
-      //console.log(`⏱️ Tiempo restante para la sesión: ${formatTimeLeft(timeRemaining)}`); 
-
       setTimeLeft(timeRemaining);
 
       if (timeRemaining <= 0) {
@@ -66,7 +63,11 @@ const SessionMonitor = () => {
       const tokenId = getTokenId(token);
       const alreadyWarnedKey = `warned_${tokenId}`;
 
-      if (timeRemaining <= WARNING_TIME && !warningShownRef.current && !sessionStorage.getItem(alreadyWarnedKey)) {
+      if (
+        timeRemaining <= WARNING_TIME &&
+        !warningShownRef.current &&
+        !sessionStorage.getItem(alreadyWarnedKey)
+      ) {
         setShowWarning(true);
         warningShownRef.current = true;
         sessionStorage.setItem(alreadyWarnedKey, "true");
@@ -78,11 +79,11 @@ const SessionMonitor = () => {
       }
     };
 
-    checkSession(); 
-    const intervalId = setInterval(checkSession, 1000); 
+    checkSession();
+    const intervalId = setInterval(checkSession, 1000);
 
     return () => clearInterval(intervalId);
-    // eslint-disable-next-line
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const formatTimeLeft = (ms) => {
@@ -95,13 +96,23 @@ const SessionMonitor = () => {
   return (
     <>
       {showWarning && timeLeft !== null && (
-        <div className="session-modal-backdrop">
-          <div className={`session-modal ${timeLeft <= VIBRATION_TIME ? "vibrate" : ""}`}>
-            <h3>⏳ Tu sesión está por expirar</h3>
-            <p>
-              Tu sesión expirará en <strong>{formatTimeLeft(timeLeft)}</strong>. Realiza alguna función para no ser expulsado.
+        <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-[2000]">
+          <div
+            className={`bg-white p-6 rounded-lg shadow-lg w-[90%] max-w-md text-center transition-all ${timeLeft <= VIBRATION_TIME ? "animate-[vibrate_0.3s_linear_infinite]" : ""
+              }`}
+          >
+            <h3 className="text-lg font-semibold mb-2">⏳ Tu sesión está por expirar</h3>
+            <p className="text-sm mb-4">
+              Tu sesión expirará en{" "}
+              <strong className="text-red-500">{formatTimeLeft(timeLeft)}</strong>. Realiza alguna
+              acción para mantenerla activa.
             </p>
-            <button onClick={() => setShowWarning(false)}>Entiendo</button>
+            <button
+              className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded font-semibold"
+              onClick={() => setShowWarning(false)}
+            >
+              Entiendo
+            </button>
           </div>
         </div>
       )}

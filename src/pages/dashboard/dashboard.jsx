@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFilePdf } from "@fortawesome/free-solid-svg-icons";
 import { PieChart, Pie, Cell, Tooltip, Legend, ResponsiveContainer } from "recharts";
-import "./dashboard.css";
 
 import { getStats } from "../../services/statService";
 import Navbar from "../../components/navbar/navbar";
@@ -75,11 +74,11 @@ const Dashboard = () => {
 
     const chartData = stats
         ? [
-              { name: "Urgencias", value: stats.urgencias },
-              { name: "Triage", value: stats.triage },
-              { name: "Consulta externa", value: stats.consultaExterna },
-              { name: "Hospitalización", value: stats.hospitalizacion },
-          ]
+            { name: "Urgencias", value: stats.urgencias },
+            { name: "Triage", value: stats.triage },
+            { name: "Consulta externa", value: stats.consultaExterna },
+            { name: "Hospitalización", value: stats.hospitalizacion }
+        ]
         : [];
 
     const total =
@@ -89,27 +88,35 @@ const Dashboard = () => {
         stats?.hospitalizacion || 0;
 
     return (
-        <div className="dashboard-layout">
+        <div className="flex bg-gray-100 min-h-screen">
             <Navbar />
-            <div className="dashboard-container">
-                <div className="jumbotron">
-                    <h1>Bienvenido</h1>
-                    <hr />
-                    <p>
+
+            {/* ✅ Sidebar margen en escritorio + padding top para móvil */}
+            <div className="flex-1 px-5 py-6 overflow-y-visible pt-14 md:pt-6 md:ml-[250px] transition-all duration-300">
+                <div className="bg-gray-100 rounded-lg shadow-md text-center p-6 mb-5">
+                    <h1 className="text-5xl font-bold text-black mb-2">Bienvenido</h1>
+                    <hr className="my-4 border-gray-300" />
+                    <p className="text-base text-black">
                         Gestiona de manera eficiente las admisiones,
                         firmas digitales y comprobantes médicos en un solo lugar.
                     </p>
                 </div>
 
-                <div className="dashboard-cards">
-                    <div className="dashboard-card">
-                        <h2>Manuales de Uso</h2>
-                        <p>Aquí encontrarás el manual de usuario para el uso del sistema. Tanto para administradores como para usuarios regulares.</p>
-                        <ul className="document-list">
+                <div className="flex flex-wrap gap-5 mt-6">
+                    {/* Manuales */}
+                    <div className="flex-1 min-w-[300px] bg-white rounded-xl shadow-lg p-5 transition-transform hover:-translate-y-1">
+                        <h2 className="text-xl font-semibold text-black mb-2">Manuales de Uso</h2>
+                        <p className="text-black mb-4">
+                            Aquí encontrarás el manual de usuario para el uso del sistema. Tanto para administradores como para usuarios regulares.
+                        </p>
+                        <ul className="mt-2 space-y-2">
                             {visibleDocuments.map((doc) => (
                                 <li
                                     key={doc.id}
-                                    className={`document-item ${hoveredDoc === doc.id ? 'document-item-hovered' : ''}`}
+                                    className={`rounded-md p-2 transition-all duration-200 ${hoveredDoc === doc.id
+                                            ? "bg-gray-200 shadow-sm"
+                                            : "hover:bg-gray-100 hover:translate-x-1"
+                                        }`}
                                     onMouseEnter={() => setHoveredDoc(doc.id)}
                                     onMouseLeave={() => setHoveredDoc(null)}
                                 >
@@ -117,9 +124,12 @@ const Dashboard = () => {
                                         href={doc.url}
                                         target="_blank"
                                         rel="noopener noreferrer"
-                                        className="document-link"
+                                        className="flex items-center text-sm text-gray-700 hover:text-blue-600"
                                     >
-                                        <FontAwesomeIcon icon={faFilePdf} className="pdf-icon" />
+                                        <FontAwesomeIcon
+                                            icon={faFilePdf}
+                                            className="text-red-600 text-xl mr-2 transition-transform duration-200 group-hover:scale-110"
+                                        />
                                         {doc.title}
                                     </a>
                                 </li>
@@ -127,12 +137,13 @@ const Dashboard = () => {
                         </ul>
                     </div>
 
-                    <div className="dashboard-card">
-                        <h2>Resumen General</h2>
-                        <p>Aquí podrás ver estadísticas de registros y firmas asignadas.</p>
+                    {/* Estadísticas */}
+                    <div className="flex-1 min-w-[300px] bg-white rounded-xl shadow-lg p-5 transition-transform hover:-translate-y-1">
+                        <h2 className="text-xl font-semibold text-black mb-2">Resumen General</h2>
+                        <p className="text-black mb-4">Aquí podrás ver estadísticas de registros y firmas asignadas.</p>
                         {stats && (
                             <>
-                                <div style={{ width: "100%", height: 300 }}>
+                                <div className="w-full h-[300px]">
                                     <ResponsiveContainer>
                                         <PieChart>
                                             <Pie
@@ -145,7 +156,10 @@ const Dashboard = () => {
                                                 label
                                             >
                                                 {chartData.map((entry, index) => (
-                                                    <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                                                    <Cell
+                                                        key={`cell-${index}`}
+                                                        fill={COLORS[index % COLORS.length]}
+                                                    />
                                                 ))}
                                             </Pie>
                                             <Tooltip />
@@ -153,7 +167,7 @@ const Dashboard = () => {
                                         </PieChart>
                                     </ResponsiveContainer>
                                 </div>
-                                <div style={{ textAlign: "center", marginTop: "10px", fontWeight: "bold", color: "#333" }}>
+                                <div className="text-center mt-3 font-bold text-gray-700">
                                     Total de admisiones firmadas: {total}
                                 </div>
                             </>

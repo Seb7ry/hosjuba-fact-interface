@@ -10,18 +10,18 @@ const DocumentModal = ({ isOpen, onClose, admission }) => {
   const scrollPosition = useRef(0);
 
   const MapAdmissionType = (type) => {
-    if (type === '1') return "Urgencias";
-    if (type === '9') return "Triage";
-    if (type === '99') return "Consulta Externa";
+    if (type === "1") return "Urgencias";
+    if (type === "9") return "Triage";
+    if (type === "99") return "Consulta Externa";
     return "Hospitalización";
   };
 
   const mapCompanionType = (type) => {
-    if (type === 'H') return "Hijo(a)";
-    if (type === 'F') return "Familiar";
-    if (type === 'C') return "Cónyuge";
-    if (type === 'A') return "Amigo(a)";
-    if (type === 'O') return "Otro";
+    if (type === "H") return "Hijo(a)";
+    if (type === "F") return "Familiar";
+    if (type === "C") return "Cónyuge";
+    if (type === "A") return "Amigo(a)";
+    if (type === "O") return "Otro";
     return "N/A";
   };
 
@@ -62,7 +62,7 @@ const DocumentModal = ({ isOpen, onClose, admission }) => {
         })
         .catch((error) => console.error("Error al obtener facturas:", error));
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isOpen, admission]);
 
   const loadPdf = async (numberFac = null) => {
@@ -72,13 +72,11 @@ const DocumentModal = ({ isOpen, onClose, admission }) => {
       setIframeKey((prev) => prev + 1);
 
       await new Promise((resolve) => setTimeout(resolve, 100));
-
       const pdfBlob = await downloadPdf(
         admission.documentPatient,
         admission.consecutiveAdmission,
         numberFac
       );
-
       await new Promise((resolve) => setTimeout(resolve, 1000));
 
       if (pdfBlob instanceof Blob) {
@@ -102,12 +100,14 @@ const DocumentModal = ({ isOpen, onClose, admission }) => {
   if (!isOpen || !admission) return null;
 
   return (
-    <div className="fixed inset-0 bg-black/70 z-50 flex justify-center items-center overflow-y-auto">
-      <div className="bg-white rounded-lg w-[95vw] max-w-[1000px] h-[95vh] p-4 relative overflow-hidden flex flex-col">
-        <button onClick={onClose} className="absolute top-3 right-3 text-xl text-gray-600 hover:text-black">✖</button>
+    <div className="fixed inset-0 bg-black/70 z-50 flex justify-center items-start overflow-y-auto p-4">
+      <div className="bg-white rounded-lg w-full max-w-[1000px] min-h-[90vh] p-4 relative overflow-hidden flex flex-col">
+        <button onClick={onClose} className="absolute top-3 right-3 text-xl text-gray-600 hover:text-black">
+          ✖
+        </button>
 
         <div className="border-b pb-3">
-          <h2 className="text-lg font-bold text-center">Información de la Admisín</h2>
+          <h2 className="text-lg font-bold text-center">Información de la Admisión</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 mt-3 text-sm">
             <div><strong>Nombre Paciente:</strong> {admission.fullNamePatient}</div>
             <div><strong>Documento Paciente:</strong> {admission.documentPatient}</div>
@@ -142,7 +142,7 @@ const DocumentModal = ({ isOpen, onClose, admission }) => {
             </div>
           )}
 
-          <div className="flex-1 border rounded-md bg-gray-50 relative">
+          <div className="flex-1 border rounded-md bg-gray-50 relative min-h-[300px]">
             {loading || !pdfUrl ? (
               <div className="flex justify-center items-center h-full">
                 <div className="animate-spin border-4 border-gray-200 border-t-blue-600 rounded-full w-10 h-10" />
@@ -152,7 +152,7 @@ const DocumentModal = ({ isOpen, onClose, admission }) => {
                 key={iframeKey}
                 src={pdfUrl}
                 title="Factura"
-                className="w-full h-full border-none"
+                className="w-full h-full min-h-[300px] border-none"
               />
             )}
           </div>
