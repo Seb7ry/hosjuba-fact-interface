@@ -7,6 +7,7 @@ const DocumentModal = ({ isOpen, onClose, admission }) => {
   const [pdfUrl, setPdfUrl] = useState(null);
   const [loading, setLoading] = useState(false);
   const [iframeKey, setIframeKey] = useState(0);
+  const [isMobileView, setIsMobileView] = useState(false);
   const scrollPosition = useRef(0);
 
   const MapAdmissionType = (type) => {
@@ -24,6 +25,19 @@ const DocumentModal = ({ isOpen, onClose, admission }) => {
     if (type === "O") return "Otro";
     return "N/A";
   };
+
+  useEffect(() => {
+    const checkScreenSize = () => {
+      setIsMobileView(window.innerWidth < 768); // 768px es el breakpoint común para md en Tailwind
+    };
+
+    checkScreenSize();
+    window.addEventListener("resize", checkScreenSize);
+
+    return () => {
+      window.removeEventListener("resize", checkScreenSize);
+    };
+  }, []);
 
   useEffect(() => {
     if (isOpen) {
@@ -97,6 +111,12 @@ const DocumentModal = ({ isOpen, onClose, admission }) => {
     loadPdf(factura.MPNFac);
   };
 
+  const handleOpenPdfInNewTab = () => {
+    if (pdfUrl) {
+      window.open(pdfUrl, "_blank");
+    }
+  };
+
   if (!isOpen || !admission) return null;
 
   return (
@@ -146,6 +166,16 @@ const DocumentModal = ({ isOpen, onClose, admission }) => {
             {loading || !pdfUrl ? (
               <div className="flex justify-center items-center h-full">
                 <div className="animate-spin border-4 border-gray-200 border-t-blue-600 rounded-full w-10 h-10" />
+              </div>
+            ) : isMobileView ? (
+              <div className="flex flex-col items-center justify-center h-full p-4">
+                <p className="text-center mb-4">El documento PDF está disponible para visualización en pantallas más grandes.</p>
+                <button
+                  onClick={handleOpenPdfInNewTab}
+                  className="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded"
+                >
+                  Abrir PDF en nueva pestaña
+                </button>
               </div>
             ) : (
               <iframe

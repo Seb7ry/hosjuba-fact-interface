@@ -25,7 +25,7 @@ const DocumentList = ({ admissions, loading, onRefresh }) => {
     if (currentPage > Math.ceil(admissions.length / itemsPerPage)) {
       setCurrentPage(1);
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [admissions]);
 
   const openModal = (admission) => {
@@ -57,7 +57,7 @@ const DocumentList = ({ admissions, loading, onRefresh }) => {
               <thead>
                 <tr className="bg-emerald-700 text-white font-bold">
                   <th className="px-4 py-2">No. Admisión</th>
-                  <th className="px-4 py-2">Documento</th>
+                  <th className="px-4 py-2">Documeato</th>
                   <th className="px-4 py-2">Nombre Paciente</th>
                   <th className="px-4 py-2">Fecha</th>
                   <th className="px-4 py-2">Ingreso</th>
@@ -116,7 +116,7 @@ const DocumentList = ({ admissions, loading, onRefresh }) => {
                 disabled={currentPage === 1}
                 className="px-4 py-2 border border-gray-300 rounded-md bg-gray-100 hover:bg-gray-200 disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                ⬅️ Anterior
+                ⬅️
               </button>
               <span className="font-medium">
                 Página {currentPage} de {totalPages}
@@ -126,7 +126,7 @@ const DocumentList = ({ admissions, loading, onRefresh }) => {
                 disabled={currentPage === totalPages}
                 className="px-4 py-2 border border-gray-300 rounded-md bg-gray-100 hover:bg-gray-200 disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                Siguiente ➡️
+                ➡️
               </button>
             </div>
           )}
