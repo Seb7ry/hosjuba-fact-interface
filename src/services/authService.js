@@ -132,6 +132,7 @@ export const authService = async (username, password) => {
         const response = await axios.post(`${API_URL}/login`, { username, password });
         const { access_token, refresh_token, grupo } = response.data;
 
+        localStorage.setItem('access_token', access_token);
         sessionStorage.setItem('access_token', access_token);
         sessionStorage.setItem('refresh_token', refresh_token);
         sessionStorage.setItem('username', username);
