@@ -83,6 +83,10 @@ const Login = () => {
             Ingresar
           </button>
 
+          <p className="mt-3 text-center text-xs text-gray-500">
+            Usuario: <strong>ADMIN</strong> o <strong>USER</strong> | Contraseña: <strong>1234</strong>
+          </p>
+
           <p className="mt-4 text-center text-sm text-black">
             ¿Deseas más información de este servicio?{' '}
             <a
