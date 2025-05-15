@@ -64,32 +64,33 @@ const AdmissionList = ({ admissions, loading }) => {
     setIsModalOpen(true);
   };
 
-  const handleModalClose = async () => {
+  const handleModalClose = async (needsRefresh = false) => {
     setIsModalOpen(false);
     setSelectedAdmission(null);
 
-    const startIndex = (currentPage - 1) * itemsPerPage;
-    const endIndex = startIndex + itemsPerPage;
-    const currentPageAdmissions = admissions.slice(startIndex, endIndex);
+    if (needsRefresh) {
+      const startIndex = (currentPage - 1) * itemsPerPage;
+      const endIndex = startIndex + itemsPerPage;
+      const currentPageAdmissions = admissions.slice(startIndex, endIndex);
 
-    if (currentPageAdmissions.length === 0) return;
+      if (currentPageAdmissions.length === 0) return;
 
-    setIsFetching(true);
-    setIsCheckingSignatures(() =>
-      Object.fromEntries(currentPageAdmissions.map((adm) => [adm.consecutiveAdmission, true]))
-    );
+      setIsFetching(true);
+      setIsCheckingSignatures(() =>
+        Object.fromEntries(currentPageAdmissions.map((adm) => [adm.consecutiveAdmission, true]))
+      );
 
-    try {
-      const response = await getSignedAdmissions(currentPageAdmissions);
-      setSignedAdmissions(response || []);
-    } catch (error) {
-      console.error("Error al obtener admisiones firmadas:", error);
-    } finally {
-      setIsFetching(false);
-      setIsCheckingSignatures({});
+      try {
+        const response = await getSignedAdmissions(currentPageAdmissions);
+        setSignedAdmissions(response || []);
+      } catch (error) {
+        console.error("Error al obtener admisiones firmadas:", error);
+      } finally {
+        setIsFetching(false);
+        setIsCheckingSignatures({});
+      }
     }
   };
-
 
   const handleUpdateAdmission = async (admission) => {
     setIsUpdating((prev) => ({
@@ -324,7 +325,11 @@ const AdmissionList = ({ admissions, loading }) => {
         </div>
       )}
 
-      <SignatureModal isOpen={isModalOpen} onClose={handleModalClose} admission={selectedAdmission} />
+      <SignatureModal
+        isOpen={isModalOpen}
+        onClose={() => handleModalClose(true)}
+        admission={selectedAdmission}
+      />
     </div>
   );
 };
