@@ -42,7 +42,7 @@ const SignatureModal = ({ isOpen, onClose, admission }) => {
         signer
       );
       setIsSuccess(true);
-      setTimeout(() => onClose(null), 2000);
+      setTimeout(() => onClose(), 2000);
     } catch (error) {
       console.error("❌ Error al guardar la admisión:", error);
       alert("Hubo un error al registrar la firma. Inténtalo de nuevo.");
@@ -66,13 +66,16 @@ const SignatureModal = ({ isOpen, onClose, admission }) => {
   }, [isOpen]);
 
   useEffect(() => {
-    if (isOpen && signatureRef.current) {
-      signatureRef.current.clear();
+    if (isOpen) {
+      if (signatureRef.current) {
+        signatureRef.current.clear();
+      }
       setIsSigned(false);
       setSignatureData(null);
       setIsSuccess(false);
       setSigner("");
       setIsUploading(false);
+      setShowConfirmModal(false);
     }
   }, [isOpen, admission]);
 
