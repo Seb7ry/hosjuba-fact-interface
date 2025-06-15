@@ -83,9 +83,18 @@ const Login = () => {
             Ingresar
           </button>
 
-          <p className="mt-3 text-center text-xs text-gray-500">
-            Usuario: <strong>ADMIN</strong> o <strong>USER</strong> | Contraseña: <strong>1234</strong>
-          </p>
+          <div className="mt-5 rounded-md bg-blue-50 px-4 py-3 shadow-inner border border-blue-300">
+            <h3 className="mb-2 text-center text-sm font-bold text-blue-900">Credenciales</h3>
+            <p className="text-center text-sm text-gray-800">
+              <strong>Usuario:</strong> ADMIN
+            </p>
+            <p className="text-center text-sm text-gray-800">
+              <strong>Usuario:</strong> USER
+            </p>
+            <p className="text-center text-sm text-gray-800">
+              <strong>Contraseña:</strong> 1234
+            </p>
+          </div>
 
           <p className="mt-4 text-center text-sm text-black">
             ¿Deseas más información de este servicio?{' '}
